@@ -7,6 +7,17 @@
       "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
       "entities": {
         "main": "Entitäten",
+        "geraetTyp": "Geraet Typ",
+        "hersteller": "Hersteller",
+        "zubehoerTyp": "Zubehoer Typ",
+        "geraet": "Geraet",
+        "zubehoer": "Zubehoer",
+        "systemtyp": "Systemtyp",
+        "systeminstanz": "Systeminstanz",
+        "arzt": "Arzt",
+        "betreiber": "Betreiber",
+        "betriebsstaette": "Betriebsstaette",
+        "systemnutzung": "Systemnutzung",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {

@@ -1,0 +1,26 @@
+{
+  "gdb3App": {
+    "geraetTyp": {
+      "home": {
+        "title": "Geraet Typs",
+        "createLabel": "Geraet Typ erstellen",
+        "createOrEditLabel": "Geraet Typ erstellen oder bearbeiten",
+        "search": "Suche nach Geraet Typ",
+        "notFound": "No Geraet Typs found"
+      },
+      "created": "Geraet Typ erstellt mit ID {{ param }}",
+      "updated": "Geraet Typ aktualisiert mit ID {{ param }}",
+      "deleted": "Geraet Typ gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Geraet Typ {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Geraet Typ"
+      },
+      "bezeichnung": "Bezeichnung",
+      "gueltigBis": "Gueltig Bis",
+      "technologie": "Technologie",
+      "geraet": "Geraet"
+    }
+  }
+}

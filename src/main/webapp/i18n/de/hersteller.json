@@ -1,0 +1,26 @@
+{
+  "gdb3App": {
+    "hersteller": {
+      "home": {
+        "title": "Herstellers",
+        "createLabel": "Hersteller erstellen",
+        "createOrEditLabel": "Hersteller erstellen oder bearbeiten",
+        "search": "Suche nach Hersteller",
+        "notFound": "No Herstellers found"
+      },
+      "created": "Hersteller erstellt mit ID {{ param }}",
+      "updated": "Hersteller aktualisiert mit ID {{ param }}",
+      "deleted": "Hersteller gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Hersteller {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Hersteller"
+      },
+      "bezeichnung": "Bezeichnung",
+      "gueltigBis": "Gueltig Bis",
+      "geraet": "Geraet",
+      "zubehoer": "Zubehoer"
+    }
+  }
+}

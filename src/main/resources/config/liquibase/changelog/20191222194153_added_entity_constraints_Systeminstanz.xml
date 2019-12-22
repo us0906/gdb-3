@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Systeminstanz.
+    -->
+    <changeSet id="20191222194153-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="systemtyp_id"
+                                 baseTableName="sys_inst"
+                                 constraintName="fk_sys_inst_systemtyp_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="systemtyp"/>
+
+        <addForeignKeyConstraint baseColumnNames="betriebsstaette_id"
+                                 baseTableName="sys_inst"
+                                 constraintName="fk_sys_inst_betriebsstaette_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="b_staette"/>
+
+        <addForeignKeyConstraint baseColumnNames="betreiber_id"
+                                 baseTableName="sys_inst"
+                                 constraintName="fk_sys_inst_betreiber_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="betreiber"/>
+
+    </changeSet>
+</databaseChangeLog>

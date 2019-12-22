@@ -1,0 +1,29 @@
+{
+  "gdb3App": {
+    "betreiber": {
+      "home": {
+        "title": "Betreibers",
+        "createLabel": "Betreiber erstellen",
+        "createOrEditLabel": "Betreiber erstellen oder bearbeiten",
+        "search": "Suche nach Betreiber",
+        "notFound": "No Betreibers found"
+      },
+      "created": "Betreiber erstellt mit ID {{ param }}",
+      "updated": "Betreiber aktualisiert mit ID {{ param }}",
+      "deleted": "Betreiber gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Betreiber {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Betreiber"
+      },
+      "vorname": "Vorname",
+      "nachname": "Nachname",
+      "strasse": "Strasse",
+      "hausnummer": "Hausnummer",
+      "plz": "Plz",
+      "ort": "Ort",
+      "systeminstanz": "Systeminstanz"
+    }
+  }
+}

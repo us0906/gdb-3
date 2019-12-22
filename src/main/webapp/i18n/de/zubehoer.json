@@ -1,0 +1,27 @@
+{
+  "gdb3App": {
+    "zubehoer": {
+      "home": {
+        "title": "Zubehoers",
+        "createLabel": "Zubehoer erstellen",
+        "createOrEditLabel": "Zubehoer erstellen oder bearbeiten",
+        "search": "Suche nach Zubehoer",
+        "notFound": "No Zubehoers found"
+      },
+      "created": "Zubehoer erstellt mit ID {{ param }}",
+      "updated": "Zubehoer aktualisiert mit ID {{ param }}",
+      "deleted": "Zubehoer gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Zubehoer {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Zubehoer"
+      },
+      "bezeichnung": "Bezeichnung",
+      "gueltigBis": "Gueltig Bis",
+      "systemtyp": "Systemtyp",
+      "hersteller": "Hersteller",
+      "zubehoerTyp": "Zubehoer Typ"
+    }
+  }
+}

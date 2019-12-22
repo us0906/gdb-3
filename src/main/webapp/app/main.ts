@@ -22,6 +22,17 @@ import AlertService from '@/shared/alert/alert.service';
 import TranslationService from '@/locale/translation.service';
 import ConfigurationService from '@/admin/configuration/configuration.service';
 
+import GeraetTypService from '@/entities/geraet-typ/geraet-typ.service';
+import HerstellerService from '@/entities/hersteller/hersteller.service';
+import ZubehoerTypService from '@/entities/zubehoer-typ/zubehoer-typ.service';
+import GeraetService from '@/entities/geraet/geraet.service';
+import ZubehoerService from '@/entities/zubehoer/zubehoer.service';
+import SystemtypService from '@/entities/systemtyp/systemtyp.service';
+import SysteminstanzService from '@/entities/systeminstanz/systeminstanz.service';
+import ArztService from '@/entities/arzt/arzt.service';
+import BetreiberService from '@/entities/betreiber/betreiber.service';
+import BetriebsstaetteService from '@/entities/betriebsstaette/betriebsstaette.service';
+import SystemnutzungService from '@/entities/systemnutzung/systemnutzung.service';
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
 
 Vue.config.productionTip = false;
@@ -76,6 +87,17 @@ new Vue({
     metricsService: () => new MetricsService(),
     alertService: () => alertService,
     translationService: () => translationService,
+    geraetTypService: () => new GeraetTypService(),
+    herstellerService: () => new HerstellerService(),
+    zubehoerTypService: () => new ZubehoerTypService(),
+    geraetService: () => new GeraetService(),
+    zubehoerService: () => new ZubehoerService(),
+    systemtypService: () => new SystemtypService(),
+    systeminstanzService: () => new SysteminstanzService(),
+    arztService: () => new ArztService(),
+    betreiberService: () => new BetreiberService(),
+    betriebsstaetteService: () => new BetriebsstaetteService(),
+    systemnutzungService: () => new SystemnutzungService(),
     // jhipster-needle-add-entity-service-to-main - JHipster will import entities services here
     accountService: () => accountService
   },

@@ -1,0 +1,27 @@
+{
+  "gdb3App": {
+    "systemtyp": {
+      "home": {
+        "title": "Systemtyps",
+        "createLabel": "Systemtyp erstellen",
+        "createOrEditLabel": "Systemtyp erstellen oder bearbeiten",
+        "search": "Suche nach Systemtyp",
+        "notFound": "No Systemtyps found"
+      },
+      "created": "Systemtyp erstellt mit ID {{ param }}",
+      "updated": "Systemtyp aktualisiert mit ID {{ param }}",
+      "deleted": "Systemtyp gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Systemtyp {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Systemtyp"
+      },
+      "bezeichnung": "Bezeichnung",
+      "gueltigBis": "Gueltig Bis",
+      "systeminstanz": "Systeminstanz",
+      "geraet": "Geraet",
+      "zubehoer": "Zubehoer"
+    }
+  }
+}

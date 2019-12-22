@@ -25,6 +25,50 @@
                         <font-awesome-icon icon="th-list" />
                         <span v-text="$t('global.menu.entities.main')">Entities</span>
                     </span>
+                    <b-dropdown-item to="/geraet-typ">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.geraetTyp')">GeraetTyp</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/hersteller">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.hersteller')">Hersteller</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/zubehoer-typ">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.zubehoerTyp')">ZubehoerTyp</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/geraet">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.geraet')">Geraet</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/zubehoer">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.zubehoer')">Zubehoer</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/systemtyp">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.systemtyp')">Systemtyp</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/systeminstanz">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.systeminstanz')">Systeminstanz</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/arzt">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.arzt')">Arzt</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/betreiber">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.betreiber')">Betreiber</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/betriebsstaette">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.betriebsstaette')">Betriebsstaette</span>
+                    </b-dropdown-item>
+                    <b-dropdown-item to="/systemnutzung">
+                        <font-awesome-icon icon="asterisk" />
+                        <span v-text="$t('global.menu.entities.systemnutzung')">Systemnutzung</span>
+                    </b-dropdown-item>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </b-nav-item-dropdown>
                 <b-nav-item-dropdown

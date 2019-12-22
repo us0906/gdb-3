@@ -42,6 +42,28 @@ public class CacheConfiguration {
             createCache(cm, de.kvb.eps.domain.User.class.getName());
             createCache(cm, de.kvb.eps.domain.Authority.class.getName());
             createCache(cm, de.kvb.eps.domain.User.class.getName() + ".authorities");
+            createCache(cm, de.kvb.eps.domain.GeraetTyp.class.getName());
+            createCache(cm, de.kvb.eps.domain.GeraetTyp.class.getName() + ".geraets");
+            createCache(cm, de.kvb.eps.domain.Hersteller.class.getName());
+            createCache(cm, de.kvb.eps.domain.Hersteller.class.getName() + ".geraets");
+            createCache(cm, de.kvb.eps.domain.Hersteller.class.getName() + ".zubehoers");
+            createCache(cm, de.kvb.eps.domain.ZubehoerTyp.class.getName());
+            createCache(cm, de.kvb.eps.domain.ZubehoerTyp.class.getName() + ".zubehoers");
+            createCache(cm, de.kvb.eps.domain.Geraet.class.getName());
+            createCache(cm, de.kvb.eps.domain.Geraet.class.getName() + ".systemtyps");
+            createCache(cm, de.kvb.eps.domain.Zubehoer.class.getName());
+            createCache(cm, de.kvb.eps.domain.Zubehoer.class.getName() + ".systemtyps");
+            createCache(cm, de.kvb.eps.domain.Systemtyp.class.getName());
+            createCache(cm, de.kvb.eps.domain.Systemtyp.class.getName() + ".systeminstanzs");
+            createCache(cm, de.kvb.eps.domain.Systeminstanz.class.getName());
+            createCache(cm, de.kvb.eps.domain.Systeminstanz.class.getName() + ".systemnutzungs");
+            createCache(cm, de.kvb.eps.domain.Arzt.class.getName());
+            createCache(cm, de.kvb.eps.domain.Arzt.class.getName() + ".systemnutzungs");
+            createCache(cm, de.kvb.eps.domain.Betreiber.class.getName());
+            createCache(cm, de.kvb.eps.domain.Betreiber.class.getName() + ".systeminstanzs");
+            createCache(cm, de.kvb.eps.domain.Betriebsstaette.class.getName());
+            createCache(cm, de.kvb.eps.domain.Betriebsstaette.class.getName() + ".systeminstanzs");
+            createCache(cm, de.kvb.eps.domain.Systemnutzung.class.getName());
             // jhipster-needle-ehcache-add-entry
         };
     }

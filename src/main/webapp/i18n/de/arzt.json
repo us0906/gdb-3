@@ -1,0 +1,27 @@
+{
+  "gdb3App": {
+    "arzt": {
+      "home": {
+        "title": "Arzts",
+        "createLabel": "Arzt erstellen",
+        "createOrEditLabel": "Arzt erstellen oder bearbeiten",
+        "search": "Suche nach Arzt",
+        "notFound": "No Arzts found"
+      },
+      "created": "Arzt erstellt mit ID {{ param }}",
+      "updated": "Arzt aktualisiert mit ID {{ param }}",
+      "deleted": "Arzt gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Arzt {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Arzt"
+      },
+      "lanr": "Lanr",
+      "titel": "Titel",
+      "vorname": "Vorname",
+      "nachname": "Nachname",
+      "systemnutzung": "Systemnutzung"
+    }
+  }
+}

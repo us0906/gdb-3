@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <!--
+        Added the constraints for entity Zubehoer.
+    -->
+    <changeSet id="20191222194151-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="hersteller_id"
+                                 baseTableName="zubehoer"
+                                 constraintName="fk_zubehoer_hersteller_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="hersteller"/>
+
+        <addForeignKeyConstraint baseColumnNames="zubehoer_typ_id"
+                                 baseTableName="zubehoer"
+                                 constraintName="fk_zubehoer_zubehoer_typ_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="zubehoer_typ"/>
+
+    </changeSet>
+</databaseChangeLog>

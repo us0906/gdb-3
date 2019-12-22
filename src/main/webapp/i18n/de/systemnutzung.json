@@ -1,0 +1,24 @@
+{
+  "gdb3App": {
+    "systemnutzung": {
+      "home": {
+        "title": "Systemnutzungs",
+        "createLabel": "Systemnutzung erstellen",
+        "createOrEditLabel": "Systemnutzung erstellen oder bearbeiten",
+        "search": "Suche nach Systemnutzung",
+        "notFound": "No Systemnutzungs found"
+      },
+      "created": "Systemnutzung erstellt mit ID {{ param }}",
+      "updated": "Systemnutzung aktualisiert mit ID {{ param }}",
+      "deleted": "Systemnutzung gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Systemnutzung {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Systemnutzung"
+      },
+      "systeminstanz": "Systeminstanz",
+      "arzt": "Arzt"
+    }
+  }
+}

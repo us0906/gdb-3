@@ -1,0 +1,26 @@
+{
+  "gdb3App": {
+    "zubehoerTyp": {
+      "home": {
+        "title": "Zubehoer Typs",
+        "createLabel": "Zubehoer Typ erstellen",
+        "createOrEditLabel": "Zubehoer Typ erstellen oder bearbeiten",
+        "search": "Suche nach Zubehoer Typ",
+        "notFound": "No Zubehoer Typs found"
+      },
+      "created": "Zubehoer Typ erstellt mit ID {{ param }}",
+      "updated": "Zubehoer Typ aktualisiert mit ID {{ param }}",
+      "deleted": "Zubehoer Typ gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Zubehoer Typ {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Zubehoer Typ"
+      },
+      "bezeichnung": "Bezeichnung",
+      "gueltigBis": "Gueltig Bis",
+      "technologie": "Technologie",
+      "zubehoer": "Zubehoer"
+    }
+  }
+}

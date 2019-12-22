@@ -1,0 +1,28 @@
+{
+  "gdb3App": {
+    "betriebsstaette": {
+      "home": {
+        "title": "Betriebsstaettes",
+        "createLabel": "Betriebsstaette erstellen",
+        "createOrEditLabel": "Betriebsstaette erstellen oder bearbeiten",
+        "search": "Suche nach Betriebsstaette",
+        "notFound": "No Betriebsstaettes found"
+      },
+      "created": "Betriebsstaette erstellt mit ID {{ param }}",
+      "updated": "Betriebsstaette aktualisiert mit ID {{ param }}",
+      "deleted": "Betriebsstaette gelöscht mit ID {{ param }}",
+      "delete": {
+        "question": "Soll Betriebsstaette {{ id }} wirklich dauerhaft gelöscht werden?"
+      },
+      "detail": {
+        "title": "Betriebsstaette"
+      },
+      "bsnr": "Bsnr",
+      "strasse": "Strasse",
+      "hausnummer": "Hausnummer",
+      "plz": "Plz",
+      "ort": "Ort",
+      "systeminstanz": "Systeminstanz"
+    }
+  }
+}
