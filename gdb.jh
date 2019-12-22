@@ -1,0 +1,107 @@
+
+dto all with mapstruct
+service all with serviceClass
+
+enum Technologie {
+	SONO, BILD
+}
+
+entity GeraetTyp {
+	bezeichnung String required minlength (1) maxlength(200)
+    gueltigBis LocalDate
+    technologie Technologie required
+}
+
+entity Hersteller {
+	bezeichnung String required minlength (1) maxlength(200)
+    gueltigBis LocalDate
+}
+
+entity ZubehoerTyp {
+	bezeichnung String required minlength (1) maxlength(200)
+    gueltigBis LocalDate
+    technologie Technologie required
+}
+
+entity Geraet {
+	bezeichnung String required minlength (1) maxlength(200)
+    gueltigBis LocalDate
+}
+
+entity Zubehoer {
+	bezeichnung String required minlength (1) maxlength(200)
+    gueltigBis LocalDate	
+}
+
+entity Systemtyp {
+	bezeichnung String required minlength (1) maxlength(200)
+    gueltigBis LocalDate		
+}
+
+relationship OneToMany {
+	GeraetTyp to Geraet  { geraetTyp(bezeichnung) required }
+    Hersteller to Geraet { hersteller(bezeichnung) required }
+	
+	Hersteller to Zubehoer { hersteller (bezeichnung) required }
+    ZubehoerTyp to Zubehoer { zubehoerTyp(bezeichnung) required }
+	
+    Geraet to Systemtyp { geraet(bezeichnung) required }
+    Zubehoer to Systemtyp { zubehoer(bezeichnung) }
+}
+
+entity Systeminstanz (sys_inst){
+	bezeichnung String required minlength (1) maxlength(200)
+    geraetNummer String required minlength (1) maxlength(200)
+    geraetBaujahr String required minlength(4) maxlength(4)
+    gueltigBis LocalDate	
+    gwe ImageBlob
+    bemerkung TextBlob
+}
+
+relationship OneToMany {
+	Systemtyp to Systeminstanz { systemtyp(bezeichnung) required }
+}
+
+entity Arzt {
+  lanr String required minlength(7) maxlength(7)
+  titel String 
+  vorname String required
+  nachname String required
+}
+
+entity Betreiber {
+    vorname String required
+    nachname String required
+    strasse String
+    hausnummer String
+    plz String
+    ort String	
+}
+
+entity Betriebsstaette (b_staette){
+	bsnr String
+    strasse String
+    hausnummer String
+    plz String
+    ort String
+}
+
+relationship OneToMany {
+	Betriebsstaette to Systeminstanz
+	Betreiber to Systeminstanz
+}
+
+entity Systemnutzung (sys_nutz) {
+
+}
+
+relationship OneToMany {
+	Systeminstanz to Systemnutzung
+    Arzt to Systemnutzung
+}
+
+
+
+
+
+

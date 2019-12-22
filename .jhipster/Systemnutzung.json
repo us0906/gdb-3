@@ -1,0 +1,30 @@
+{
+    "name": "Systemnutzung",
+    "fields": [],
+    "relationships": [
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "systeminstanz",
+            "otherEntityRelationshipName": "systemnutzung",
+            "relationshipName": "systeminstanz",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "arzt",
+            "otherEntityRelationshipName": "systemnutzung",
+            "relationshipName": "arzt",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191222194157",
+    "entityTableName": "sys_nutz",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,43 @@
+{
+    "name": "Betriebsstaette",
+    "fields": [
+        {
+            "fieldName": "bsnr",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "strasse",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "hausnummer",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "plz",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ort",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "systeminstanz",
+            "otherEntityRelationshipName": "betriebsstaette",
+            "relationshipName": "systeminstanz"
+        }
+    ],
+    "changelogDate": "20191222194156",
+    "entityTableName": "b_staette",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

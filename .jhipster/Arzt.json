@@ -1,0 +1,52 @@
+{
+    "name": "Arzt",
+    "fields": [
+        {
+            "fieldName": "lanr",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 7,
+            "fieldValidateRulesMaxlength": 7
+        },
+        {
+            "fieldName": "titel",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "vorname",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "nachname",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "systemnutzung",
+            "otherEntityRelationshipName": "arzt",
+            "relationshipName": "systemnutzung"
+        }
+    ],
+    "changelogDate": "20191222194154",
+    "entityTableName": "arzt",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

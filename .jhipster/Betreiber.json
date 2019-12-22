@@ -1,0 +1,53 @@
+{
+    "name": "Betreiber",
+    "fields": [
+        {
+            "fieldName": "vorname",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "nachname",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required"
+            ]
+        },
+        {
+            "fieldName": "strasse",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "hausnummer",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "plz",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "ort",
+            "fieldType": "String"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "systeminstanz",
+            "otherEntityRelationshipName": "betreiber",
+            "relationshipName": "systeminstanz"
+        }
+    ],
+    "changelogDate": "20191222194155",
+    "entityTableName": "betreiber",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

@@ -1,0 +1,46 @@
+{
+    "name": "ZubehoerTyp",
+    "fields": [
+        {
+            "fieldName": "bezeichnung",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "gueltigBis",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "technologie",
+            "fieldType": "Technologie",
+            "fieldValues": "SONO,BILD",
+            "fieldValidateRules": [
+                "required"
+            ]
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "zubehoer",
+            "otherEntityRelationshipName": "zubehoerTyp",
+            "relationshipName": "zubehoer"
+        }
+    ],
+    "changelogDate": "20191222194149",
+    "entityTableName": "zubehoer_typ",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}

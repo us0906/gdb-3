@@ -1,0 +1,92 @@
+{
+    "name": "Systeminstanz",
+    "fields": [
+        {
+            "fieldName": "bezeichnung",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "geraetNummer",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 1,
+            "fieldValidateRulesMaxlength": 200
+        },
+        {
+            "fieldName": "geraetBaujahr",
+            "fieldType": "String",
+            "fieldValidateRules": [
+                "required",
+                "minlength",
+                "maxlength"
+            ],
+            "fieldValidateRulesMinlength": 4,
+            "fieldValidateRulesMaxlength": 4
+        },
+        {
+            "fieldName": "gueltigBis",
+            "fieldType": "LocalDate"
+        },
+        {
+            "fieldName": "gwe",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "image"
+        },
+        {
+            "fieldName": "bemerkung",
+            "fieldType": "byte[]",
+            "fieldTypeBlobContent": "text"
+        }
+    ],
+    "relationships": [
+        {
+            "relationshipType": "one-to-many",
+            "otherEntityName": "systemnutzung",
+            "otherEntityRelationshipName": "systeminstanz",
+            "relationshipName": "systemnutzung"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "systemtyp",
+            "otherEntityRelationshipName": "systeminstanz",
+            "relationshipValidateRules": "required",
+            "relationshipName": "systemtyp",
+            "otherEntityField": "bezeichnung"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "betriebsstaette",
+            "otherEntityRelationshipName": "systeminstanz",
+            "relationshipName": "betriebsstaette",
+            "otherEntityField": "id"
+        },
+        {
+            "relationshipType": "many-to-one",
+            "otherEntityName": "betreiber",
+            "otherEntityRelationshipName": "systeminstanz",
+            "relationshipName": "betreiber",
+            "otherEntityField": "id"
+        }
+    ],
+    "changelogDate": "20191222194153",
+    "entityTableName": "sys_inst",
+    "dto": "mapstruct",
+    "pagination": "no",
+    "service": "serviceClass",
+    "jpaMetamodelFiltering": false,
+    "fluentMethods": true,
+    "readOnly": false,
+    "clientRootFolder": "",
+    "applications": "*"
+}
