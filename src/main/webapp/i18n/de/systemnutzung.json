@@ -2,11 +2,11 @@
   "gdb3App": {
     "systemnutzung": {
       "home": {
-        "title": "Systemnutzungs",
+        "title": "Systemnutzung",
         "createLabel": "Systemnutzung erstellen",
         "createOrEditLabel": "Systemnutzung erstellen oder bearbeiten",
         "search": "Suche nach Systemnutzung",
-        "notFound": "No Systemnutzungs found"
+        "notFound": "keine Systemnutzung gefunden"
       },
       "created": "Systemnutzung erstellt mit ID {{ param }}",
       "updated": "Systemnutzung aktualisiert mit ID {{ param }}",

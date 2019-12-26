@@ -2,7 +2,7 @@
   "gdb3App": {
     "systeminstanz": {
       "home": {
-        "title": "Systeminstanzs",
+        "title": "Systeminstanzen",
         "createLabel": "Systeminstanz erstellen",
         "createOrEditLabel": "Systeminstanz erstellen oder bearbeiten",
         "search": "Suche nach Systeminstanz",
@@ -18,14 +18,14 @@
         "title": "Systeminstanz"
       },
       "bezeichnung": "Bezeichnung",
-      "geraetNummer": "Geraet Nummer",
-      "geraetBaujahr": "Geraet Baujahr",
+      "geraetNummer": "Gerätenummer",
+      "geraetBaujahr": "Gerätebaujahr",
       "gueltigBis": "Gueltig Bis",
-      "gwe": "Gwe",
+      "gwe": "GWE",
       "bemerkung": "Bemerkung",
       "systemnutzung": "Systemnutzung",
       "systemtyp": "Systemtyp",
-      "betriebsstaette": "Betriebsstaette",
+      "betriebsstaette": "Betriebsstätte",
       "betreiber": "Betreiber"
     }
   }

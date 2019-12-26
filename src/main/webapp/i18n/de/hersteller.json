@@ -2,11 +2,11 @@
   "gdb3App": {
     "hersteller": {
       "home": {
-        "title": "Herstellers",
+        "title": "Hersteller",
         "createLabel": "Hersteller erstellen",
         "createOrEditLabel": "Hersteller erstellen oder bearbeiten",
         "search": "Suche nach Hersteller",
-        "notFound": "No Herstellers found"
+        "notFound": "keinen Hersteller found"
       },
       "created": "Hersteller erstellt mit ID {{ param }}",
       "updated": "Hersteller aktualisiert mit ID {{ param }}",

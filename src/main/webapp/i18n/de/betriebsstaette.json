@@ -2,25 +2,25 @@
   "gdb3App": {
     "betriebsstaette": {
       "home": {
-        "title": "Betriebsstaettes",
-        "createLabel": "Betriebsstaette erstellen",
-        "createOrEditLabel": "Betriebsstaette erstellen oder bearbeiten",
-        "search": "Suche nach Betriebsstaette",
-        "notFound": "No Betriebsstaettes found"
+        "title": "Betriebsstätten",
+        "createLabel": "Betriebsstätte erstellen",
+        "createOrEditLabel": "Betriebsstätte erstellen oder bearbeiten",
+        "search": "Suche nach Betriebsstätte",
+        "notFound": "keine Betriebsstätte gefunden"
       },
-      "created": "Betriebsstaette erstellt mit ID {{ param }}",
-      "updated": "Betriebsstaette aktualisiert mit ID {{ param }}",
-      "deleted": "Betriebsstaette gelöscht mit ID {{ param }}",
+      "created": "Betriebsstätte erstellt mit ID {{ param }}",
+      "updated": "Betriebsstätte aktualisiert mit ID {{ param }}",
+      "deleted": "Betriebsstätte gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Betriebsstaette {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll Betriebsstätte {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Betriebsstaette"
+        "title": "Betriebsstätte"
       },
-      "bsnr": "Bsnr",
+      "bsnr": "BSNR",
       "strasse": "Strasse",
       "hausnummer": "Hausnummer",
-      "plz": "Plz",
+      "plz": "PLZ",
       "ort": "Ort",
       "systeminstanz": "Systeminstanz"
     }

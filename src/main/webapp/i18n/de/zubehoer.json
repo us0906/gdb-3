@@ -2,26 +2,26 @@
   "gdb3App": {
     "zubehoer": {
       "home": {
-        "title": "Zubehoers",
-        "createLabel": "Zubehoer erstellen",
-        "createOrEditLabel": "Zubehoer erstellen oder bearbeiten",
-        "search": "Suche nach Zubehoer",
-        "notFound": "No Zubehoers found"
+        "title": "Zubehör",
+        "createLabel": "Zubehör erstellen",
+        "createOrEditLabel": "Zubehör erstellen oder bearbeiten",
+        "search": "Suche nach Zubehör",
+        "notFound": "Kein Zubehör gefunden"
       },
-      "created": "Zubehoer erstellt mit ID {{ param }}",
-      "updated": "Zubehoer aktualisiert mit ID {{ param }}",
-      "deleted": "Zubehoer gelöscht mit ID {{ param }}",
+      "created": "Zubehör erstellt mit ID {{ param }}",
+      "updated": "Zubehör aktualisiert mit ID {{ param }}",
+      "deleted": "Zubehör gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Zubehoer {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll Zubehör {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Zubehoer"
+        "title": "Zubehör"
       },
       "bezeichnung": "Bezeichnung",
       "gueltigBis": "Gueltig Bis",
-      "systemtyp": "Systemtyp",
+      "systemtyp": "System",
       "hersteller": "Hersteller",
-      "zubehoerTyp": "Zubehoer Typ"
+      "zubehoerTyp": "Zubehörtyp"
     }
   }
 }

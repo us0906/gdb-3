@@ -2,25 +2,25 @@
   "gdb3App": {
     "geraet": {
       "home": {
-        "title": "Geraets",
-        "createLabel": "Geraet erstellen",
-        "createOrEditLabel": "Geraet erstellen oder bearbeiten",
-        "search": "Suche nach Geraet",
-        "notFound": "No Geraets found"
+        "title": "Geräte",
+        "createLabel": "Gerät erstellen",
+        "createOrEditLabel": "Gerät erstellen oder bearbeiten",
+        "search": "Suche nach Gerät",
+        "notFound": "Kein Gerät gefunden"
       },
-      "created": "Geraet erstellt mit ID {{ param }}",
-      "updated": "Geraet aktualisiert mit ID {{ param }}",
-      "deleted": "Geraet gelöscht mit ID {{ param }}",
+      "created": "Gerät erstellt mit ID {{ param }}",
+      "updated": "Gerät aktualisiert mit ID {{ param }}",
+      "deleted": "Gerät gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Geraet {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll Gerät {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Geraet"
+        "title": "Gerät"
       },
       "bezeichnung": "Bezeichnung",
       "gueltigBis": "Gueltig Bis",
       "systemtyp": "Systemtyp",
-      "geraetTyp": "Geraet Typ",
+      "geraetTyp": "Geraettyp",
       "hersteller": "Hersteller"
     }
   }

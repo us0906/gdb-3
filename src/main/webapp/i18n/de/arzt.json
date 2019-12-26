@@ -2,11 +2,11 @@
   "gdb3App": {
     "arzt": {
       "home": {
-        "title": "Arzts",
+        "title": "Ärzte",
         "createLabel": "Arzt erstellen",
         "createOrEditLabel": "Arzt erstellen oder bearbeiten",
         "search": "Suche nach Arzt",
-        "notFound": "No Arzts found"
+        "notFound": "Kein Arzt gefunden"
       },
       "created": "Arzt erstellt mit ID {{ param }}",
       "updated": "Arzt aktualisiert mit ID {{ param }}",
@@ -17,7 +17,7 @@
       "detail": {
         "title": "Arzt"
       },
-      "lanr": "Lanr",
+      "lanr": "LANR",
       "titel": "Titel",
       "vorname": "Vorname",
       "nachname": "Nachname",
