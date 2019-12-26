@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.SystemnutzungService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.SystemnutzungDTO;
+import de.kvb.eps.service.dto.SystemnutzungCriteria;
+import de.kvb.eps.service.SystemnutzungQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -37,8 +39,11 @@ public class SystemnutzungResource {
 
     private final SystemnutzungService systemnutzungService;
 
-    public SystemnutzungResource(SystemnutzungService systemnutzungService) {
+    private final SystemnutzungQueryService systemnutzungQueryService;
+
+    public SystemnutzungResource(SystemnutzungService systemnutzungService, SystemnutzungQueryService systemnutzungQueryService) {
         this.systemnutzungService = systemnutzungService;
+        this.systemnutzungQueryService = systemnutzungQueryService;
     }
 
     /**
@@ -85,12 +90,26 @@ public class SystemnutzungResource {
      * {@code GET  /systemnutzungs} : get all the systemnutzungs.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of systemnutzungs in body.
      */
     @GetMapping("/systemnutzungs")
-    public List<SystemnutzungDTO> getAllSystemnutzungs() {
-        log.debug("REST request to get all Systemnutzungs");
-        return systemnutzungService.findAll();
+    public ResponseEntity<List<SystemnutzungDTO>> getAllSystemnutzungs(SystemnutzungCriteria criteria) {
+        log.debug("REST request to get Systemnutzungs by criteria: {}", criteria);
+        List<SystemnutzungDTO> entityList = systemnutzungQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /systemnutzungs/count} : count all the systemnutzungs.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/systemnutzungs/count")
+    public ResponseEntity<Long> countSystemnutzungs(SystemnutzungCriteria criteria) {
+        log.debug("REST request to count Systemnutzungs by criteria: {}", criteria);
+        return ResponseEntity.ok().body(systemnutzungQueryService.countByCriteria(criteria));
     }
 
     /**

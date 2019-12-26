@@ -3,6 +3,7 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.Gdb3App;
 import de.kvb.eps.config.TestSecurityConfiguration;
 import de.kvb.eps.domain.Geraet;
+import de.kvb.eps.domain.Systemtyp;
 import de.kvb.eps.domain.GeraetTyp;
 import de.kvb.eps.domain.Hersteller;
 import de.kvb.eps.repository.GeraetRepository;
@@ -11,6 +12,8 @@ import de.kvb.eps.service.GeraetService;
 import de.kvb.eps.service.dto.GeraetDTO;
 import de.kvb.eps.service.mapper.GeraetMapper;
 import de.kvb.eps.web.rest.errors.ExceptionTranslator;
+import de.kvb.eps.service.dto.GeraetCriteria;
+import de.kvb.eps.service.GeraetQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -50,6 +53,7 @@ public class GeraetResourceIT {
 
     private static final LocalDate DEFAULT_GUELTIG_BIS = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_GUELTIG_BIS = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_GUELTIG_BIS = LocalDate.ofEpochDay(-1L);
 
     @Autowired
     private GeraetRepository geraetRepository;
@@ -67,6 +71,9 @@ public class GeraetResourceIT {
      */
     @Autowired
     private GeraetSearchRepository mockGeraetSearchRepository;
+
+    @Autowired
+    private GeraetQueryService geraetQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -90,7 +97,7 @@ public class GeraetResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final GeraetResource geraetResource = new GeraetResource(geraetService);
+        final GeraetResource geraetResource = new GeraetResource(geraetService, geraetQueryService);
         this.restGeraetMockMvc = MockMvcBuilders.standaloneSetup(geraetResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -264,6 +271,296 @@ public class GeraetResourceIT {
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
     }
+
+
+    @Test
+    @Transactional
+    public void getGeraetsByIdFiltering() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        Long id = geraet.getId();
+
+        defaultGeraetShouldBeFound("id.equals=" + id);
+        defaultGeraetShouldNotBeFound("id.notEquals=" + id);
+
+        defaultGeraetShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultGeraetShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultGeraetShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultGeraetShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultGeraetShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the geraetList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultGeraetShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultGeraetShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the geraetList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultGeraetShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultGeraetShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the geraetList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultGeraetShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where bezeichnung is not null
+        defaultGeraetShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the geraetList where bezeichnung is null
+        defaultGeraetShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllGeraetsByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultGeraetShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the geraetList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultGeraetShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultGeraetShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the geraetList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultGeraetShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis equals to DEFAULT_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.equals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.equals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis not equals to DEFAULT_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.notEquals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis not equals to UPDATED_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.notEquals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsInShouldWork() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis in DEFAULT_GUELTIG_BIS or UPDATED_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.in=" + DEFAULT_GUELTIG_BIS + "," + UPDATED_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.in=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis is not null
+        defaultGeraetShouldBeFound("gueltigBis.specified=true");
+
+        // Get all the geraetList where gueltigBis is null
+        defaultGeraetShouldNotBeFound("gueltigBis.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis is greater than or equal to DEFAULT_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.greaterThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis is greater than or equal to UPDATED_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.greaterThanOrEqual=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis is less than or equal to DEFAULT_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.lessThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis is less than or equal to SMALLER_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.lessThanOrEqual=" + SMALLER_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsLessThanSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis is less than DEFAULT_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.lessThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis is less than UPDATED_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.lessThan=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGueltigBisIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+
+        // Get all the geraetList where gueltigBis is greater than DEFAULT_GUELTIG_BIS
+        defaultGeraetShouldNotBeFound("gueltigBis.greaterThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the geraetList where gueltigBis is greater than SMALLER_GUELTIG_BIS
+        defaultGeraetShouldBeFound("gueltigBis.greaterThan=" + SMALLER_GUELTIG_BIS);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGeraetsBySystemtypIsEqualToSomething() throws Exception {
+        // Initialize the database
+        geraetRepository.saveAndFlush(geraet);
+        Systemtyp systemtyp = SystemtypResourceIT.createEntity(em);
+        em.persist(systemtyp);
+        em.flush();
+        geraet.addSystemtyp(systemtyp);
+        geraetRepository.saveAndFlush(geraet);
+        Long systemtypId = systemtyp.getId();
+
+        // Get all the geraetList where systemtyp equals to systemtypId
+        defaultGeraetShouldBeFound("systemtypId.equals=" + systemtypId);
+
+        // Get all the geraetList where systemtyp equals to systemtypId + 1
+        defaultGeraetShouldNotBeFound("systemtypId.equals=" + (systemtypId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByGeraetTypIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        GeraetTyp geraetTyp = geraet.getGeraetTyp();
+        geraetRepository.saveAndFlush(geraet);
+        Long geraetTypId = geraetTyp.getId();
+
+        // Get all the geraetList where geraetTyp equals to geraetTypId
+        defaultGeraetShouldBeFound("geraetTypId.equals=" + geraetTypId);
+
+        // Get all the geraetList where geraetTyp equals to geraetTypId + 1
+        defaultGeraetShouldNotBeFound("geraetTypId.equals=" + (geraetTypId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllGeraetsByHerstellerIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Hersteller hersteller = geraet.getHersteller();
+        geraetRepository.saveAndFlush(geraet);
+        Long herstellerId = hersteller.getId();
+
+        // Get all the geraetList where hersteller equals to herstellerId
+        defaultGeraetShouldBeFound("herstellerId.equals=" + herstellerId);
+
+        // Get all the geraetList where hersteller equals to herstellerId + 1
+        defaultGeraetShouldNotBeFound("herstellerId.equals=" + (herstellerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultGeraetShouldBeFound(String filter) throws Exception {
+        restGeraetMockMvc.perform(get("/api/geraets?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(geraet.getId().intValue())))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
+            .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
+
+        // Check, that the count call also returns 1
+        restGeraetMockMvc.perform(get("/api/geraets/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultGeraetShouldNotBeFound(String filter) throws Exception {
+        restGeraetMockMvc.perform(get("/api/geraets?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restGeraetMockMvc.perform(get("/api/geraets/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

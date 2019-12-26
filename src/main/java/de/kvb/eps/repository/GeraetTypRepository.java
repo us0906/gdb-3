@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface GeraetTypRepository extends JpaRepository<GeraetTyp, Long> {
+public interface GeraetTypRepository extends JpaRepository<GeraetTyp, Long>, JpaSpecificationExecutor<GeraetTyp> {
 
 }

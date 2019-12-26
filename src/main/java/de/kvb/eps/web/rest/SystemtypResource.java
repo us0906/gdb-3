@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.SystemtypService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.SystemtypDTO;
+import de.kvb.eps.service.dto.SystemtypCriteria;
+import de.kvb.eps.service.SystemtypQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class SystemtypResource {
 
     private final SystemtypService systemtypService;
 
-    public SystemtypResource(SystemtypService systemtypService) {
+    private final SystemtypQueryService systemtypQueryService;
+
+    public SystemtypResource(SystemtypService systemtypService, SystemtypQueryService systemtypQueryService) {
         this.systemtypService = systemtypService;
+        this.systemtypQueryService = systemtypQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class SystemtypResource {
      * {@code GET  /systemtyps} : get all the systemtyps.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of systemtyps in body.
      */
     @GetMapping("/systemtyps")
-    public List<SystemtypDTO> getAllSystemtyps() {
-        log.debug("REST request to get all Systemtyps");
-        return systemtypService.findAll();
+    public ResponseEntity<List<SystemtypDTO>> getAllSystemtyps(SystemtypCriteria criteria) {
+        log.debug("REST request to get Systemtyps by criteria: {}", criteria);
+        List<SystemtypDTO> entityList = systemtypQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /systemtyps/count} : count all the systemtyps.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/systemtyps/count")
+    public ResponseEntity<Long> countSystemtyps(SystemtypCriteria criteria) {
+        log.debug("REST request to count Systemtyps by criteria: {}", criteria);
+        return ResponseEntity.ok().body(systemtypQueryService.countByCriteria(criteria));
     }
 
     /**

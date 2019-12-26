@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.ZubehoerTypService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.ZubehoerTypDTO;
+import de.kvb.eps.service.dto.ZubehoerTypCriteria;
+import de.kvb.eps.service.ZubehoerTypQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class ZubehoerTypResource {
 
     private final ZubehoerTypService zubehoerTypService;
 
-    public ZubehoerTypResource(ZubehoerTypService zubehoerTypService) {
+    private final ZubehoerTypQueryService zubehoerTypQueryService;
+
+    public ZubehoerTypResource(ZubehoerTypService zubehoerTypService, ZubehoerTypQueryService zubehoerTypQueryService) {
         this.zubehoerTypService = zubehoerTypService;
+        this.zubehoerTypQueryService = zubehoerTypQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class ZubehoerTypResource {
      * {@code GET  /zubehoer-typs} : get all the zubehoerTyps.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of zubehoerTyps in body.
      */
     @GetMapping("/zubehoer-typs")
-    public List<ZubehoerTypDTO> getAllZubehoerTyps() {
-        log.debug("REST request to get all ZubehoerTyps");
-        return zubehoerTypService.findAll();
+    public ResponseEntity<List<ZubehoerTypDTO>> getAllZubehoerTyps(ZubehoerTypCriteria criteria) {
+        log.debug("REST request to get ZubehoerTyps by criteria: {}", criteria);
+        List<ZubehoerTypDTO> entityList = zubehoerTypQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /zubehoer-typs/count} : count all the zubehoerTyps.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/zubehoer-typs/count")
+    public ResponseEntity<Long> countZubehoerTyps(ZubehoerTypCriteria criteria) {
+        log.debug("REST request to count ZubehoerTyps by criteria: {}", criteria);
+        return ResponseEntity.ok().body(zubehoerTypQueryService.countByCriteria(criteria));
     }
 
     /**

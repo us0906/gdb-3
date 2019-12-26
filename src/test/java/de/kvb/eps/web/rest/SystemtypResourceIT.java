@@ -3,13 +3,17 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.Gdb3App;
 import de.kvb.eps.config.TestSecurityConfiguration;
 import de.kvb.eps.domain.Systemtyp;
+import de.kvb.eps.domain.Systeminstanz;
 import de.kvb.eps.domain.Geraet;
+import de.kvb.eps.domain.Zubehoer;
 import de.kvb.eps.repository.SystemtypRepository;
 import de.kvb.eps.repository.search.SystemtypSearchRepository;
 import de.kvb.eps.service.SystemtypService;
 import de.kvb.eps.service.dto.SystemtypDTO;
 import de.kvb.eps.service.mapper.SystemtypMapper;
 import de.kvb.eps.web.rest.errors.ExceptionTranslator;
+import de.kvb.eps.service.dto.SystemtypCriteria;
+import de.kvb.eps.service.SystemtypQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +53,7 @@ public class SystemtypResourceIT {
 
     private static final LocalDate DEFAULT_GUELTIG_BIS = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_GUELTIG_BIS = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_GUELTIG_BIS = LocalDate.ofEpochDay(-1L);
 
     @Autowired
     private SystemtypRepository systemtypRepository;
@@ -66,6 +71,9 @@ public class SystemtypResourceIT {
      */
     @Autowired
     private SystemtypSearchRepository mockSystemtypSearchRepository;
+
+    @Autowired
+    private SystemtypQueryService systemtypQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -89,7 +97,7 @@ public class SystemtypResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SystemtypResource systemtypResource = new SystemtypResource(systemtypService);
+        final SystemtypResource systemtypResource = new SystemtypResource(systemtypService, systemtypQueryService);
         this.restSystemtypMockMvc = MockMvcBuilders.standaloneSetup(systemtypResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -243,6 +251,300 @@ public class SystemtypResourceIT {
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
     }
+
+
+    @Test
+    @Transactional
+    public void getSystemtypsByIdFiltering() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        Long id = systemtyp.getId();
+
+        defaultSystemtypShouldBeFound("id.equals=" + id);
+        defaultSystemtypShouldNotBeFound("id.notEquals=" + id);
+
+        defaultSystemtypShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultSystemtypShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultSystemtypShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultSystemtypShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultSystemtypShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the systemtypList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultSystemtypShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultSystemtypShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the systemtypList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultSystemtypShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultSystemtypShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the systemtypList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultSystemtypShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where bezeichnung is not null
+        defaultSystemtypShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the systemtypList where bezeichnung is null
+        defaultSystemtypShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllSystemtypsByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultSystemtypShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the systemtypList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultSystemtypShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultSystemtypShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the systemtypList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultSystemtypShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis equals to DEFAULT_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.equals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.equals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis not equals to DEFAULT_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.notEquals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis not equals to UPDATED_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.notEquals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsInShouldWork() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis in DEFAULT_GUELTIG_BIS or UPDATED_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.in=" + DEFAULT_GUELTIG_BIS + "," + UPDATED_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.in=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis is not null
+        defaultSystemtypShouldBeFound("gueltigBis.specified=true");
+
+        // Get all the systemtypList where gueltigBis is null
+        defaultSystemtypShouldNotBeFound("gueltigBis.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis is greater than or equal to DEFAULT_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.greaterThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis is greater than or equal to UPDATED_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.greaterThanOrEqual=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis is less than or equal to DEFAULT_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.lessThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis is less than or equal to SMALLER_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.lessThanOrEqual=" + SMALLER_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsLessThanSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis is less than DEFAULT_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.lessThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis is less than UPDATED_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.lessThan=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGueltigBisIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+
+        // Get all the systemtypList where gueltigBis is greater than DEFAULT_GUELTIG_BIS
+        defaultSystemtypShouldNotBeFound("gueltigBis.greaterThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the systemtypList where gueltigBis is greater than SMALLER_GUELTIG_BIS
+        defaultSystemtypShouldBeFound("gueltigBis.greaterThan=" + SMALLER_GUELTIG_BIS);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsBySysteminstanzIsEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+        Systeminstanz systeminstanz = SysteminstanzResourceIT.createEntity(em);
+        em.persist(systeminstanz);
+        em.flush();
+        systemtyp.addSysteminstanz(systeminstanz);
+        systemtypRepository.saveAndFlush(systemtyp);
+        Long systeminstanzId = systeminstanz.getId();
+
+        // Get all the systemtypList where systeminstanz equals to systeminstanzId
+        defaultSystemtypShouldBeFound("systeminstanzId.equals=" + systeminstanzId);
+
+        // Get all the systemtypList where systeminstanz equals to systeminstanzId + 1
+        defaultSystemtypShouldNotBeFound("systeminstanzId.equals=" + (systeminstanzId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByGeraetIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Geraet geraet = systemtyp.getGeraet();
+        systemtypRepository.saveAndFlush(systemtyp);
+        Long geraetId = geraet.getId();
+
+        // Get all the systemtypList where geraet equals to geraetId
+        defaultSystemtypShouldBeFound("geraetId.equals=" + geraetId);
+
+        // Get all the systemtypList where geraet equals to geraetId + 1
+        defaultSystemtypShouldNotBeFound("geraetId.equals=" + (geraetId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemtypsByZubehoerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        systemtypRepository.saveAndFlush(systemtyp);
+        Zubehoer zubehoer = ZubehoerResourceIT.createEntity(em);
+        em.persist(zubehoer);
+        em.flush();
+        systemtyp.setZubehoer(zubehoer);
+        systemtypRepository.saveAndFlush(systemtyp);
+        Long zubehoerId = zubehoer.getId();
+
+        // Get all the systemtypList where zubehoer equals to zubehoerId
+        defaultSystemtypShouldBeFound("zubehoerId.equals=" + zubehoerId);
+
+        // Get all the systemtypList where zubehoer equals to zubehoerId + 1
+        defaultSystemtypShouldNotBeFound("zubehoerId.equals=" + (zubehoerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultSystemtypShouldBeFound(String filter) throws Exception {
+        restSystemtypMockMvc.perform(get("/api/systemtyps?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(systemtyp.getId().intValue())))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
+            .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
+
+        // Check, that the count call also returns 1
+        restSystemtypMockMvc.perform(get("/api/systemtyps/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultSystemtypShouldNotBeFound(String filter) throws Exception {
+        restSystemtypMockMvc.perform(get("/api/systemtyps?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restSystemtypMockMvc.perform(get("/api/systemtyps/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

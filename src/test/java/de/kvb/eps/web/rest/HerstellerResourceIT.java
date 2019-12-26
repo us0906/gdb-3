@@ -3,12 +3,16 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.Gdb3App;
 import de.kvb.eps.config.TestSecurityConfiguration;
 import de.kvb.eps.domain.Hersteller;
+import de.kvb.eps.domain.Geraet;
+import de.kvb.eps.domain.Zubehoer;
 import de.kvb.eps.repository.HerstellerRepository;
 import de.kvb.eps.repository.search.HerstellerSearchRepository;
 import de.kvb.eps.service.HerstellerService;
 import de.kvb.eps.service.dto.HerstellerDTO;
 import de.kvb.eps.service.mapper.HerstellerMapper;
 import de.kvb.eps.web.rest.errors.ExceptionTranslator;
+import de.kvb.eps.service.dto.HerstellerCriteria;
+import de.kvb.eps.service.HerstellerQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -48,6 +52,7 @@ public class HerstellerResourceIT {
 
     private static final LocalDate DEFAULT_GUELTIG_BIS = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_GUELTIG_BIS = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_GUELTIG_BIS = LocalDate.ofEpochDay(-1L);
 
     @Autowired
     private HerstellerRepository herstellerRepository;
@@ -65,6 +70,9 @@ public class HerstellerResourceIT {
      */
     @Autowired
     private HerstellerSearchRepository mockHerstellerSearchRepository;
+
+    @Autowired
+    private HerstellerQueryService herstellerQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -88,7 +96,7 @@ public class HerstellerResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final HerstellerResource herstellerResource = new HerstellerResource(herstellerService);
+        final HerstellerResource herstellerResource = new HerstellerResource(herstellerService, herstellerQueryService);
         this.restHerstellerMockMvc = MockMvcBuilders.standaloneSetup(herstellerResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -222,6 +230,284 @@ public class HerstellerResourceIT {
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
     }
+
+
+    @Test
+    @Transactional
+    public void getHerstellersByIdFiltering() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        Long id = hersteller.getId();
+
+        defaultHerstellerShouldBeFound("id.equals=" + id);
+        defaultHerstellerShouldNotBeFound("id.notEquals=" + id);
+
+        defaultHerstellerShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultHerstellerShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultHerstellerShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultHerstellerShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultHerstellerShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the herstellerList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultHerstellerShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultHerstellerShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the herstellerList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultHerstellerShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultHerstellerShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the herstellerList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultHerstellerShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where bezeichnung is not null
+        defaultHerstellerShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the herstellerList where bezeichnung is null
+        defaultHerstellerShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllHerstellersByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultHerstellerShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the herstellerList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultHerstellerShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultHerstellerShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the herstellerList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultHerstellerShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis equals to DEFAULT_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.equals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.equals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis not equals to DEFAULT_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.notEquals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis not equals to UPDATED_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.notEquals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsInShouldWork() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis in DEFAULT_GUELTIG_BIS or UPDATED_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.in=" + DEFAULT_GUELTIG_BIS + "," + UPDATED_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.in=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis is not null
+        defaultHerstellerShouldBeFound("gueltigBis.specified=true");
+
+        // Get all the herstellerList where gueltigBis is null
+        defaultHerstellerShouldNotBeFound("gueltigBis.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis is greater than or equal to DEFAULT_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.greaterThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis is greater than or equal to UPDATED_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.greaterThanOrEqual=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis is less than or equal to DEFAULT_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.lessThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis is less than or equal to SMALLER_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.lessThanOrEqual=" + SMALLER_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsLessThanSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis is less than DEFAULT_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.lessThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis is less than UPDATED_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.lessThan=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGueltigBisIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+
+        // Get all the herstellerList where gueltigBis is greater than DEFAULT_GUELTIG_BIS
+        defaultHerstellerShouldNotBeFound("gueltigBis.greaterThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the herstellerList where gueltigBis is greater than SMALLER_GUELTIG_BIS
+        defaultHerstellerShouldBeFound("gueltigBis.greaterThan=" + SMALLER_GUELTIG_BIS);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByGeraetIsEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+        Geraet geraet = GeraetResourceIT.createEntity(em);
+        em.persist(geraet);
+        em.flush();
+        hersteller.addGeraet(geraet);
+        herstellerRepository.saveAndFlush(hersteller);
+        Long geraetId = geraet.getId();
+
+        // Get all the herstellerList where geraet equals to geraetId
+        defaultHerstellerShouldBeFound("geraetId.equals=" + geraetId);
+
+        // Get all the herstellerList where geraet equals to geraetId + 1
+        defaultHerstellerShouldNotBeFound("geraetId.equals=" + (geraetId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllHerstellersByZubehoerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        herstellerRepository.saveAndFlush(hersteller);
+        Zubehoer zubehoer = ZubehoerResourceIT.createEntity(em);
+        em.persist(zubehoer);
+        em.flush();
+        hersteller.addZubehoer(zubehoer);
+        herstellerRepository.saveAndFlush(hersteller);
+        Long zubehoerId = zubehoer.getId();
+
+        // Get all the herstellerList where zubehoer equals to zubehoerId
+        defaultHerstellerShouldBeFound("zubehoerId.equals=" + zubehoerId);
+
+        // Get all the herstellerList where zubehoer equals to zubehoerId + 1
+        defaultHerstellerShouldNotBeFound("zubehoerId.equals=" + (zubehoerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultHerstellerShouldBeFound(String filter) throws Exception {
+        restHerstellerMockMvc.perform(get("/api/herstellers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(hersteller.getId().intValue())))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
+            .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
+
+        // Check, that the count call also returns 1
+        restHerstellerMockMvc.perform(get("/api/herstellers/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultHerstellerShouldNotBeFound(String filter) throws Exception {
+        restHerstellerMockMvc.perform(get("/api/herstellers?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restHerstellerMockMvc.perform(get("/api/herstellers/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

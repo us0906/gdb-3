@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SystemnutzungRepository extends JpaRepository<Systemnutzung, Long> {
+public interface SystemnutzungRepository extends JpaRepository<Systemnutzung, Long>, JpaSpecificationExecutor<Systemnutzung> {
 
 }

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface BetriebsstaetteRepository extends JpaRepository<Betriebsstaette, Long> {
+public interface BetriebsstaetteRepository extends JpaRepository<Betriebsstaette, Long>, JpaSpecificationExecutor<Betriebsstaette> {
 
 }

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SysteminstanzRepository extends JpaRepository<Systeminstanz, Long> {
+public interface SysteminstanzRepository extends JpaRepository<Systeminstanz, Long>, JpaSpecificationExecutor<Systeminstanz> {
 
 }

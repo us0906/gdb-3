@@ -3,12 +3,16 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.Gdb3App;
 import de.kvb.eps.config.TestSecurityConfiguration;
 import de.kvb.eps.domain.Systemnutzung;
+import de.kvb.eps.domain.Systeminstanz;
+import de.kvb.eps.domain.Arzt;
 import de.kvb.eps.repository.SystemnutzungRepository;
 import de.kvb.eps.repository.search.SystemnutzungSearchRepository;
 import de.kvb.eps.service.SystemnutzungService;
 import de.kvb.eps.service.dto.SystemnutzungDTO;
 import de.kvb.eps.service.mapper.SystemnutzungMapper;
 import de.kvb.eps.web.rest.errors.ExceptionTranslator;
+import de.kvb.eps.service.dto.SystemnutzungCriteria;
+import de.kvb.eps.service.SystemnutzungQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,6 +63,9 @@ public class SystemnutzungResourceIT {
     private SystemnutzungSearchRepository mockSystemnutzungSearchRepository;
 
     @Autowired
+    private SystemnutzungQueryService systemnutzungQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -80,7 +87,7 @@ public class SystemnutzungResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final SystemnutzungResource systemnutzungResource = new SystemnutzungResource(systemnutzungService);
+        final SystemnutzungResource systemnutzungResource = new SystemnutzungResource(systemnutzungService, systemnutzungQueryService);
         this.restSystemnutzungMockMvc = MockMvcBuilders.standaloneSetup(systemnutzungResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -185,6 +192,99 @@ public class SystemnutzungResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
             .andExpect(jsonPath("$.id").value(systemnutzung.getId().intValue()));
     }
+
+
+    @Test
+    @Transactional
+    public void getSystemnutzungsByIdFiltering() throws Exception {
+        // Initialize the database
+        systemnutzungRepository.saveAndFlush(systemnutzung);
+
+        Long id = systemnutzung.getId();
+
+        defaultSystemnutzungShouldBeFound("id.equals=" + id);
+        defaultSystemnutzungShouldNotBeFound("id.notEquals=" + id);
+
+        defaultSystemnutzungShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultSystemnutzungShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultSystemnutzungShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultSystemnutzungShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemnutzungsBySysteminstanzIsEqualToSomething() throws Exception {
+        // Initialize the database
+        systemnutzungRepository.saveAndFlush(systemnutzung);
+        Systeminstanz systeminstanz = SysteminstanzResourceIT.createEntity(em);
+        em.persist(systeminstanz);
+        em.flush();
+        systemnutzung.setSysteminstanz(systeminstanz);
+        systemnutzungRepository.saveAndFlush(systemnutzung);
+        Long systeminstanzId = systeminstanz.getId();
+
+        // Get all the systemnutzungList where systeminstanz equals to systeminstanzId
+        defaultSystemnutzungShouldBeFound("systeminstanzId.equals=" + systeminstanzId);
+
+        // Get all the systemnutzungList where systeminstanz equals to systeminstanzId + 1
+        defaultSystemnutzungShouldNotBeFound("systeminstanzId.equals=" + (systeminstanzId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllSystemnutzungsByArztIsEqualToSomething() throws Exception {
+        // Initialize the database
+        systemnutzungRepository.saveAndFlush(systemnutzung);
+        Arzt arzt = ArztResourceIT.createEntity(em);
+        em.persist(arzt);
+        em.flush();
+        systemnutzung.setArzt(arzt);
+        systemnutzungRepository.saveAndFlush(systemnutzung);
+        Long arztId = arzt.getId();
+
+        // Get all the systemnutzungList where arzt equals to arztId
+        defaultSystemnutzungShouldBeFound("arztId.equals=" + arztId);
+
+        // Get all the systemnutzungList where arzt equals to arztId + 1
+        defaultSystemnutzungShouldNotBeFound("arztId.equals=" + (arztId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultSystemnutzungShouldBeFound(String filter) throws Exception {
+        restSystemnutzungMockMvc.perform(get("/api/systemnutzungs?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(systemnutzung.getId().intValue())));
+
+        // Check, that the count call also returns 1
+        restSystemnutzungMockMvc.perform(get("/api/systemnutzungs/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultSystemnutzungShouldNotBeFound(String filter) throws Exception {
+        restSystemnutzungMockMvc.perform(get("/api/systemnutzungs?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restSystemnutzungMockMvc.perform(get("/api/systemnutzungs/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

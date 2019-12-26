@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.GeraetService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.GeraetDTO;
+import de.kvb.eps.service.dto.GeraetCriteria;
+import de.kvb.eps.service.GeraetQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class GeraetResource {
 
     private final GeraetService geraetService;
 
-    public GeraetResource(GeraetService geraetService) {
+    private final GeraetQueryService geraetQueryService;
+
+    public GeraetResource(GeraetService geraetService, GeraetQueryService geraetQueryService) {
         this.geraetService = geraetService;
+        this.geraetQueryService = geraetQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class GeraetResource {
      * {@code GET  /geraets} : get all the geraets.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of geraets in body.
      */
     @GetMapping("/geraets")
-    public List<GeraetDTO> getAllGeraets() {
-        log.debug("REST request to get all Geraets");
-        return geraetService.findAll();
+    public ResponseEntity<List<GeraetDTO>> getAllGeraets(GeraetCriteria criteria) {
+        log.debug("REST request to get Geraets by criteria: {}", criteria);
+        List<GeraetDTO> entityList = geraetQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /geraets/count} : count all the geraets.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/geraets/count")
+    public ResponseEntity<Long> countGeraets(GeraetCriteria criteria) {
+        log.debug("REST request to count Geraets by criteria: {}", criteria);
+        return ResponseEntity.ok().body(geraetQueryService.countByCriteria(criteria));
     }
 
     /**

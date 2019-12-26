@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ZubehoerTypRepository extends JpaRepository<ZubehoerTyp, Long> {
+public interface ZubehoerTypRepository extends JpaRepository<ZubehoerTyp, Long>, JpaSpecificationExecutor<ZubehoerTyp> {
 
 }

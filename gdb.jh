@@ -1,6 +1,7 @@
 
 dto all with mapstruct
 service all with serviceClass
+filter *
 
 enum Technologie {
 	SONO, BILD
@@ -30,21 +31,21 @@ entity Geraet {
 
 entity Zubehoer {
 	bezeichnung String required minlength (1) maxlength(200)
-    gueltigBis LocalDate	
+    gueltigBis LocalDate
 }
 
 entity Systemtyp {
 	bezeichnung String required minlength (1) maxlength(200)
-    gueltigBis LocalDate		
+    gueltigBis LocalDate
 }
 
 relationship OneToMany {
 	GeraetTyp to Geraet  { geraetTyp(bezeichnung) required }
     Hersteller to Geraet { hersteller(bezeichnung) required }
-	
+
 	Hersteller to Zubehoer { hersteller (bezeichnung) required }
     ZubehoerTyp to Zubehoer { zubehoerTyp(bezeichnung) required }
-	
+
     Geraet to Systemtyp { geraet(bezeichnung) required }
     Zubehoer to Systemtyp { zubehoer(bezeichnung) }
 }
@@ -53,7 +54,7 @@ entity Systeminstanz (sys_inst){
 	bezeichnung String required minlength (1) maxlength(200)
     geraetNummer String required minlength (1) maxlength(200)
     geraetBaujahr String required minlength(4) maxlength(4)
-    gueltigBis LocalDate	
+    gueltigBis LocalDate
     gwe ImageBlob
     bemerkung TextBlob
 }
@@ -64,7 +65,7 @@ relationship OneToMany {
 
 entity Arzt {
   lanr String required minlength(7) maxlength(7)
-  titel String 
+  titel String
   vorname String required
   nachname String required
 }
@@ -75,7 +76,7 @@ entity Betreiber {
     strasse String
     hausnummer String
     plz String
-    ort String	
+    ort String
 }
 
 entity Betriebsstaette (b_staette){

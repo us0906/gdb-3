@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.BetreiberService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.BetreiberDTO;
+import de.kvb.eps.service.dto.BetreiberCriteria;
+import de.kvb.eps.service.BetreiberQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class BetreiberResource {
 
     private final BetreiberService betreiberService;
 
-    public BetreiberResource(BetreiberService betreiberService) {
+    private final BetreiberQueryService betreiberQueryService;
+
+    public BetreiberResource(BetreiberService betreiberService, BetreiberQueryService betreiberQueryService) {
         this.betreiberService = betreiberService;
+        this.betreiberQueryService = betreiberQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class BetreiberResource {
      * {@code GET  /betreibers} : get all the betreibers.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of betreibers in body.
      */
     @GetMapping("/betreibers")
-    public List<BetreiberDTO> getAllBetreibers() {
-        log.debug("REST request to get all Betreibers");
-        return betreiberService.findAll();
+    public ResponseEntity<List<BetreiberDTO>> getAllBetreibers(BetreiberCriteria criteria) {
+        log.debug("REST request to get Betreibers by criteria: {}", criteria);
+        List<BetreiberDTO> entityList = betreiberQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /betreibers/count} : count all the betreibers.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/betreibers/count")
+    public ResponseEntity<Long> countBetreibers(BetreiberCriteria criteria) {
+        log.debug("REST request to count Betreibers by criteria: {}", criteria);
+        return ResponseEntity.ok().body(betreiberQueryService.countByCriteria(criteria));
     }
 
     /**

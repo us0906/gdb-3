@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.ArztService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.ArztDTO;
+import de.kvb.eps.service.dto.ArztCriteria;
+import de.kvb.eps.service.ArztQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class ArztResource {
 
     private final ArztService arztService;
 
-    public ArztResource(ArztService arztService) {
+    private final ArztQueryService arztQueryService;
+
+    public ArztResource(ArztService arztService, ArztQueryService arztQueryService) {
         this.arztService = arztService;
+        this.arztQueryService = arztQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class ArztResource {
      * {@code GET  /arzts} : get all the arzts.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of arzts in body.
      */
     @GetMapping("/arzts")
-    public List<ArztDTO> getAllArzts() {
-        log.debug("REST request to get all Arzts");
-        return arztService.findAll();
+    public ResponseEntity<List<ArztDTO>> getAllArzts(ArztCriteria criteria) {
+        log.debug("REST request to get Arzts by criteria: {}", criteria);
+        List<ArztDTO> entityList = arztQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /arzts/count} : count all the arzts.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/arzts/count")
+    public ResponseEntity<Long> countArzts(ArztCriteria criteria) {
+        log.debug("REST request to count Arzts by criteria: {}", criteria);
+        return ResponseEntity.ok().body(arztQueryService.countByCriteria(criteria));
     }
 
     /**

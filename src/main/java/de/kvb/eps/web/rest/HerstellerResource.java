@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.HerstellerService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.HerstellerDTO;
+import de.kvb.eps.service.dto.HerstellerCriteria;
+import de.kvb.eps.service.HerstellerQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class HerstellerResource {
 
     private final HerstellerService herstellerService;
 
-    public HerstellerResource(HerstellerService herstellerService) {
+    private final HerstellerQueryService herstellerQueryService;
+
+    public HerstellerResource(HerstellerService herstellerService, HerstellerQueryService herstellerQueryService) {
         this.herstellerService = herstellerService;
+        this.herstellerQueryService = herstellerQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class HerstellerResource {
      * {@code GET  /herstellers} : get all the herstellers.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of herstellers in body.
      */
     @GetMapping("/herstellers")
-    public List<HerstellerDTO> getAllHerstellers() {
-        log.debug("REST request to get all Herstellers");
-        return herstellerService.findAll();
+    public ResponseEntity<List<HerstellerDTO>> getAllHerstellers(HerstellerCriteria criteria) {
+        log.debug("REST request to get Herstellers by criteria: {}", criteria);
+        List<HerstellerDTO> entityList = herstellerQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /herstellers/count} : count all the herstellers.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/herstellers/count")
+    public ResponseEntity<Long> countHerstellers(HerstellerCriteria criteria) {
+        log.debug("REST request to count Herstellers by criteria: {}", criteria);
+        return ResponseEntity.ok().body(herstellerQueryService.countByCriteria(criteria));
     }
 
     /**

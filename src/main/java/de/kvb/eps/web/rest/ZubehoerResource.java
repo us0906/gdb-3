@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.ZubehoerService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.ZubehoerDTO;
+import de.kvb.eps.service.dto.ZubehoerCriteria;
+import de.kvb.eps.service.ZubehoerQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class ZubehoerResource {
 
     private final ZubehoerService zubehoerService;
 
-    public ZubehoerResource(ZubehoerService zubehoerService) {
+    private final ZubehoerQueryService zubehoerQueryService;
+
+    public ZubehoerResource(ZubehoerService zubehoerService, ZubehoerQueryService zubehoerQueryService) {
         this.zubehoerService = zubehoerService;
+        this.zubehoerQueryService = zubehoerQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class ZubehoerResource {
      * {@code GET  /zubehoers} : get all the zubehoers.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of zubehoers in body.
      */
     @GetMapping("/zubehoers")
-    public List<ZubehoerDTO> getAllZubehoers() {
-        log.debug("REST request to get all Zubehoers");
-        return zubehoerService.findAll();
+    public ResponseEntity<List<ZubehoerDTO>> getAllZubehoers(ZubehoerCriteria criteria) {
+        log.debug("REST request to get Zubehoers by criteria: {}", criteria);
+        List<ZubehoerDTO> entityList = zubehoerQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /zubehoers/count} : count all the zubehoers.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/zubehoers/count")
+    public ResponseEntity<Long> countZubehoers(ZubehoerCriteria criteria) {
+        log.debug("REST request to count Zubehoers by criteria: {}", criteria);
+        return ResponseEntity.ok().body(zubehoerQueryService.countByCriteria(criteria));
     }
 
     /**

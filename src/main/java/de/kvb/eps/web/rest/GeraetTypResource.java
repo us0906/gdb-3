@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.GeraetTypService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.GeraetTypDTO;
+import de.kvb.eps.service.dto.GeraetTypCriteria;
+import de.kvb.eps.service.GeraetTypQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class GeraetTypResource {
 
     private final GeraetTypService geraetTypService;
 
-    public GeraetTypResource(GeraetTypService geraetTypService) {
+    private final GeraetTypQueryService geraetTypQueryService;
+
+    public GeraetTypResource(GeraetTypService geraetTypService, GeraetTypQueryService geraetTypQueryService) {
         this.geraetTypService = geraetTypService;
+        this.geraetTypQueryService = geraetTypQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class GeraetTypResource {
      * {@code GET  /geraet-typs} : get all the geraetTyps.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of geraetTyps in body.
      */
     @GetMapping("/geraet-typs")
-    public List<GeraetTypDTO> getAllGeraetTyps() {
-        log.debug("REST request to get all GeraetTyps");
-        return geraetTypService.findAll();
+    public ResponseEntity<List<GeraetTypDTO>> getAllGeraetTyps(GeraetTypCriteria criteria) {
+        log.debug("REST request to get GeraetTyps by criteria: {}", criteria);
+        List<GeraetTypDTO> entityList = geraetTypQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /geraet-typs/count} : count all the geraetTyps.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/geraet-typs/count")
+    public ResponseEntity<Long> countGeraetTyps(GeraetTypCriteria criteria) {
+        log.debug("REST request to count GeraetTyps by criteria: {}", criteria);
+        return ResponseEntity.ok().body(geraetTypQueryService.countByCriteria(criteria));
     }
 
     /**

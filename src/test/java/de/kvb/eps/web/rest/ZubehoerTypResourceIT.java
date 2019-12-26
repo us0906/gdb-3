@@ -3,12 +3,15 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.Gdb3App;
 import de.kvb.eps.config.TestSecurityConfiguration;
 import de.kvb.eps.domain.ZubehoerTyp;
+import de.kvb.eps.domain.Zubehoer;
 import de.kvb.eps.repository.ZubehoerTypRepository;
 import de.kvb.eps.repository.search.ZubehoerTypSearchRepository;
 import de.kvb.eps.service.ZubehoerTypService;
 import de.kvb.eps.service.dto.ZubehoerTypDTO;
 import de.kvb.eps.service.mapper.ZubehoerTypMapper;
 import de.kvb.eps.web.rest.errors.ExceptionTranslator;
+import de.kvb.eps.service.dto.ZubehoerTypCriteria;
+import de.kvb.eps.service.ZubehoerTypQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,6 +52,7 @@ public class ZubehoerTypResourceIT {
 
     private static final LocalDate DEFAULT_GUELTIG_BIS = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_GUELTIG_BIS = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_GUELTIG_BIS = LocalDate.ofEpochDay(-1L);
 
     private static final Technologie DEFAULT_TECHNOLOGIE = Technologie.SONO;
     private static final Technologie UPDATED_TECHNOLOGIE = Technologie.BILD;
@@ -69,6 +73,9 @@ public class ZubehoerTypResourceIT {
      */
     @Autowired
     private ZubehoerTypSearchRepository mockZubehoerTypSearchRepository;
+
+    @Autowired
+    private ZubehoerTypQueryService zubehoerTypQueryService;
 
     @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
@@ -92,7 +99,7 @@ public class ZubehoerTypResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ZubehoerTypResource zubehoerTypResource = new ZubehoerTypResource(zubehoerTypService);
+        final ZubehoerTypResource zubehoerTypResource = new ZubehoerTypResource(zubehoerTypService, zubehoerTypQueryService);
         this.restZubehoerTypMockMvc = MockMvcBuilders.standaloneSetup(zubehoerTypResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -250,6 +257,317 @@ public class ZubehoerTypResourceIT {
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()))
             .andExpect(jsonPath("$.technologie").value(DEFAULT_TECHNOLOGIE.toString()));
     }
+
+
+    @Test
+    @Transactional
+    public void getZubehoerTypsByIdFiltering() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        Long id = zubehoerTyp.getId();
+
+        defaultZubehoerTypShouldBeFound("id.equals=" + id);
+        defaultZubehoerTypShouldNotBeFound("id.notEquals=" + id);
+
+        defaultZubehoerTypShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultZubehoerTypShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultZubehoerTypShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultZubehoerTypShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultZubehoerTypShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the zubehoerTypList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultZubehoerTypShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultZubehoerTypShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the zubehoerTypList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultZubehoerTypShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultZubehoerTypShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the zubehoerTypList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultZubehoerTypShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where bezeichnung is not null
+        defaultZubehoerTypShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the zubehoerTypList where bezeichnung is null
+        defaultZubehoerTypShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllZubehoerTypsByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultZubehoerTypShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the zubehoerTypList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultZubehoerTypShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultZubehoerTypShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the zubehoerTypList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultZubehoerTypShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis equals to DEFAULT_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.equals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.equals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis not equals to DEFAULT_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.notEquals=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis not equals to UPDATED_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.notEquals=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsInShouldWork() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis in DEFAULT_GUELTIG_BIS or UPDATED_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.in=" + DEFAULT_GUELTIG_BIS + "," + UPDATED_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis equals to UPDATED_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.in=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis is not null
+        defaultZubehoerTypShouldBeFound("gueltigBis.specified=true");
+
+        // Get all the zubehoerTypList where gueltigBis is null
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis is greater than or equal to DEFAULT_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.greaterThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis is greater than or equal to UPDATED_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.greaterThanOrEqual=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis is less than or equal to DEFAULT_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.lessThanOrEqual=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis is less than or equal to SMALLER_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.lessThanOrEqual=" + SMALLER_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsLessThanSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis is less than DEFAULT_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.lessThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis is less than UPDATED_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.lessThan=" + UPDATED_GUELTIG_BIS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByGueltigBisIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where gueltigBis is greater than DEFAULT_GUELTIG_BIS
+        defaultZubehoerTypShouldNotBeFound("gueltigBis.greaterThan=" + DEFAULT_GUELTIG_BIS);
+
+        // Get all the zubehoerTypList where gueltigBis is greater than SMALLER_GUELTIG_BIS
+        defaultZubehoerTypShouldBeFound("gueltigBis.greaterThan=" + SMALLER_GUELTIG_BIS);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByTechnologieIsEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where technologie equals to DEFAULT_TECHNOLOGIE
+        defaultZubehoerTypShouldBeFound("technologie.equals=" + DEFAULT_TECHNOLOGIE);
+
+        // Get all the zubehoerTypList where technologie equals to UPDATED_TECHNOLOGIE
+        defaultZubehoerTypShouldNotBeFound("technologie.equals=" + UPDATED_TECHNOLOGIE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByTechnologieIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where technologie not equals to DEFAULT_TECHNOLOGIE
+        defaultZubehoerTypShouldNotBeFound("technologie.notEquals=" + DEFAULT_TECHNOLOGIE);
+
+        // Get all the zubehoerTypList where technologie not equals to UPDATED_TECHNOLOGIE
+        defaultZubehoerTypShouldBeFound("technologie.notEquals=" + UPDATED_TECHNOLOGIE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByTechnologieIsInShouldWork() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where technologie in DEFAULT_TECHNOLOGIE or UPDATED_TECHNOLOGIE
+        defaultZubehoerTypShouldBeFound("technologie.in=" + DEFAULT_TECHNOLOGIE + "," + UPDATED_TECHNOLOGIE);
+
+        // Get all the zubehoerTypList where technologie equals to UPDATED_TECHNOLOGIE
+        defaultZubehoerTypShouldNotBeFound("technologie.in=" + UPDATED_TECHNOLOGIE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByTechnologieIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+
+        // Get all the zubehoerTypList where technologie is not null
+        defaultZubehoerTypShouldBeFound("technologie.specified=true");
+
+        // Get all the zubehoerTypList where technologie is null
+        defaultZubehoerTypShouldNotBeFound("technologie.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllZubehoerTypsByZubehoerIsEqualToSomething() throws Exception {
+        // Initialize the database
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+        Zubehoer zubehoer = ZubehoerResourceIT.createEntity(em);
+        em.persist(zubehoer);
+        em.flush();
+        zubehoerTyp.addZubehoer(zubehoer);
+        zubehoerTypRepository.saveAndFlush(zubehoerTyp);
+        Long zubehoerId = zubehoer.getId();
+
+        // Get all the zubehoerTypList where zubehoer equals to zubehoerId
+        defaultZubehoerTypShouldBeFound("zubehoerId.equals=" + zubehoerId);
+
+        // Get all the zubehoerTypList where zubehoer equals to zubehoerId + 1
+        defaultZubehoerTypShouldNotBeFound("zubehoerId.equals=" + (zubehoerId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultZubehoerTypShouldBeFound(String filter) throws Exception {
+        restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoerTyp.getId().intValue())))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
+            .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))
+            .andExpect(jsonPath("$.[*].technologie").value(hasItem(DEFAULT_TECHNOLOGIE.toString())));
+
+        // Check, that the count call also returns 1
+        restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultZubehoerTypShouldNotBeFound(String filter) throws Exception {
+        restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional

@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface ArztRepository extends JpaRepository<Arzt, Long> {
+public interface ArztRepository extends JpaRepository<Arzt, Long>, JpaSpecificationExecutor<Arzt> {
 
 }

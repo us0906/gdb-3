@@ -3,6 +3,8 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.service.SysteminstanzService;
 import de.kvb.eps.web.rest.errors.BadRequestAlertException;
 import de.kvb.eps.service.dto.SysteminstanzDTO;
+import de.kvb.eps.service.dto.SysteminstanzCriteria;
+import de.kvb.eps.service.SysteminstanzQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -38,8 +40,11 @@ public class SysteminstanzResource {
 
     private final SysteminstanzService systeminstanzService;
 
-    public SysteminstanzResource(SysteminstanzService systeminstanzService) {
+    private final SysteminstanzQueryService systeminstanzQueryService;
+
+    public SysteminstanzResource(SysteminstanzService systeminstanzService, SysteminstanzQueryService systeminstanzQueryService) {
         this.systeminstanzService = systeminstanzService;
+        this.systeminstanzQueryService = systeminstanzQueryService;
     }
 
     /**
@@ -86,12 +91,26 @@ public class SysteminstanzResource {
      * {@code GET  /systeminstanzs} : get all the systeminstanzs.
      *
 
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of systeminstanzs in body.
      */
     @GetMapping("/systeminstanzs")
-    public List<SysteminstanzDTO> getAllSysteminstanzs() {
-        log.debug("REST request to get all Systeminstanzs");
-        return systeminstanzService.findAll();
+    public ResponseEntity<List<SysteminstanzDTO>> getAllSysteminstanzs(SysteminstanzCriteria criteria) {
+        log.debug("REST request to get Systeminstanzs by criteria: {}", criteria);
+        List<SysteminstanzDTO> entityList = systeminstanzQueryService.findByCriteria(criteria);
+        return ResponseEntity.ok().body(entityList);
+    }
+
+    /**
+    * {@code GET  /systeminstanzs/count} : count all the systeminstanzs.
+    *
+    * @param criteria the criteria which the requested entities should match.
+    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+    */
+    @GetMapping("/systeminstanzs/count")
+    public ResponseEntity<Long> countSysteminstanzs(SysteminstanzCriteria criteria) {
+        log.debug("REST request to count Systeminstanzs by criteria: {}", criteria);
+        return ResponseEntity.ok().body(systeminstanzQueryService.countByCriteria(criteria));
     }
 
     /**

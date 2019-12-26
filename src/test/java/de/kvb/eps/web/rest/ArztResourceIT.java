@@ -3,12 +3,15 @@ package de.kvb.eps.web.rest;
 import de.kvb.eps.Gdb3App;
 import de.kvb.eps.config.TestSecurityConfiguration;
 import de.kvb.eps.domain.Arzt;
+import de.kvb.eps.domain.Systemnutzung;
 import de.kvb.eps.repository.ArztRepository;
 import de.kvb.eps.repository.search.ArztSearchRepository;
 import de.kvb.eps.service.ArztService;
 import de.kvb.eps.service.dto.ArztDTO;
 import de.kvb.eps.service.mapper.ArztMapper;
 import de.kvb.eps.web.rest.errors.ExceptionTranslator;
+import de.kvb.eps.service.dto.ArztCriteria;
+import de.kvb.eps.service.ArztQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -71,6 +74,9 @@ public class ArztResourceIT {
     private ArztSearchRepository mockArztSearchRepository;
 
     @Autowired
+    private ArztQueryService arztQueryService;
+
+    @Autowired
     private MappingJackson2HttpMessageConverter jacksonMessageConverter;
 
     @Autowired
@@ -92,7 +98,7 @@ public class ArztResourceIT {
     @BeforeEach
     public void setup() {
         MockitoAnnotations.initMocks(this);
-        final ArztResource arztResource = new ArztResource(arztService);
+        final ArztResource arztResource = new ArztResource(arztService, arztQueryService);
         this.restArztMockMvc = MockMvcBuilders.standaloneSetup(arztResource)
             .setCustomArgumentResolvers(pageableArgumentResolver)
             .setControllerAdvice(exceptionTranslator)
@@ -274,6 +280,395 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.vorname").value(DEFAULT_VORNAME))
             .andExpect(jsonPath("$.nachname").value(DEFAULT_NACHNAME));
     }
+
+
+    @Test
+    @Transactional
+    public void getArztsByIdFiltering() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        Long id = arzt.getId();
+
+        defaultArztShouldBeFound("id.equals=" + id);
+        defaultArztShouldNotBeFound("id.notEquals=" + id);
+
+        defaultArztShouldBeFound("id.greaterThanOrEqual=" + id);
+        defaultArztShouldNotBeFound("id.greaterThan=" + id);
+
+        defaultArztShouldBeFound("id.lessThanOrEqual=" + id);
+        defaultArztShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllArztsByLanrIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where lanr equals to DEFAULT_LANR
+        defaultArztShouldBeFound("lanr.equals=" + DEFAULT_LANR);
+
+        // Get all the arztList where lanr equals to UPDATED_LANR
+        defaultArztShouldNotBeFound("lanr.equals=" + UPDATED_LANR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByLanrIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where lanr not equals to DEFAULT_LANR
+        defaultArztShouldNotBeFound("lanr.notEquals=" + DEFAULT_LANR);
+
+        // Get all the arztList where lanr not equals to UPDATED_LANR
+        defaultArztShouldBeFound("lanr.notEquals=" + UPDATED_LANR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByLanrIsInShouldWork() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where lanr in DEFAULT_LANR or UPDATED_LANR
+        defaultArztShouldBeFound("lanr.in=" + DEFAULT_LANR + "," + UPDATED_LANR);
+
+        // Get all the arztList where lanr equals to UPDATED_LANR
+        defaultArztShouldNotBeFound("lanr.in=" + UPDATED_LANR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByLanrIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where lanr is not null
+        defaultArztShouldBeFound("lanr.specified=true");
+
+        // Get all the arztList where lanr is null
+        defaultArztShouldNotBeFound("lanr.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllArztsByLanrContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where lanr contains DEFAULT_LANR
+        defaultArztShouldBeFound("lanr.contains=" + DEFAULT_LANR);
+
+        // Get all the arztList where lanr contains UPDATED_LANR
+        defaultArztShouldNotBeFound("lanr.contains=" + UPDATED_LANR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByLanrNotContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where lanr does not contain DEFAULT_LANR
+        defaultArztShouldNotBeFound("lanr.doesNotContain=" + DEFAULT_LANR);
+
+        // Get all the arztList where lanr does not contain UPDATED_LANR
+        defaultArztShouldBeFound("lanr.doesNotContain=" + UPDATED_LANR);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllArztsByTitelIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where titel equals to DEFAULT_TITEL
+        defaultArztShouldBeFound("titel.equals=" + DEFAULT_TITEL);
+
+        // Get all the arztList where titel equals to UPDATED_TITEL
+        defaultArztShouldNotBeFound("titel.equals=" + UPDATED_TITEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByTitelIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where titel not equals to DEFAULT_TITEL
+        defaultArztShouldNotBeFound("titel.notEquals=" + DEFAULT_TITEL);
+
+        // Get all the arztList where titel not equals to UPDATED_TITEL
+        defaultArztShouldBeFound("titel.notEquals=" + UPDATED_TITEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByTitelIsInShouldWork() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where titel in DEFAULT_TITEL or UPDATED_TITEL
+        defaultArztShouldBeFound("titel.in=" + DEFAULT_TITEL + "," + UPDATED_TITEL);
+
+        // Get all the arztList where titel equals to UPDATED_TITEL
+        defaultArztShouldNotBeFound("titel.in=" + UPDATED_TITEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByTitelIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where titel is not null
+        defaultArztShouldBeFound("titel.specified=true");
+
+        // Get all the arztList where titel is null
+        defaultArztShouldNotBeFound("titel.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllArztsByTitelContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where titel contains DEFAULT_TITEL
+        defaultArztShouldBeFound("titel.contains=" + DEFAULT_TITEL);
+
+        // Get all the arztList where titel contains UPDATED_TITEL
+        defaultArztShouldNotBeFound("titel.contains=" + UPDATED_TITEL);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByTitelNotContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where titel does not contain DEFAULT_TITEL
+        defaultArztShouldNotBeFound("titel.doesNotContain=" + DEFAULT_TITEL);
+
+        // Get all the arztList where titel does not contain UPDATED_TITEL
+        defaultArztShouldBeFound("titel.doesNotContain=" + UPDATED_TITEL);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllArztsByVornameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where vorname equals to DEFAULT_VORNAME
+        defaultArztShouldBeFound("vorname.equals=" + DEFAULT_VORNAME);
+
+        // Get all the arztList where vorname equals to UPDATED_VORNAME
+        defaultArztShouldNotBeFound("vorname.equals=" + UPDATED_VORNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByVornameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where vorname not equals to DEFAULT_VORNAME
+        defaultArztShouldNotBeFound("vorname.notEquals=" + DEFAULT_VORNAME);
+
+        // Get all the arztList where vorname not equals to UPDATED_VORNAME
+        defaultArztShouldBeFound("vorname.notEquals=" + UPDATED_VORNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByVornameIsInShouldWork() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where vorname in DEFAULT_VORNAME or UPDATED_VORNAME
+        defaultArztShouldBeFound("vorname.in=" + DEFAULT_VORNAME + "," + UPDATED_VORNAME);
+
+        // Get all the arztList where vorname equals to UPDATED_VORNAME
+        defaultArztShouldNotBeFound("vorname.in=" + UPDATED_VORNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByVornameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where vorname is not null
+        defaultArztShouldBeFound("vorname.specified=true");
+
+        // Get all the arztList where vorname is null
+        defaultArztShouldNotBeFound("vorname.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllArztsByVornameContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where vorname contains DEFAULT_VORNAME
+        defaultArztShouldBeFound("vorname.contains=" + DEFAULT_VORNAME);
+
+        // Get all the arztList where vorname contains UPDATED_VORNAME
+        defaultArztShouldNotBeFound("vorname.contains=" + UPDATED_VORNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByVornameNotContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where vorname does not contain DEFAULT_VORNAME
+        defaultArztShouldNotBeFound("vorname.doesNotContain=" + DEFAULT_VORNAME);
+
+        // Get all the arztList where vorname does not contain UPDATED_VORNAME
+        defaultArztShouldBeFound("vorname.doesNotContain=" + UPDATED_VORNAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllArztsByNachnameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where nachname equals to DEFAULT_NACHNAME
+        defaultArztShouldBeFound("nachname.equals=" + DEFAULT_NACHNAME);
+
+        // Get all the arztList where nachname equals to UPDATED_NACHNAME
+        defaultArztShouldNotBeFound("nachname.equals=" + UPDATED_NACHNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByNachnameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where nachname not equals to DEFAULT_NACHNAME
+        defaultArztShouldNotBeFound("nachname.notEquals=" + DEFAULT_NACHNAME);
+
+        // Get all the arztList where nachname not equals to UPDATED_NACHNAME
+        defaultArztShouldBeFound("nachname.notEquals=" + UPDATED_NACHNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByNachnameIsInShouldWork() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where nachname in DEFAULT_NACHNAME or UPDATED_NACHNAME
+        defaultArztShouldBeFound("nachname.in=" + DEFAULT_NACHNAME + "," + UPDATED_NACHNAME);
+
+        // Get all the arztList where nachname equals to UPDATED_NACHNAME
+        defaultArztShouldNotBeFound("nachname.in=" + UPDATED_NACHNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByNachnameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where nachname is not null
+        defaultArztShouldBeFound("nachname.specified=true");
+
+        // Get all the arztList where nachname is null
+        defaultArztShouldNotBeFound("nachname.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllArztsByNachnameContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where nachname contains DEFAULT_NACHNAME
+        defaultArztShouldBeFound("nachname.contains=" + DEFAULT_NACHNAME);
+
+        // Get all the arztList where nachname contains UPDATED_NACHNAME
+        defaultArztShouldNotBeFound("nachname.contains=" + UPDATED_NACHNAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByNachnameNotContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where nachname does not contain DEFAULT_NACHNAME
+        defaultArztShouldNotBeFound("nachname.doesNotContain=" + DEFAULT_NACHNAME);
+
+        // Get all the arztList where nachname does not contain UPDATED_NACHNAME
+        defaultArztShouldBeFound("nachname.doesNotContain=" + UPDATED_NACHNAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllArztsBySystemnutzungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+        Systemnutzung systemnutzung = SystemnutzungResourceIT.createEntity(em);
+        em.persist(systemnutzung);
+        em.flush();
+        arzt.addSystemnutzung(systemnutzung);
+        arztRepository.saveAndFlush(arzt);
+        Long systemnutzungId = systemnutzung.getId();
+
+        // Get all the arztList where systemnutzung equals to systemnutzungId
+        defaultArztShouldBeFound("systemnutzungId.equals=" + systemnutzungId);
+
+        // Get all the arztList where systemnutzung equals to systemnutzungId + 1
+        defaultArztShouldNotBeFound("systemnutzungId.equals=" + (systemnutzungId + 1));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is returned.
+     */
+    private void defaultArztShouldBeFound(String filter) throws Exception {
+        restArztMockMvc.perform(get("/api/arzts?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").value(hasItem(arzt.getId().intValue())))
+            .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
+            .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
+            .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+
+        // Check, that the count call also returns 1
+        restArztMockMvc.perform(get("/api/arzts/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("1"));
+    }
+
+    /**
+     * Executes the search, and checks that the default entity is not returned.
+     */
+    private void defaultArztShouldNotBeFound(String filter) throws Exception {
+        restArztMockMvc.perform(get("/api/arzts?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$").isArray())
+            .andExpect(jsonPath("$").isEmpty());
+
+        // Check, that the count call also returns 0
+        restArztMockMvc.perform(get("/api/arzts/count?sort=id,desc&" + filter))
+            .andExpect(status().isOk())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().string("0"));
+    }
+
 
     @Test
     @Transactional
