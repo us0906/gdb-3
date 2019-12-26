@@ -23,11 +23,17 @@ public class AudienceValidator implements OAuth2TokenValidator<Jwt> {
 
     public OAuth2TokenValidatorResult validate(Jwt jwt) {
         List<String> audience = jwt.getAudience();
-        if(audience.stream().anyMatch(aud -> allowedAudience.contains(aud))) {
-            return OAuth2TokenValidatorResult.success();
-        } else {
+
+        if (audience == null) {
             log.warn("Invalid audience: {}", audience);
             return OAuth2TokenValidatorResult.failure(error);
+        } else {
+            if(audience.stream().anyMatch(aud -> allowedAudience.contains(aud))) {
+                return OAuth2TokenValidatorResult.success();
+            } else {
+                log.warn("Invalid audience: {}", audience);
+                return OAuth2TokenValidatorResult.failure(error);
+            }
         }
     }
 }
