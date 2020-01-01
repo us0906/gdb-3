@@ -61,8 +61,6 @@ program
 
     var authorizationkey = await utils.getOAuthAuthorization('admin', 'admin');
 
-    console.log('Token is: ' + authorizationkey);
-
     for (var i = 0; i < anzahl; i++) {
       const jsonData = betriebsstaette.create(faker);
       utils.send('betriebsstaettes', jsonData, authorizationkey);
@@ -77,7 +75,7 @@ program
 
     var authorizationkey = await utils.getOAuthAuthorization('admin', 'admin');
 
-    console.log('Token is: ' + authorizationkey);
+    //  console.log('Token is: ' + authorizationkey);
 
     for (var i = 0; i < anzahl; i++) {
       const jsonData = hersteller.create(faker);
