@@ -106,7 +106,7 @@ export default class ZubehoerUpdate extends Vue {
     this.herstellerService()
       .retrieve()
       .then(res => {
-        this.herstellers = res.data;
+        this.herstellers = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
     this.zubehoerTypService()
       .retrieve()

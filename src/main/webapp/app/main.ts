@@ -18,6 +18,7 @@ import LoginService from './account/login.service';
 import AccountService from './account/account.service';
 
 import '../content/scss/vendor.scss';
+import 'vue-select/dist/vue-select.css';
 import AlertService from '@/shared/alert/alert.service';
 import TranslationService from '@/locale/translation.service';
 import ConfigurationService from '@/admin/configuration/configuration.service';
@@ -35,6 +36,8 @@ import BetriebsstaetteService from '@/entities/betriebsstaette/betriebsstaette.s
 import SystemnutzungService from '@/entities/systemnutzung/systemnutzung.service';
 // jhipster-needle-add-entity-service-to-main-import - JHipster will import entities services here
 
+import vSelect from 'vue-select';
+
 Vue.config.productionTip = false;
 config.initVueApp(Vue);
 config.initFortAwesome(Vue);
@@ -42,6 +45,7 @@ bootstrapVueConfig.initBootstrapVue(Vue);
 Vue.use(Vue2Filters);
 Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.component('jhi-item-count', JhiItemCountComponent);
+Vue.component('v-select', vSelect);
 
 const i18n = config.initI18N(Vue);
 const store = config.initVueXStore(Vue);

@@ -103,12 +103,16 @@ export default class SystemtypUpdate extends Vue {
     this.geraetService()
       .retrieve()
       .then(res => {
-        this.geraets = res.data;
+        this.geraets = res.data.sort(
+          (n1, n2) => n1.herstellerBezeichnung + ' - ' + n1.bezeichnung > n2.herstellerBezeichnung + ' - ' + n2.bezeichnung
+        );
       });
     this.zubehoerService()
       .retrieve()
       .then(res => {
-        this.zubehoers = res.data;
+        this.zubehoers = res.data.sort(
+          (n1, n2) => n1.herstellerBezeichnung + ' - ' + n1.bezeichnung > n2.herstellerBezeichnung + ' - ' + n2.bezeichnung
+        );
       });
   }
 }

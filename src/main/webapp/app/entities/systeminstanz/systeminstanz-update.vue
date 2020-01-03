@@ -109,7 +109,9 @@
                         <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.betreiber')" for="systeminstanz-betreiber">Betreiber</label>
                         <select class="form-control" id="systeminstanz-betreiber" name="betreiber" v-model="systeminstanz.betreiberId">
                             <option v-bind:value="null"></option>
-                            <option v-bind:value="betreiberOption.id" v-for="betreiberOption in betreibers" :key="betreiberOption.id">{{betreiberOption.id}}</option>
+                            <option v-bind:value="betreiberOption.id" v-for="betreiberOption in betreibers" :key="betreiberOption.id">
+                                {{betreiberOption.vorname}}, {{betreiberOption.nachname}} -  {{betreiberOption.strasse}} {{betreiberOption.hausnummer}} {{betreiberOption.plz}} {{betreiberOption.ort}}
+                            </option>
                         </select>
                     </div>
                 </div>

@@ -15,7 +15,7 @@ const systeminstanz = require('./domains/systeminstanz');
 const faker = require('faker/locale/de');
 
 faker.locale = 'de';
-faker.seed(100);
+//faker.seed(100);
 
 async function getAuthorization(user, pw) {
   return await utils.getOAuthAuthorization(user, pw);
