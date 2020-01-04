@@ -56,6 +56,9 @@ public class ArztResourceIT {
     private static final String DEFAULT_NACHNAME = "AAAAAAAAAA";
     private static final String UPDATED_NACHNAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
+    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
+
     @Autowired
     private ArztRepository arztRepository;
 
@@ -118,7 +121,8 @@ public class ArztResourceIT {
             .lanr(DEFAULT_LANR)
             .titel(DEFAULT_TITEL)
             .vorname(DEFAULT_VORNAME)
-            .nachname(DEFAULT_NACHNAME);
+            .nachname(DEFAULT_NACHNAME)
+            .bezeichnung(DEFAULT_BEZEICHNUNG);
         return arzt;
     }
     /**
@@ -132,7 +136,8 @@ public class ArztResourceIT {
             .lanr(UPDATED_LANR)
             .titel(UPDATED_TITEL)
             .vorname(UPDATED_VORNAME)
-            .nachname(UPDATED_NACHNAME);
+            .nachname(UPDATED_NACHNAME)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         return arzt;
     }
 
@@ -161,6 +166,7 @@ public class ArztResourceIT {
         assertThat(testArzt.getTitel()).isEqualTo(DEFAULT_TITEL);
         assertThat(testArzt.getVorname()).isEqualTo(DEFAULT_VORNAME);
         assertThat(testArzt.getNachname()).isEqualTo(DEFAULT_NACHNAME);
+        assertThat(testArzt.getBezeichnung()).isEqualTo(DEFAULT_BEZEICHNUNG);
 
         // Validate the Arzt in Elasticsearch
         verify(mockArztSearchRepository, times(1)).save(testArzt);
@@ -261,7 +267,8 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
-            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
     
     @Test
@@ -278,7 +285,8 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.lanr").value(DEFAULT_LANR))
             .andExpect(jsonPath("$.titel").value(DEFAULT_TITEL))
             .andExpect(jsonPath("$.vorname").value(DEFAULT_VORNAME))
-            .andExpect(jsonPath("$.nachname").value(DEFAULT_NACHNAME));
+            .andExpect(jsonPath("$.nachname").value(DEFAULT_NACHNAME))
+            .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG));
     }
 
 
@@ -615,6 +623,84 @@ public class ArztResourceIT {
 
     @Test
     @Transactional
+    public void getAllArztsByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung is not null
+        defaultArztShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the arztList where bezeichnung is null
+        defaultArztShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllArztsByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllArztsByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllArztsBySystemnutzungIsEqualToSomething() throws Exception {
         // Initialize the database
         arztRepository.saveAndFlush(arzt);
@@ -643,7 +729,8 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
-            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
 
         // Check, that the count call also returns 1
         restArztMockMvc.perform(get("/api/arzts/count?sort=id,desc&" + filter))
@@ -694,7 +781,8 @@ public class ArztResourceIT {
             .lanr(UPDATED_LANR)
             .titel(UPDATED_TITEL)
             .vorname(UPDATED_VORNAME)
-            .nachname(UPDATED_NACHNAME);
+            .nachname(UPDATED_NACHNAME)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         ArztDTO arztDTO = arztMapper.toDto(updatedArzt);
 
         restArztMockMvc.perform(put("/api/arzts")
@@ -710,6 +798,7 @@ public class ArztResourceIT {
         assertThat(testArzt.getTitel()).isEqualTo(UPDATED_TITEL);
         assertThat(testArzt.getVorname()).isEqualTo(UPDATED_VORNAME);
         assertThat(testArzt.getNachname()).isEqualTo(UPDATED_NACHNAME);
+        assertThat(testArzt.getBezeichnung()).isEqualTo(UPDATED_BEZEICHNUNG);
 
         // Validate the Arzt in Elasticsearch
         verify(mockArztSearchRepository, times(1)).save(testArzt);
@@ -773,6 +862,7 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
-            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
 }

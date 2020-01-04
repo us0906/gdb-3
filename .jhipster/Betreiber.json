@@ -30,6 +30,10 @@
         {
             "fieldName": "ort",
             "fieldType": "String"
+        },
+        {
+            "fieldName": "bezeichnung",
+            "fieldType": "String"
         }
     ],
     "relationships": [

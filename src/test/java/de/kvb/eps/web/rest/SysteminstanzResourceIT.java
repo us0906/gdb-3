@@ -147,6 +147,26 @@ public class SysteminstanzResourceIT {
             systemtyp = TestUtil.findAll(em, Systemtyp.class).get(0);
         }
         systeminstanz.setSystemtyp(systemtyp);
+        // Add required entity
+        Betriebsstaette betriebsstaette;
+        if (TestUtil.findAll(em, Betriebsstaette.class).isEmpty()) {
+            betriebsstaette = BetriebsstaetteResourceIT.createEntity(em);
+            em.persist(betriebsstaette);
+            em.flush();
+        } else {
+            betriebsstaette = TestUtil.findAll(em, Betriebsstaette.class).get(0);
+        }
+        systeminstanz.setBetriebsstaette(betriebsstaette);
+        // Add required entity
+        Betreiber betreiber;
+        if (TestUtil.findAll(em, Betreiber.class).isEmpty()) {
+            betreiber = BetreiberResourceIT.createEntity(em);
+            em.persist(betreiber);
+            em.flush();
+        } else {
+            betreiber = TestUtil.findAll(em, Betreiber.class).get(0);
+        }
+        systeminstanz.setBetreiber(betreiber);
         return systeminstanz;
     }
     /**
@@ -174,6 +194,26 @@ public class SysteminstanzResourceIT {
             systemtyp = TestUtil.findAll(em, Systemtyp.class).get(0);
         }
         systeminstanz.setSystemtyp(systemtyp);
+        // Add required entity
+        Betriebsstaette betriebsstaette;
+        if (TestUtil.findAll(em, Betriebsstaette.class).isEmpty()) {
+            betriebsstaette = BetriebsstaetteResourceIT.createUpdatedEntity(em);
+            em.persist(betriebsstaette);
+            em.flush();
+        } else {
+            betriebsstaette = TestUtil.findAll(em, Betriebsstaette.class).get(0);
+        }
+        systeminstanz.setBetriebsstaette(betriebsstaette);
+        // Add required entity
+        Betreiber betreiber;
+        if (TestUtil.findAll(em, Betreiber.class).isEmpty()) {
+            betreiber = BetreiberResourceIT.createUpdatedEntity(em);
+            em.persist(betreiber);
+            em.flush();
+        } else {
+            betreiber = TestUtil.findAll(em, Betreiber.class).get(0);
+        }
+        systeminstanz.setBetreiber(betreiber);
         return systeminstanz;
     }
 
@@ -729,12 +769,8 @@ public class SysteminstanzResourceIT {
     @Test
     @Transactional
     public void getAllSysteminstanzsByBetriebsstaetteIsEqualToSomething() throws Exception {
-        // Initialize the database
-        systeminstanzRepository.saveAndFlush(systeminstanz);
-        Betriebsstaette betriebsstaette = BetriebsstaetteResourceIT.createEntity(em);
-        em.persist(betriebsstaette);
-        em.flush();
-        systeminstanz.setBetriebsstaette(betriebsstaette);
+        // Get already existing entity
+        Betriebsstaette betriebsstaette = systeminstanz.getBetriebsstaette();
         systeminstanzRepository.saveAndFlush(systeminstanz);
         Long betriebsstaetteId = betriebsstaette.getId();
 
@@ -749,12 +785,8 @@ public class SysteminstanzResourceIT {
     @Test
     @Transactional
     public void getAllSysteminstanzsByBetreiberIsEqualToSomething() throws Exception {
-        // Initialize the database
-        systeminstanzRepository.saveAndFlush(systeminstanz);
-        Betreiber betreiber = BetreiberResourceIT.createEntity(em);
-        em.persist(betreiber);
-        em.flush();
-        systeminstanz.setBetreiber(betreiber);
+        // Get already existing entity
+        Betreiber betreiber = systeminstanz.getBetreiber();
         systeminstanzRepository.saveAndFlush(systeminstanz);
         Long betreiberId = betreiber.getId();
 

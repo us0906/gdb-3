@@ -16,12 +16,22 @@
                             <option v-bind:value="systeminstanzOption.id" v-for="systeminstanzOption in systeminstanzs" :key="systeminstanzOption.id">{{systeminstanzOption.id}}</option>
                         </select>
                     </div>
+                    <div v-if="$v.systemnutzung.systeminstanzId.$anyDirty && $v.systemnutzung.systeminstanzId.$invalid">
+                        <small class="form-text text-danger" v-if="!$v.systemnutzung.systeminstanzId.required" v-text="$t('entity.validation.required')">
+                            This field is required.
+                        </small>
+                    </div>
                     <div class="form-group">
                         <label class="form-control-label" v-text="$t('gdb3App.systemnutzung.arzt')" for="systemnutzung-arzt">Arzt</label>
                         <select class="form-control" id="systemnutzung-arzt" name="arzt" v-model="systemnutzung.arztId">
                             <option v-bind:value="null"></option>
                             <option v-bind:value="arztOption.id" v-for="arztOption in arzts" :key="arztOption.id">{{arztOption.id}}</option>
                         </select>
+                    </div>
+                    <div v-if="$v.systemnutzung.arztId.$anyDirty && $v.systemnutzung.arztId.$invalid">
+                        <small class="form-text text-danger" v-if="!$v.systemnutzung.arztId.required" v-text="$t('entity.validation.required')">
+                            This field is required.
+                        </small>
                     </div>
                 </div>
                 <div>

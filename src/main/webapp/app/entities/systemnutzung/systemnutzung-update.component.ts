@@ -13,7 +13,14 @@ import { ISystemnutzung, Systemnutzung } from '@/shared/model/systemnutzung.mode
 import SystemnutzungService from './systemnutzung.service';
 
 const validations: any = {
-  systemnutzung: {}
+  systemnutzung: {
+    systeminstanzId: {
+      required
+    },
+    arztId: {
+      required
+    }
+  }
 };
 
 @Component({

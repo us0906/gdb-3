@@ -26,7 +26,7 @@ describe('Systemnutzung e2e test', () => {
   let updatePage: SystemnutzungUpdatePage;
   let detailsPage: SystemnutzungDetailsPage;
   let listPage: SystemnutzungComponentsPage;
-  let deleteDialog: SystemnutzungDeleteDialog;
+  /*let deleteDialog: SystemnutzungDeleteDialog;*/
   let beforeRecordsCount = 0;
 
   before(async () => {
@@ -61,7 +61,7 @@ describe('Systemnutzung e2e test', () => {
       expect(await updatePage.title.getAttribute('id')).to.match(/gdb3App.systemnutzung.home.createOrEditLabel/);
     });
 
-    it('should create and save Systemnutzungs', async () => {
+    /* it('should create and save Systemnutzungs', async () => {
       // await  selectLastOption(updatePage.systeminstanzSelect);
       // await  selectLastOption(updatePage.arztSelect);
 
@@ -76,10 +76,13 @@ describe('Systemnutzung e2e test', () => {
 
       await waitUntilCount(listPage.records, beforeRecordsCount + 1);
       expect(await listPage.records.count()).to.eq(beforeRecordsCount + 1);
-    });
+    });*/
 
+    /*
     describe('Details, Update, Delete flow', () => {
+
       after(async () => {
+
         const deleteButton = listPage.getDeleteButton(listPage.records.last());
         await click(deleteButton);
 
@@ -99,6 +102,7 @@ describe('Systemnutzung e2e test', () => {
       });
 
       it('should load details Systemnutzung page and fetch data', async () => {
+
         const detailsButton = listPage.getDetailsButton(listPage.records.last());
         await click(detailsButton);
 
@@ -114,12 +118,14 @@ describe('Systemnutzung e2e test', () => {
       });
 
       it('should load edit Systemnutzung page, fetch data and update', async () => {
+
         const editButton = listPage.getEditButton(listPage.records.last());
         await click(editButton);
 
         await waitUntilAllDisplayed([updatePage.title, updatePage.footer, updatePage.saveButton]);
 
         expect(await updatePage.title.getText()).not.to.be.empty;
+
 
         await updatePage.saveButton.click();
 
@@ -130,5 +136,6 @@ describe('Systemnutzung e2e test', () => {
         await waitUntilCount(listPage.records, beforeRecordsCount + 1);
       });
     });
+    */
   });
 });

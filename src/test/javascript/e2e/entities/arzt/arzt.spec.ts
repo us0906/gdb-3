@@ -74,6 +74,9 @@ describe('Arzt e2e test', () => {
       await updatePage.nachnameInput.sendKeys('nachname');
       expect(await updatePage.nachnameInput.getAttribute('value')).to.match(/nachname/);
 
+      await updatePage.bezeichnungInput.sendKeys('bezeichnung');
+      expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
+
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
 
@@ -145,6 +148,10 @@ describe('Arzt e2e test', () => {
         await updatePage.nachnameInput.clear();
         await updatePage.nachnameInput.sendKeys('modified');
         expect(await updatePage.nachnameInput.getAttribute('value')).to.match(/modified/);
+
+        await updatePage.bezeichnungInput.clear();
+        await updatePage.bezeichnungInput.sendKeys('modified');
+        expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
 
         await updatePage.saveButton.click();
 

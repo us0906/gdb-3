@@ -99,22 +99,28 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-text="$t('gdb3App.systeminstanz.betriebsstaette')" for="systeminstanz-betriebsstaette">Betriebsstaette</label>
-                        <select class="form-control" id="systeminstanz-betriebsstaette" name="betriebsstaette" v-model="systeminstanz.betriebsstaetteId">
-                            <option v-bind:value="null"></option>
-                            <option v-bind:value="betriebsstaetteOption.id" v-for="betriebsstaetteOption in betriebsstaettes" :key="betriebsstaetteOption.id">
-                                [{{betriebsstaetteOption.bsnr}}] {{betriebsstaetteOption.strasse}} {{betriebsstaetteOption.hausnummer}}; {{betriebsstaetteOption.plz}} {{betriebsstaetteOption.ort}}
-                            </option>
+                        <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.betriebsstaette')" for="systeminstanz-betriebsstaette">Betriebsstaette</label>
+                        <select class="form-control" id="systeminstanz-betriebsstaette" name="betriebsstaette" v-model="$v.systeminstanz.betriebsstaetteId.$model" required>
+                            <option v-if="!systeminstanz.betriebsstaetteId" v-bind:value="null" selected></option>
+                            <option v-bind:value="betriebsstaetteOption.id" v-for="betriebsstaetteOption in betriebsstaettes" :key="betriebsstaetteOption.id">{{betriebsstaetteOption.bezeichnung}}</option>
                         </select>
                     </div>
+                    <div v-if="$v.systeminstanz.betriebsstaetteId.$anyDirty && $v.systeminstanz.betriebsstaetteId.$invalid">
+                        <small class="form-text text-danger" v-if="!$v.systeminstanz.betriebsstaetteId.required" v-text="$t('entity.validation.required')">
+                            This field is required.
+                        </small>
+                    </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-text="$t('gdb3App.systeminstanz.betreiber')" for="systeminstanz-betreiber">Betreiber</label>
-                        <select class="form-control" id="systeminstanz-betreiber" name="betreiber" v-model="systeminstanz.betreiberId">
-                            <option v-bind:value="null"></option>
-                            <option v-bind:value="betreiberOption.id" v-for="betreiberOption in betreibers" :key="betreiberOption.id">
-                                {{betreiberOption.vorname}}, {{betreiberOption.nachname}} -  {{betreiberOption.strasse}} {{betreiberOption.hausnummer}} {{betreiberOption.plz}} {{betreiberOption.ort}}
-                            </option>
+                        <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.betreiber')" for="systeminstanz-betreiber">Betreiber</label>
+                        <select class="form-control" id="systeminstanz-betreiber" name="betreiber" v-model="$v.systeminstanz.betreiberId.$model" required>
+                            <option v-if="!systeminstanz.betreiberId" v-bind:value="null" selected></option>
+                            <option v-bind:value="betreiberOption.id" v-for="betreiberOption in betreibers" :key="betreiberOption.id">{{betreiberOption.bezeichnung}}</option>
                         </select>
+                    </div>
+                    <div v-if="$v.systeminstanz.betreiberId.$anyDirty && $v.systeminstanz.betreiberId.$invalid">
+                        <small class="form-text text-danger" v-if="!$v.systeminstanz.betreiberId.required" v-text="$t('entity.validation.required')">
+                            This field is required.
+                        </small>
                     </div>
                 </div>
                 <div>

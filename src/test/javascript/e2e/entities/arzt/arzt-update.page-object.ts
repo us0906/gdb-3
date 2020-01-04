@@ -15,4 +15,6 @@ export default class ArztUpdatePage extends AlertPage {
   vornameInput: ElementFinder = element(by.css('input#arzt-vorname'));
 
   nachnameInput: ElementFinder = element(by.css('input#arzt-nachname'));
+
+  bezeichnungInput: ElementFinder = element(by.css('input#arzt-bezeichnung'));
 }

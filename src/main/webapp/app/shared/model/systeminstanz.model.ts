@@ -12,7 +12,9 @@ export interface ISysteminstanz {
   systemnutzungs?: ISystemnutzung[];
   systemtypBezeichnung?: string;
   systemtypId?: number;
+  betriebsstaetteBezeichnung?: string;
   betriebsstaetteId?: number;
+  betreiberBezeichnung?: string;
   betreiberId?: number;
 }
 
@@ -29,7 +31,9 @@ export class Systeminstanz implements ISysteminstanz {
     public systemnutzungs?: ISystemnutzung[],
     public systemtypBezeichnung?: string,
     public systemtypId?: number,
+    public betriebsstaetteBezeichnung?: string,
     public betriebsstaetteId?: number,
+    public betreiberBezeichnung?: string,
     public betreiberId?: number
   ) {}
 }

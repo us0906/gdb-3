@@ -1,4 +1,5 @@
 package de.kvb.eps.service.dto;
+import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -12,7 +13,11 @@ public class SystemnutzungDTO implements Serializable {
 
     private Long systeminstanzId;
 
+    private String systeminstanzBezeichnung;
+
     private Long arztId;
+
+    private String arztBezeichnung;
 
     public Long getId() {
         return id;
@@ -30,12 +35,28 @@ public class SystemnutzungDTO implements Serializable {
         this.systeminstanzId = systeminstanzId;
     }
 
+    public String getSysteminstanzBezeichnung() {
+        return systeminstanzBezeichnung;
+    }
+
+    public void setSysteminstanzBezeichnung(String systeminstanzBezeichnung) {
+        this.systeminstanzBezeichnung = systeminstanzBezeichnung;
+    }
+
     public Long getArztId() {
         return arztId;
     }
 
     public void setArztId(Long arztId) {
         this.arztId = arztId;
+    }
+
+    public String getArztBezeichnung() {
+        return arztBezeichnung;
+    }
+
+    public void setArztBezeichnung(String arztBezeichnung) {
+        this.arztBezeichnung = arztBezeichnung;
     }
 
     @Override
@@ -64,7 +85,9 @@ public class SystemnutzungDTO implements Serializable {
         return "SystemnutzungDTO{" +
             "id=" + getId() +
             ", systeminstanz=" + getSysteminstanzId() +
+            ", systeminstanz='" + getSysteminstanzBezeichnung() + "'" +
             ", arzt=" + getArztId() +
+            ", arzt='" + getArztBezeichnung() + "'" +
             "}";
     }
 }

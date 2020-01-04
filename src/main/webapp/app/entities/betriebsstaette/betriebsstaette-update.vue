@@ -34,6 +34,7 @@
                         <input type="text" class="form-control" name="ort" id="betriebsstaette-ort"
                             :class="{'valid': !$v.betriebsstaette.ort.$invalid, 'invalid': $v.betriebsstaette.ort.$invalid }" v-model="$v.betriebsstaette.ort.$model" />
                     </div>
+
                 </div>
                 <div>
                     <button type="button" id="cancel-save" class="btn btn-secondary" v-on:click="previousState()">

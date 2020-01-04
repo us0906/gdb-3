@@ -40,6 +40,9 @@ public class Betriebsstaette implements Serializable {
     @Column(name = "ort")
     private String ort;
 
+    @Column(name = "bezeichnung")
+    private String bezeichnung;
+
     @OneToMany(mappedBy = "betriebsstaette")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Systeminstanz> systeminstanzs = new HashSet<>();
@@ -118,6 +121,20 @@ public class Betriebsstaette implements Serializable {
         this.ort = ort;
     }
 
+    public String getBezeichnung() {
+
+        return bsnr + " " + plz + " " + ort + " " + strasse + " " + hausnummer;
+    }
+
+    public Betriebsstaette bezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+        return this;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     public Set<Systeminstanz> getSysteminstanzs() {
         return systeminstanzs;
     }
@@ -169,6 +186,7 @@ public class Betriebsstaette implements Serializable {
             ", hausnummer='" + getHausnummer() + "'" +
             ", plz='" + getPlz() + "'" +
             ", ort='" + getOrt() + "'" +
+            ", bezeichnung='" + getBezeichnung() + "'" +
             "}";
     }
 }

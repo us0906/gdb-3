@@ -49,6 +49,7 @@
                         <input type="text" class="form-control" name="ort" id="betreiber-ort"
                             :class="{'valid': !$v.betreiber.ort.$invalid, 'invalid': $v.betreiber.ort.$invalid }" v-model="$v.betreiber.ort.$model" />
                     </div>
+
                 </div>
                 <div>
                     <button type="button" id="cancel-save" class="btn btn-secondary" v-on:click="previousState()">

@@ -56,12 +56,12 @@
                     </td>
                     <td>
                         <div v-if="systemnutzung.systeminstanzId">
-                            <router-link :to="{name: 'SysteminstanzView', params: {systeminstanzId: systemnutzung.systeminstanzId}}">{{systemnutzung.systeminstanzId}}</router-link>
+                            <router-link :to="{name: 'SysteminstanzView', params: {systeminstanzId: systemnutzung.systeminstanzId}}">{{systemnutzung.systeminstanzBezeichnung}}</router-link>
                         </div>
                     </td>
                     <td>
                         <div v-if="systemnutzung.arztId">
-                            <router-link :to="{name: 'ArztView', params: {arztId: systemnutzung.arztId}}">{{systemnutzung.arztId}}</router-link>
+                            <router-link :to="{name: 'ArztView', params: {arztId: systemnutzung.arztId}}">{{systemnutzung.arztBezeichnung}}</router-link>
                         </div>
                     </td>
                     <td class="text-right">

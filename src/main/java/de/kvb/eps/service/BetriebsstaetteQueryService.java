@@ -110,6 +110,9 @@ public class BetriebsstaetteQueryService extends QueryService<Betriebsstaette> {
             if (criteria.getOrt() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOrt(), Betriebsstaette_.ort));
             }
+            if (criteria.getBezeichnung() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBezeichnung(), Betriebsstaette_.bezeichnung));
+            }
             if (criteria.getSysteminstanzId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSysteminstanzId(),
                     root -> root.join(Betriebsstaette_.systeminstanzs, JoinType.LEFT).get(Systeminstanz_.id)));

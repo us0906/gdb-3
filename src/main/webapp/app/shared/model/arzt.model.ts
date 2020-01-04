@@ -6,6 +6,7 @@ export interface IArzt {
   titel?: string;
   vorname?: string;
   nachname?: string;
+  bezeichnung?: string;
   systemnutzungs?: ISystemnutzung[];
 }
 
@@ -16,6 +17,7 @@ export class Arzt implements IArzt {
     public titel?: string,
     public vorname?: string,
     public nachname?: string,
+    public bezeichnung?: string,
     public systemnutzungs?: ISystemnutzung[]
   ) {}
 }

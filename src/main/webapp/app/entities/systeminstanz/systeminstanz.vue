@@ -47,8 +47,6 @@
                     <th><span v-text="$t('gdb3App.systeminstanz.geraetNummer')">Geraet Nummer</span></th>
                     <th><span v-text="$t('gdb3App.systeminstanz.geraetBaujahr')">Geraet Baujahr</span></th>
                     <th><span v-text="$t('gdb3App.systeminstanz.gueltigBis')">Gueltig Bis</span></th>
-                    <th><span v-text="$t('gdb3App.systeminstanz.gwe')">Gwe</span></th>
-                    <th><span v-text="$t('gdb3App.systeminstanz.bemerkung')">Bemerkung</span></th>
                     <th><span v-text="$t('gdb3App.systeminstanz.systemtyp')">Systemtyp</span></th>
                     <th><span v-text="$t('gdb3App.systeminstanz.betriebsstaette')">Betriebsstaette</span></th>
                     <th><span v-text="$t('gdb3App.systeminstanz.betreiber')">Betreiber</span></th>
@@ -65,13 +63,7 @@
                     <td>{{systeminstanz.geraetNummer}}</td>
                     <td>{{systeminstanz.geraetBaujahr}}</td>
                     <td>{{systeminstanz.gueltigBis}}</td>
-                    <td>
-                        <a v-if="systeminstanz.gwe" v-on:click="openFile(systeminstanz.gweContentType, systeminstanz.gwe)">
-                            <img v-bind:src="'data:' + systeminstanz.gweContentType + ';base64,' + systeminstanz.gwe" style="max-height: 30px;" alt="systeminstanz image"/>
-                        </a>
-                        <span v-if="systeminstanz.gwe">{{systeminstanz.gweContentType}}, {{byteSize(systeminstanz.gwe)}}</span>
-                    </td>
-                    <td>{{systeminstanz.bemerkung}}</td>
+
                     <td>
                         <div v-if="systeminstanz.systemtypId">
                             <router-link :to="{name: 'SystemtypView', params: {systemtypId: systeminstanz.systemtypId}}">{{systeminstanz.systemtypBezeichnung}}</router-link>
@@ -79,12 +71,12 @@
                     </td>
                     <td>
                         <div v-if="systeminstanz.betriebsstaetteId">
-                            <router-link :to="{name: 'BetriebsstaetteView', params: {betriebsstaetteId: systeminstanz.betriebsstaetteId}}">{{systeminstanz.betriebsstaetteId}}</router-link>
+                            <router-link :to="{name: 'BetriebsstaetteView', params: {betriebsstaetteId: systeminstanz.betriebsstaetteId}}">{{systeminstanz.betriebsstaetteBezeichnung}}</router-link>
                         </div>
                     </td>
                     <td>
                         <div v-if="systeminstanz.betreiberId">
-                            <router-link :to="{name: 'BetreiberView', params: {betreiberId: systeminstanz.betreiberId}}">{{systeminstanz.betreiberId}}</router-link>
+                            <router-link :to="{name: 'BetreiberView', params: {betreiberId: systeminstanz.betreiberId}}">{{systeminstanz.betreiberBezeichnung}}</router-link>
                         </div>
                     </td>
                     <td class="text-right">

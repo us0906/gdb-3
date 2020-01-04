@@ -62,6 +62,9 @@ public class BetreiberResourceIT {
     private static final String DEFAULT_ORT = "AAAAAAAAAA";
     private static final String UPDATED_ORT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
+    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
+
     @Autowired
     private BetreiberRepository betreiberRepository;
 
@@ -126,7 +129,8 @@ public class BetreiberResourceIT {
             .strasse(DEFAULT_STRASSE)
             .hausnummer(DEFAULT_HAUSNUMMER)
             .plz(DEFAULT_PLZ)
-            .ort(DEFAULT_ORT);
+            .ort(DEFAULT_ORT)
+            .bezeichnung(DEFAULT_BEZEICHNUNG);
         return betreiber;
     }
     /**
@@ -142,7 +146,8 @@ public class BetreiberResourceIT {
             .strasse(UPDATED_STRASSE)
             .hausnummer(UPDATED_HAUSNUMMER)
             .plz(UPDATED_PLZ)
-            .ort(UPDATED_ORT);
+            .ort(UPDATED_ORT)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         return betreiber;
     }
 
@@ -173,6 +178,7 @@ public class BetreiberResourceIT {
         assertThat(testBetreiber.getHausnummer()).isEqualTo(DEFAULT_HAUSNUMMER);
         assertThat(testBetreiber.getPlz()).isEqualTo(DEFAULT_PLZ);
         assertThat(testBetreiber.getOrt()).isEqualTo(DEFAULT_ORT);
+        assertThat(testBetreiber.getBezeichnung()).isEqualTo(DEFAULT_BEZEICHNUNG);
 
         // Validate the Betreiber in Elasticsearch
         verify(mockBetreiberSearchRepository, times(1)).save(testBetreiber);
@@ -256,7 +262,8 @@ public class BetreiberResourceIT {
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
             .andExpect(jsonPath("$.[*].hausnummer").value(hasItem(DEFAULT_HAUSNUMMER)))
             .andExpect(jsonPath("$.[*].plz").value(hasItem(DEFAULT_PLZ)))
-            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)));
+            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
     
     @Test
@@ -275,7 +282,8 @@ public class BetreiberResourceIT {
             .andExpect(jsonPath("$.strasse").value(DEFAULT_STRASSE))
             .andExpect(jsonPath("$.hausnummer").value(DEFAULT_HAUSNUMMER))
             .andExpect(jsonPath("$.plz").value(DEFAULT_PLZ))
-            .andExpect(jsonPath("$.ort").value(DEFAULT_ORT));
+            .andExpect(jsonPath("$.ort").value(DEFAULT_ORT))
+            .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG));
     }
 
 
@@ -768,6 +776,84 @@ public class BetreiberResourceIT {
 
     @Test
     @Transactional
+    public void getAllBetreibersByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        betreiberRepository.saveAndFlush(betreiber);
+
+        // Get all the betreiberList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultBetreiberShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betreiberList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultBetreiberShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetreibersByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        betreiberRepository.saveAndFlush(betreiber);
+
+        // Get all the betreiberList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultBetreiberShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betreiberList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultBetreiberShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetreibersByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        betreiberRepository.saveAndFlush(betreiber);
+
+        // Get all the betreiberList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultBetreiberShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the betreiberList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultBetreiberShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetreibersByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        betreiberRepository.saveAndFlush(betreiber);
+
+        // Get all the betreiberList where bezeichnung is not null
+        defaultBetreiberShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the betreiberList where bezeichnung is null
+        defaultBetreiberShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllBetreibersByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        betreiberRepository.saveAndFlush(betreiber);
+
+        // Get all the betreiberList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultBetreiberShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betreiberList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultBetreiberShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetreibersByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        betreiberRepository.saveAndFlush(betreiber);
+
+        // Get all the betreiberList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultBetreiberShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betreiberList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultBetreiberShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllBetreibersBySysteminstanzIsEqualToSomething() throws Exception {
         // Initialize the database
         betreiberRepository.saveAndFlush(betreiber);
@@ -798,7 +884,8 @@ public class BetreiberResourceIT {
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
             .andExpect(jsonPath("$.[*].hausnummer").value(hasItem(DEFAULT_HAUSNUMMER)))
             .andExpect(jsonPath("$.[*].plz").value(hasItem(DEFAULT_PLZ)))
-            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)));
+            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
 
         // Check, that the count call also returns 1
         restBetreiberMockMvc.perform(get("/api/betreibers/count?sort=id,desc&" + filter))
@@ -851,7 +938,8 @@ public class BetreiberResourceIT {
             .strasse(UPDATED_STRASSE)
             .hausnummer(UPDATED_HAUSNUMMER)
             .plz(UPDATED_PLZ)
-            .ort(UPDATED_ORT);
+            .ort(UPDATED_ORT)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         BetreiberDTO betreiberDTO = betreiberMapper.toDto(updatedBetreiber);
 
         restBetreiberMockMvc.perform(put("/api/betreibers")
@@ -869,6 +957,7 @@ public class BetreiberResourceIT {
         assertThat(testBetreiber.getHausnummer()).isEqualTo(UPDATED_HAUSNUMMER);
         assertThat(testBetreiber.getPlz()).isEqualTo(UPDATED_PLZ);
         assertThat(testBetreiber.getOrt()).isEqualTo(UPDATED_ORT);
+        assertThat(testBetreiber.getBezeichnung()).isEqualTo(UPDATED_BEZEICHNUNG);
 
         // Validate the Betreiber in Elasticsearch
         verify(mockBetreiberSearchRepository, times(1)).save(testBetreiber);
@@ -934,6 +1023,7 @@ public class BetreiberResourceIT {
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
             .andExpect(jsonPath("$.[*].hausnummer").value(hasItem(DEFAULT_HAUSNUMMER)))
             .andExpect(jsonPath("$.[*].plz").value(hasItem(DEFAULT_PLZ)))
-            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)));
+            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
 }

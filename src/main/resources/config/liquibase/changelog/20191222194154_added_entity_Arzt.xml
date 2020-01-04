@@ -28,6 +28,9 @@
             <column name="nachname" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="bezeichnung" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here, do not remove-->
         </createTable>
     </changeSet>
@@ -55,6 +58,7 @@
             <column name="titel" type="string"/>
             <column name="vorname" type="string"/>
             <column name="nachname" type="string"/>
+            <column name="bezeichnung" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here, do not remove-->
         </loadData>
     </changeSet>

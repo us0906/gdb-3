@@ -66,11 +66,13 @@ public class Systeminstanz implements Serializable {
     @JsonIgnoreProperties("systeminstanzs")
     private Systemtyp systemtyp;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("systeminstanzs")
     private Betriebsstaette betriebsstaette;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties("systeminstanzs")
     private Betreiber betreiber;
 

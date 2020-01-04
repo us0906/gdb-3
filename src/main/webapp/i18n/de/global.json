@@ -18,6 +18,10 @@
         "betreiber": "Betreiber",
         "betriebsstaette": "Betriebsstätten",
         "systemnutzung": "Systemnutzungen",
+        "systeminstanz": "Systeminstanz",
+        "arzt": "Arzt",
+        "betriebsstaette": "Betriebsstätte",
+        "systemnutzung": "Systemnutzung",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
