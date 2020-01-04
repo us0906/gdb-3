@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.zubehoer.hersteller')" for="zubehoer-hersteller">Hersteller</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.zubehoer.hersteller')" for="zubehoer-hersteller">Hersteller</label>
                         <select class="form-control" id="zubehoer-hersteller" name="hersteller" v-model="$v.zubehoer.herstellerId.$model" required>
                             <option v-if="!zubehoer.herstellerId" v-bind:value="null" selected></option>
                             <option v-bind:value="herstellerOption.id" v-for="herstellerOption in herstellers" :key="herstellerOption.id">{{herstellerOption.bezeichnung}}</option>
@@ -45,7 +45,7 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.zubehoer.zubehoerTyp')" for="zubehoer-zubehoerTyp">Zubehoer Typ</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.zubehoer.zubehoerTyp')" for="zubehoer-zubehoerTyp">Zubehoer Typ</label>
                         <select class="form-control" id="zubehoer-zubehoerTyp" name="zubehoerTyp" v-model="$v.zubehoer.zubehoerTypId.$model" required>
                             <option v-if="!zubehoer.zubehoerTypId" v-bind:value="null" selected></option>
                             <option v-bind:value="zubehoerTypOption.id" v-for="zubehoerTypOption in zubehoerTyps" :key="zubehoerTypOption.id">{{zubehoerTypOption.bezeichnung}}</option>

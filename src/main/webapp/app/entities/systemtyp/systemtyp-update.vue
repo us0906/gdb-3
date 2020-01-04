@@ -35,7 +35,7 @@
 
                     <div class="form-group">
 
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systemtyp.geraet')" for="systemtyp-geraet">Geraet</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systemtyp.geraet')" for="systemtyp-geraet">Geraet</label>
                         <select class="form-control" id="systemtyp-geraet" name="geraet" v-model="$v.systemtyp.geraetId.$model" required>
                             <option v-if="!systemtyp.geraetId" v-bind:value="null" selected></option>
                             <option v-bind:value="geraetOption.id" v-for="geraetOption in geraets" :key="geraetOption.id">{{geraetOption.herstellerBezeichnung}} - {{geraetOption.bezeichnung}}</option>
@@ -49,7 +49,7 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systemtyp.zubehoer')" for="systemtyp-zubehoer">Zubehoer</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systemtyp.zubehoer')" for="systemtyp-zubehoer">Zubehoer</label>
                         <select class="form-control" id="systemtyp-zubehoer" name="zubehoer" v-model="systemtyp.zubehoerId">
                             <option v-bind:value="null"></option>
                             <option v-bind:value="zubehoerOption.id" v-for="zubehoerOption in zubehoers" :key="zubehoerOption.id">{{zubehoerOption.herstellerBezeichnung}} - {{zubehoerOption.bezeichnung}}</option>

@@ -33,7 +33,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.geraet.geraetTyp')" for="geraet-geraetTyp">Geraet Typ</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.geraet.geraetTyp')" for="geraet-geraetTyp">Geraet Typ</label>
                         <select class="form-control" id="geraet-geraetTyp" name="geraetTyp" v-model="$v.geraet.geraetTypId.$model" required>
                             <option v-if="!geraet.geraetTypId" v-bind:value="null" selected></option>
                             <option v-bind:value="geraetTypOption.id" v-for="geraetTypOption in geraetTyps" :key="geraetTypOption.id">{{geraetTypOption.bezeichnung}}</option>
@@ -45,7 +45,7 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.geraet.hersteller')" for="geraet-hersteller">Hersteller</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.geraet.hersteller')" for="geraet-hersteller">Hersteller</label>
                         <select class="form-control" id="geraet-hersteller" name="hersteller" v-model="$v.geraet.herstellerId.$model" required>
                             <option v-if="!geraet.herstellerId" v-bind:value="null" selected></option>
                             <option v-bind:value="herstellerOption.id" v-for="herstellerOption in herstellers" :key="herstellerOption.id">{{herstellerOption.bezeichnung}}</option>

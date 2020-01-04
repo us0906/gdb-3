@@ -87,7 +87,7 @@
                             :class="{'valid': !$v.systeminstanz.bemerkung.$invalid, 'invalid': $v.systeminstanz.bemerkung.$invalid }" v-model="$v.systeminstanz.bemerkung.$model" ></textarea>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.systemtyp')" for="systeminstanz-systemtyp">Systemtyp</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systeminstanz.systemtyp')" for="systeminstanz-systemtyp">Systemtyp</label>
                         <select class="form-control" id="systeminstanz-systemtyp" name="systemtyp" v-model="$v.systeminstanz.systemtypId.$model" required>
                             <option v-if="!systeminstanz.systemtypId" v-bind:value="null" selected></option>
                             <option v-bind:value="systemtypOption.id" v-for="systemtypOption in systemtyps" :key="systemtypOption.id">{{systemtypOption.bezeichnung}}</option>
@@ -99,7 +99,7 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.betriebsstaette')" for="systeminstanz-betriebsstaette">Betriebsstaette</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systeminstanz.betriebsstaette')" for="systeminstanz-betriebsstaette">Betriebsstaette</label>
                         <select class="form-control" id="systeminstanz-betriebsstaette" name="betriebsstaette" v-model="systeminstanz.betriebsstaetteId">
                             <option v-bind:value="null"></option>
                             <option v-bind:value="betriebsstaetteOption.id" v-for="betriebsstaetteOption in betriebsstaettes" :key="betriebsstaetteOption.id">
@@ -108,7 +108,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.betreiber')" for="systeminstanz-betreiber">Betreiber</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systeminstanz.betreiber')" for="systeminstanz-betreiber">Betreiber</label>
                         <select class="form-control" id="systeminstanz-betreiber" name="betreiber" v-model="systeminstanz.betreiberId">
                             <option v-bind:value="null"></option>
                             <option v-bind:value="betreiberOption.id" v-for="betreiberOption in betreibers" :key="betreiberOption.id">

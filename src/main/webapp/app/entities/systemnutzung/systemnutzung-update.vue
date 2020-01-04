@@ -10,14 +10,14 @@
                                v-model="systemnutzung.id" readonly />
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systemnutzung.systeminstanz')" for="systemnutzung-systeminstanz">Systeminstanz</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systemnutzung.systeminstanz')" for="systemnutzung-systeminstanz">Systeminstanz</label>
                         <select class="form-control" id="systemnutzung-systeminstanz" name="systeminstanz" v-model="systemnutzung.systeminstanzId">
                             <option v-bind:value="null"></option>
                             <option v-bind:value="systeminstanzOption.id" v-for="systeminstanzOption in systeminstanzs" :key="systeminstanzOption.id">{{systeminstanzOption.id}}</option>
                         </select>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systemnutzung.arzt')" for="systemnutzung-arzt">Arzt</label>
+                        <label class="form-control-label" v-text="$t('gdb3App.systemnutzung.arzt')" for="systemnutzung-arzt">Arzt</label>
                         <select class="form-control" id="systemnutzung-arzt" name="arzt" v-model="systemnutzung.arztId">
                             <option v-bind:value="null"></option>
                             <option v-bind:value="arztOption.id" v-for="arztOption in arzts" :key="arztOption.id">{{arztOption.id}}</option>
