@@ -12,15 +12,15 @@
       "updated": "Gerät aktualisiert mit ID {{ param }}",
       "deleted": "Gerät gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Gerät {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll das Gerät {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
         "title": "Gerät"
       },
       "bezeichnung": "Bezeichnung",
-      "gueltigBis": "Gueltig Bis",
+      "gueltigBis": "Gültig Bis",
       "systemtyp": "Systemtyp",
-      "geraetTyp": "Geraettyp",
+      "geraetTyp": "Gerätetyp",
       "hersteller": "Hersteller"
     }
   }

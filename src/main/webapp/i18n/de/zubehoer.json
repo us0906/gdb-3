@@ -12,13 +12,13 @@
       "updated": "Zubehör aktualisiert mit ID {{ param }}",
       "deleted": "Zubehör gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Zubehör {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll das Zubehör {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
         "title": "Zubehör"
       },
       "bezeichnung": "Bezeichnung",
-      "gueltigBis": "Gueltig Bis",
+      "gueltigBis": "Gültig Bis",
       "systemtyp": "System",
       "hersteller": "Hersteller",
       "zubehoerTyp": "Zubehörtyp"

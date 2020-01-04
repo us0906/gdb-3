@@ -21,6 +21,9 @@ const webpackConfig = merge(baseWebpackConfig, {
       usePostCSS: true
     })
   },
+  performance: {
+    hints: false
+  },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   entry: {
     global: './src/main/webapp/content/scss/global.scss',
@@ -70,7 +73,6 @@ const webpackConfig = merge(baseWebpackConfig, {
     new HtmlWebpackPlugin({
       template: './src/main/webapp/index.html',
       chunks: ['vendors', 'main', 'global'],
-      chunksSortMode: 'manual',
       inject: true,
       minify: {
         removeComments: true,

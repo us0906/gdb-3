@@ -102,7 +102,9 @@
                         <label class="form-control-label" v-bind:value="$t('gdb3App.systeminstanz.betriebsstaette')" for="systeminstanz-betriebsstaette">Betriebsstaette</label>
                         <select class="form-control" id="systeminstanz-betriebsstaette" name="betriebsstaette" v-model="systeminstanz.betriebsstaetteId">
                             <option v-bind:value="null"></option>
-                            <option v-bind:value="betriebsstaetteOption.id" v-for="betriebsstaetteOption in betriebsstaettes" :key="betriebsstaetteOption.id">{{betriebsstaetteOption.id}}</option>
+                            <option v-bind:value="betriebsstaetteOption.id" v-for="betriebsstaetteOption in betriebsstaettes" :key="betriebsstaetteOption.id">
+                                [{{betriebsstaetteOption.bsnr}}] {{betriebsstaetteOption.strasse}} {{betriebsstaetteOption.hausnummer}}; {{betriebsstaetteOption.plz}} {{betriebsstaetteOption.ort}}
+                            </option>
                         </select>
                     </div>
                     <div class="form-group">

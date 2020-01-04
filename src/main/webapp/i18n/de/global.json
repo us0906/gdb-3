@@ -8,11 +8,11 @@
       "entities": {
         "main": "Entitäten",
         "hersteller": "Hersteller",
-        "geraetTyp": "Gerättypen",
+        "geraetTyp": "Gerätetypen",
         "zubehoerTyp": "Zubehörtypen",
-        "geraet": "Gerät",
-        "zubehoer": "Zubehör",
-        "systemtyp": "Systemtyp",
+        "geraet": "Geräte",
+        "zubehoer": "Zubehöre",
+        "systemtyp": "Systeme",
         "systeminstanz": "Systeminstanzen",
         "arzt": "Ärzte",
         "betreiber": "Betreiber",
@@ -142,5 +142,5 @@
     "idexists": "Ein neuer {{entityName}} kann noch keine ID haben",
     "idnull": "Ungültige ID"
   },
-  "footer": "Dies ist Ihre Fußzeile"
+  "footer": "Copyright (c) KVB 2013-2020"
 }

@@ -12,16 +12,16 @@
       "updated": "System aktualisiert mit ID {{ param }}",
       "deleted": "System gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll System {{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll das System {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
         "title": "System"
       },
       "bezeichnung": "Bezeichnung",
-      "gueltigBis": "Gueltig Bis",
+      "gueltigBis": "Gültig Bis",
       "systeminstanz": "Systeminstanz",
-      "geraet": "Geraet",
-      "zubehoer": "Zubehoer"
+      "geraet": "Gerät",
+      "zubehoer": "Zubehör"
     }
   }
 }
