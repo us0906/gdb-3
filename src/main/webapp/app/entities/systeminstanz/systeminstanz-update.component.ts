@@ -145,17 +145,17 @@ export default class SysteminstanzUpdate extends mixins(JhiDataUtils) {
     this.systemtypService()
       .retrieve()
       .then(res => {
-        this.systemtyps = res.data;
+        this.systemtyps = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
     this.betriebsstaetteService()
       .retrieve()
       .then(res => {
-        this.betriebsstaettes = res.data;
+        this.betriebsstaettes = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
     this.betreiberService()
       .retrieve()
       .then(res => {
-        this.betreibers = res.data;
+        this.betreibers = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
   }
 }

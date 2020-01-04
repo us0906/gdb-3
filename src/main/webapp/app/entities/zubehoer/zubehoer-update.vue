@@ -34,10 +34,22 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" v-text="$t('gdb3App.zubehoer.hersteller')" for="zubehoer-hersteller">Hersteller</label>
+                        <!--
                         <select class="form-control" id="zubehoer-hersteller" name="hersteller" v-model="$v.zubehoer.herstellerId.$model" required>
                             <option v-if="!zubehoer.herstellerId" v-bind:value="null" selected></option>
                             <option v-bind:value="herstellerOption.id" v-for="herstellerOption in herstellers" :key="herstellerOption.id">{{herstellerOption.bezeichnung}}</option>
                         </select>
+                        -->
+                        <v-select label="bezeichnung"
+                                  id="zubehoer-hersteller"
+                                  :options="herstellers"
+                                  v-model="$v.zubehoer.herstellerId.$model" required
+                                  :reduce="h => h.id"
+                                  :value="selected"
+                                  :searchable="true"
+                                  :filterable="true"
+                                  :clearable="true">
+                        </v-select>
                     </div>
                     <div v-if="$v.zubehoer.herstellerId.$anyDirty && $v.zubehoer.herstellerId.$invalid">
                         <small class="form-text text-danger" v-if="!$v.zubehoer.herstellerId.required" v-text="$t('entity.validation.required')">
@@ -46,10 +58,22 @@
                     </div>
                     <div class="form-group">
                         <label class="form-control-label" v-text="$t('gdb3App.zubehoer.zubehoerTyp')" for="zubehoer-zubehoerTyp">Zubehoer Typ</label>
+                        <!--
                         <select class="form-control" id="zubehoer-zubehoerTyp" name="zubehoerTyp" v-model="$v.zubehoer.zubehoerTypId.$model" required>
                             <option v-if="!zubehoer.zubehoerTypId" v-bind:value="null" selected></option>
                             <option v-bind:value="zubehoerTypOption.id" v-for="zubehoerTypOption in zubehoerTyps" :key="zubehoerTypOption.id">{{zubehoerTypOption.bezeichnung}}</option>
                         </select>
+                        -->
+                        <v-select label="bezeichnung"
+                                  id="zubehoer-zubehoerTyp"
+                                  :options="zubehoerTyps"
+                                  v-model="$v.zubehoer.zubehoerTypId.$model" required
+                                  :reduce="gt => gt.id"
+                                  :value="selected"
+                                  :searchable="true"
+                                  :filterable="true"
+                                  :clearable="true">
+                        </v-select>
                     </div>
                     <div v-if="$v.zubehoer.zubehoerTypId.$anyDirty && $v.zubehoer.zubehoerTypId.$invalid">
                         <small class="form-text text-danger" v-if="!$v.zubehoer.zubehoerTypId.required" v-text="$t('entity.validation.required')">
