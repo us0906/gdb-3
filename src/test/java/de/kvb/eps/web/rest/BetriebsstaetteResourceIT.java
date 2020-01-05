@@ -59,8 +59,8 @@ public class BetriebsstaetteResourceIT {
     private static final String DEFAULT_ORT = "AAAAAAAAAA";
     private static final String UPDATED_ORT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
-    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
+    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_BSNR + " " + DEFAULT_STRASSE + " " + DEFAULT_HAUSNUMMER + " " + DEFAULT_PLZ + " " + DEFAULT_ORT;
+    private static final String UPDATED_BEZEICHNUNG = UPDATED_BSNR + " " + UPDATED_STRASSE + " " + UPDATED_HAUSNUMMER + " " + UPDATED_PLZ + " " + UPDATED_ORT;
 
     @Autowired
     private BetriebsstaetteRepository betriebsstaetteRepository;
@@ -220,7 +220,7 @@ public class BetriebsstaetteResourceIT {
             .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
-    
+
     @Test
     @Transactional
     public void getBetriebsstaette() throws Exception {

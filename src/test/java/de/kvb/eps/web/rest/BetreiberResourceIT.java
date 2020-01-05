@@ -44,26 +44,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {Gdb3App.class, TestSecurityConfiguration.class})
 public class BetreiberResourceIT {
 
-    private static final String DEFAULT_VORNAME = "AAAAAAAAAA";
-    private static final String UPDATED_VORNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_VORNAME = "Michael";
+    private static final String UPDATED_VORNAME = "Martin";
 
-    private static final String DEFAULT_NACHNAME = "AAAAAAAAAA";
-    private static final String UPDATED_NACHNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NACHNAME = "Schmitz";
+    private static final String UPDATED_NACHNAME = "Meier";
 
-    private static final String DEFAULT_STRASSE = "AAAAAAAAAA";
-    private static final String UPDATED_STRASSE = "BBBBBBBBBB";
+    private static final String DEFAULT_STRASSE = "Weg";
+    private static final String UPDATED_STRASSE = "Strasse";
 
-    private static final String DEFAULT_HAUSNUMMER = "AAAAAAAAAA";
-    private static final String UPDATED_HAUSNUMMER = "BBBBBBBBBB";
+    private static final String DEFAULT_HAUSNUMMER = "1";
+    private static final String UPDATED_HAUSNUMMER = "2";
 
-    private static final String DEFAULT_PLZ = "AAAAAAAAAA";
-    private static final String UPDATED_PLZ = "BBBBBBBBBB";
+    private static final String DEFAULT_PLZ = "12345";
+    private static final String UPDATED_PLZ = "11111";
 
-    private static final String DEFAULT_ORT = "AAAAAAAAAA";
-    private static final String UPDATED_ORT = "BBBBBBBBBB";
+    private static final String DEFAULT_ORT = "München";
+    private static final String UPDATED_ORT = "Trier";
 
-    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
-    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
+    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_VORNAME + " " + DEFAULT_NACHNAME + " " + DEFAULT_STRASSE + " " + DEFAULT_HAUSNUMMER + " " + DEFAULT_PLZ + " " + DEFAULT_ORT;
+    private static final String UPDATED_BEZEICHNUNG = UPDATED_VORNAME + " " + UPDATED_NACHNAME + " " + UPDATED_STRASSE + " " + UPDATED_HAUSNUMMER + " " + UPDATED_PLZ + " " + UPDATED_ORT;
 
     @Autowired
     private BetreiberRepository betreiberRepository;
@@ -265,7 +265,7 @@ public class BetreiberResourceIT {
             .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
-    
+
     @Test
     @Transactional
     public void getBetreiber() throws Exception {
