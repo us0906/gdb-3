@@ -146,7 +146,8 @@
     "genTestData:geraet": "node src/tools/genTestData/main.js geraet 10",
     "genTestData:zubehoer": "node src/tools/genTestData/main.js zubehoer 10",
     "genTestData:system": "node src/tools/genTestData/main.js system 10",
-    "genTestData:systeminstanz": "node src/tools/genTestData/main.js systeminstanz 10"
+    "genTestData:systeminstanz": "node src/tools/genTestData/main.js systeminstanz 10",
+    "init": "node src/tools/genTestData/main.js init"
   },
   "jestSonar": {
     "reportPath": "target/test-results/jest",
