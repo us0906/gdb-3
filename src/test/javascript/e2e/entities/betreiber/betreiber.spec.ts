@@ -80,8 +80,8 @@ describe('Betreiber e2e test', () => {
       await updatePage.ortInput.sendKeys('ort');
       expect(await updatePage.ortInput.getAttribute('value')).to.match(/ort/);
 
-      await updatePage.bezeichnungInput.sendKeys('bezeichnung');
-      expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
+      //await updatePage.bezeichnungInput.sendKeys('bezeichnung');
+      //expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
 
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
@@ -163,9 +163,9 @@ describe('Betreiber e2e test', () => {
         await updatePage.ortInput.sendKeys('modified');
         expect(await updatePage.ortInput.getAttribute('value')).to.match(/modified/);
 
-        await updatePage.bezeichnungInput.clear();
-        await updatePage.bezeichnungInput.sendKeys('modified');
-        expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
+        //await updatePage.bezeichnungInput.clear();
+        //await updatePage.bezeichnungInput.sendKeys('modified');
+        //expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
 
         await updatePage.saveButton.click();
 

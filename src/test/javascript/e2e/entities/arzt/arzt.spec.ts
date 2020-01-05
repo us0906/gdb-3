@@ -62,8 +62,8 @@ describe('Arzt e2e test', () => {
     });
 
     it('should create and save Arzts', async () => {
-      await updatePage.lanrInput.sendKeys('lanr');
-      expect(await updatePage.lanrInput.getAttribute('value')).to.match(/lanr/);
+      await updatePage.lanrInput.sendKeys('1234567');
+      expect(await updatePage.lanrInput.getAttribute('value')).to.match(/1234567/);
 
       await updatePage.titelInput.sendKeys('titel');
       expect(await updatePage.titelInput.getAttribute('value')).to.match(/titel/);
@@ -74,8 +74,8 @@ describe('Arzt e2e test', () => {
       await updatePage.nachnameInput.sendKeys('nachname');
       expect(await updatePage.nachnameInput.getAttribute('value')).to.match(/nachname/);
 
-      await updatePage.bezeichnungInput.sendKeys('bezeichnung');
-      expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
+      // await updatePage.bezeichnungInput.sendKeys('bezeichnung');
+      // expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
 
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
@@ -134,8 +134,8 @@ describe('Arzt e2e test', () => {
         expect(await updatePage.title.getText()).not.to.be.empty;
 
         await updatePage.lanrInput.clear();
-        await updatePage.lanrInput.sendKeys('modified');
-        expect(await updatePage.lanrInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.lanrInput.sendKeys('1122334');
+        expect(await updatePage.lanrInput.getAttribute('value')).to.match(/1122334/);
 
         await updatePage.titelInput.clear();
         await updatePage.titelInput.sendKeys('modified');
@@ -149,9 +149,9 @@ describe('Arzt e2e test', () => {
         await updatePage.nachnameInput.sendKeys('modified');
         expect(await updatePage.nachnameInput.getAttribute('value')).to.match(/modified/);
 
-        await updatePage.bezeichnungInput.clear();
-        await updatePage.bezeichnungInput.sendKeys('modified');
-        expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
+        // await updatePage.bezeichnungInput.clear();
+        //await updatePage.bezeichnungInput.sendKeys('modified');
+        //expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
 
         await updatePage.saveButton.click();
 

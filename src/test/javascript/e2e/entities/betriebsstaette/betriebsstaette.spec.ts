@@ -62,8 +62,8 @@ describe('Betriebsstaette e2e test', () => {
     });
 
     it('should create and save Betriebsstaettes', async () => {
-      await updatePage.bsnrInput.sendKeys('bsnr');
-      expect(await updatePage.bsnrInput.getAttribute('value')).to.match(/bsnr/);
+      await updatePage.bsnrInput.sendKeys('123456700');
+      expect(await updatePage.bsnrInput.getAttribute('value')).to.match(/123456700/);
 
       await updatePage.strasseInput.sendKeys('strasse');
       expect(await updatePage.strasseInput.getAttribute('value')).to.match(/strasse/);
@@ -77,8 +77,8 @@ describe('Betriebsstaette e2e test', () => {
       await updatePage.ortInput.sendKeys('ort');
       expect(await updatePage.ortInput.getAttribute('value')).to.match(/ort/);
 
-      await updatePage.bezeichnungInput.sendKeys('bezeichnung');
-      expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
+      //await updatePage.bezeichnungInput.sendKeys('bezeichnung');
+      //expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
 
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
@@ -137,28 +137,28 @@ describe('Betriebsstaette e2e test', () => {
         expect(await updatePage.title.getText()).not.to.be.empty;
 
         await updatePage.bsnrInput.clear();
-        await updatePage.bsnrInput.sendKeys('modified');
-        expect(await updatePage.bsnrInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.bsnrInput.sendKeys('987654321');
+        expect(await updatePage.bsnrInput.getAttribute('value')).to.match(/987654321/);
 
         await updatePage.strasseInput.clear();
-        await updatePage.strasseInput.sendKeys('modified');
-        expect(await updatePage.strasseInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.strasseInput.sendKeys('99');
+        expect(await updatePage.strasseInput.getAttribute('value')).to.match(/99/);
 
         await updatePage.hausnummerInput.clear();
         await updatePage.hausnummerInput.sendKeys('modified');
         expect(await updatePage.hausnummerInput.getAttribute('value')).to.match(/modified/);
 
         await updatePage.plzInput.clear();
-        await updatePage.plzInput.sendKeys('modified');
-        expect(await updatePage.plzInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.plzInput.sendKeys('33333');
+        expect(await updatePage.plzInput.getAttribute('value')).to.match(/33333/);
 
         await updatePage.ortInput.clear();
         await updatePage.ortInput.sendKeys('modified');
         expect(await updatePage.ortInput.getAttribute('value')).to.match(/modified/);
 
-        await updatePage.bezeichnungInput.clear();
-        await updatePage.bezeichnungInput.sendKeys('modified');
-        expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
+        //await updatePage.bezeichnungInput.clear();
+        //await updatePage.bezeichnungInput.sendKeys('modified');
+        //expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
 
         await updatePage.saveButton.click();
 

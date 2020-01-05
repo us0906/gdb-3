@@ -17,6 +17,4 @@ export default class BetriebsstaetteUpdatePage extends AlertPage {
   plzInput: ElementFinder = element(by.css('input#betriebsstaette-plz'));
 
   ortInput: ElementFinder = element(by.css('input#betriebsstaette-ort'));
-
-  bezeichnungInput: ElementFinder = element(by.css('input#betriebsstaette-bezeichnung'));
 }
