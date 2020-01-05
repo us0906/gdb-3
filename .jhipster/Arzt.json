@@ -29,6 +29,10 @@
             "fieldValidateRules": [
                 "required"
             ]
+        },
+        {
+            "fieldName": "bezeichnung",
+            "fieldType": "String"
         }
     ],
     "relationships": [

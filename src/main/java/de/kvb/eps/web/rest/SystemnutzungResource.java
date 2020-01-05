@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 
@@ -54,7 +55,7 @@ public class SystemnutzungResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/systemnutzungs")
-    public ResponseEntity<SystemnutzungDTO> createSystemnutzung(@RequestBody SystemnutzungDTO systemnutzungDTO) throws URISyntaxException {
+    public ResponseEntity<SystemnutzungDTO> createSystemnutzung(@Valid @RequestBody SystemnutzungDTO systemnutzungDTO) throws URISyntaxException {
         log.debug("REST request to save Systemnutzung : {}", systemnutzungDTO);
         if (systemnutzungDTO.getId() != null) {
             throw new BadRequestAlertException("A new systemnutzung cannot already have an ID", ENTITY_NAME, "idexists");
@@ -75,7 +76,7 @@ public class SystemnutzungResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/systemnutzungs")
-    public ResponseEntity<SystemnutzungDTO> updateSystemnutzung(@RequestBody SystemnutzungDTO systemnutzungDTO) throws URISyntaxException {
+    public ResponseEntity<SystemnutzungDTO> updateSystemnutzung(@Valid @RequestBody SystemnutzungDTO systemnutzungDTO) throws URISyntaxException {
         log.debug("REST request to update Systemnutzung : {}", systemnutzungDTO);
         if (systemnutzungDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

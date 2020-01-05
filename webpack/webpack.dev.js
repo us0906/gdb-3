@@ -28,6 +28,9 @@ module.exports = merge(baseWebpackConfig, {
     filename: 'app/[name].bundle.js',
     chunkFilename: 'app/[id].chunk.js'
   },
+  performance: {
+    hints: false
+  },
   devServer: {
     contentBase: './target/classes/static/',
     port: 9060,

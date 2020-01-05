@@ -34,6 +34,7 @@
                     <dd>
                         <span>{{betriebsstaette.ort}}</span>
                     </dd>
+
                 </dl>
                 <button type="submit"
                         v-on:click.prevent="previousState()"

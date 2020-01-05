@@ -40,7 +40,11 @@ public class SysteminstanzDTO implements Serializable {
 
     private Long betriebsstaetteId;
 
+    private String betriebsstaetteBezeichnung;
+
     private Long betreiberId;
+
+    private String betreiberBezeichnung;
 
     public Long getId() {
         return id;
@@ -130,12 +134,28 @@ public class SysteminstanzDTO implements Serializable {
         this.betriebsstaetteId = betriebsstaetteId;
     }
 
+    public String getBetriebsstaetteBezeichnung() {
+        return betriebsstaetteBezeichnung;
+    }
+
+    public void setBetriebsstaetteBezeichnung(String betriebsstaetteBezeichnung) {
+        this.betriebsstaetteBezeichnung = betriebsstaetteBezeichnung;
+    }
+
     public Long getBetreiberId() {
         return betreiberId;
     }
 
     public void setBetreiberId(Long betreiberId) {
         this.betreiberId = betreiberId;
+    }
+
+    public String getBetreiberBezeichnung() {
+        return betreiberBezeichnung;
+    }
+
+    public void setBetreiberBezeichnung(String betreiberBezeichnung) {
+        this.betreiberBezeichnung = betreiberBezeichnung;
     }
 
     @Override
@@ -172,7 +192,9 @@ public class SysteminstanzDTO implements Serializable {
             ", systemtyp=" + getSystemtypId() +
             ", systemtyp='" + getSystemtypBezeichnung() + "'" +
             ", betriebsstaette=" + getBetriebsstaetteId() +
+            ", betriebsstaette='" + getBetriebsstaetteBezeichnung() + "'" +
             ", betreiber=" + getBetreiberId() +
+            ", betreiber='" + getBetreiberBezeichnung() + "'" +
             "}";
     }
 }

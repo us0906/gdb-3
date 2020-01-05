@@ -24,6 +24,8 @@ public class BetreiberDTO implements Serializable {
 
     private String ort;
 
+    private String bezeichnung;
+
 
     public Long getId() {
         return id;
@@ -81,6 +83,14 @@ public class BetreiberDTO implements Serializable {
         this.ort = ort;
     }
 
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -112,6 +122,7 @@ public class BetreiberDTO implements Serializable {
             ", hausnummer='" + getHausnummer() + "'" +
             ", plz='" + getPlz() + "'" +
             ", ort='" + getOrt() + "'" +
+            ", bezeichnung='" + getBezeichnung() + "'" +
             "}";
     }
 }

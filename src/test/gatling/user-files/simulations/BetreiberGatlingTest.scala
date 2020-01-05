@@ -107,6 +107,7 @@ class BetreiberGatlingTest extends Simulation {
                 , "hausnummer":"SAMPLE_TEXT"
                 , "plz":"SAMPLE_TEXT"
                 , "ort":"SAMPLE_TEXT"
+                , "bezeichnung":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_betreiber_url"))).exitHereIfFailed

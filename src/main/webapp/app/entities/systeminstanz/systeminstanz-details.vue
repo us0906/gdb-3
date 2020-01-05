@@ -58,7 +58,7 @@
                     </dt>
                     <dd>
                         <div v-if="systeminstanz.betriebsstaetteId">
-                            <router-link :to="{name: 'BetriebsstaetteView', params: {betriebsstaetteId: systeminstanz.betriebsstaetteId}}">{{systeminstanz.betriebsstaetteId}}</router-link>
+                            <router-link :to="{name: 'BetriebsstaetteView', params: {betriebsstaetteId: systeminstanz.betriebsstaetteId}}">{{systeminstanz.betriebsstaetteBezeichnung}}</router-link>
                         </div>
                     </dd>
                     <dt>
@@ -66,7 +66,7 @@
                     </dt>
                     <dd>
                         <div v-if="systeminstanz.betreiberId">
-                            <router-link :to="{name: 'BetreiberView', params: {betreiberId: systeminstanz.betreiberId}}">{{systeminstanz.betreiberId}}</router-link>
+                            <router-link :to="{name: 'BetreiberView', params: {betreiberId: systeminstanz.betreiberId}}">{{systeminstanz.betreiberBezeichnung}}</router-link>
                         </div>
                     </dd>
                 </dl>

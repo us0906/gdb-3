@@ -2,23 +2,23 @@
   "gdb3App": {
     "geraetTyp": {
       "home": {
-        "title": "Gerättypen ",
-        "createLabel": "Gerättyp erstellen",
-        "createOrEditLabel": "Gerättyp erstellen oder bearbeiten",
-        "search": "Suche nach Gerättyp",
-        "notFound": "Kein Gerättyp gefunden"
+        "title": "Gerätetypen ",
+        "createLabel": "Gerätetyp erstellen",
+        "createOrEditLabel": "Gerätetyp erstellen oder bearbeiten",
+        "search": "Suche nach Gerätetyp",
+        "notFound": "Kein Gerätetyp gefunden"
       },
-      "created": "Gerättyp erstellt mit ID {{ param }}",
-      "updated": "Gerättyp aktualisiert mit ID {{ param }}",
-      "deleted": "Gerättyp gelöscht mit ID {{ param }}",
+      "created": "Gerätetyp erstellt mit ID {{ param }}",
+      "updated": "Gerätetyp aktualisiert mit ID {{ param }}",
+      "deleted": "Gerätetyp gelöscht mit ID {{ param }}",
       "delete": {
-        "question": "Soll Gerättyp{{ id }} wirklich dauerhaft gelöscht werden?"
+        "question": "Soll der Gerätetyp {{ id }} wirklich dauerhaft gelöscht werden?"
       },
       "detail": {
-        "title": "Gerättyp"
+        "title": "Gerätetyp"
       },
       "bezeichnung": "Bezeichnung",
-      "gueltigBis": "Gueltig Bis",
+      "gueltigBis": "Gültig Bis",
       "technologie": "Technologie",
       "geraet": "Gerät"
     }

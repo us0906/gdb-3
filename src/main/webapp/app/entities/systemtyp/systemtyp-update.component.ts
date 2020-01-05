@@ -98,7 +98,7 @@ export default class SystemtypUpdate extends Vue {
     this.systeminstanzService()
       .retrieve()
       .then(res => {
-        this.systeminstanzs = res.data;
+        this.systeminstanzs = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
     this.geraetService()
       .retrieve()

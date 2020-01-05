@@ -14,7 +14,9 @@ public interface SysteminstanzMapper extends EntityMapper<SysteminstanzDTO, Syst
     @Mapping(source = "systemtyp.id", target = "systemtypId")
     @Mapping(source = "systemtyp.bezeichnung", target = "systemtypBezeichnung")
     @Mapping(source = "betriebsstaette.id", target = "betriebsstaetteId")
+    @Mapping(source = "betriebsstaette.bezeichnung", target = "betriebsstaetteBezeichnung")
     @Mapping(source = "betreiber.id", target = "betreiberId")
+    @Mapping(source = "betreiber.bezeichnung", target = "betreiberBezeichnung")
     SysteminstanzDTO toDto(Systeminstanz systeminstanz);
 
     @Mapping(target = "systemnutzungs", ignore = true)

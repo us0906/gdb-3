@@ -59,6 +59,9 @@ public class BetriebsstaetteResourceIT {
     private static final String DEFAULT_ORT = "AAAAAAAAAA";
     private static final String UPDATED_ORT = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_BSNR + " " + DEFAULT_STRASSE + " " + DEFAULT_HAUSNUMMER + " " + DEFAULT_PLZ + " " + DEFAULT_ORT;
+    private static final String UPDATED_BEZEICHNUNG = UPDATED_BSNR + " " + UPDATED_STRASSE + " " + UPDATED_HAUSNUMMER + " " + UPDATED_PLZ + " " + UPDATED_ORT;
+
     @Autowired
     private BetriebsstaetteRepository betriebsstaetteRepository;
 
@@ -122,7 +125,8 @@ public class BetriebsstaetteResourceIT {
             .strasse(DEFAULT_STRASSE)
             .hausnummer(DEFAULT_HAUSNUMMER)
             .plz(DEFAULT_PLZ)
-            .ort(DEFAULT_ORT);
+            .ort(DEFAULT_ORT)
+            .bezeichnung(DEFAULT_BEZEICHNUNG);
         return betriebsstaette;
     }
     /**
@@ -137,7 +141,8 @@ public class BetriebsstaetteResourceIT {
             .strasse(UPDATED_STRASSE)
             .hausnummer(UPDATED_HAUSNUMMER)
             .plz(UPDATED_PLZ)
-            .ort(UPDATED_ORT);
+            .ort(UPDATED_ORT)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         return betriebsstaette;
     }
 
@@ -167,6 +172,7 @@ public class BetriebsstaetteResourceIT {
         assertThat(testBetriebsstaette.getHausnummer()).isEqualTo(DEFAULT_HAUSNUMMER);
         assertThat(testBetriebsstaette.getPlz()).isEqualTo(DEFAULT_PLZ);
         assertThat(testBetriebsstaette.getOrt()).isEqualTo(DEFAULT_ORT);
+        assertThat(testBetriebsstaette.getBezeichnung()).isEqualTo(DEFAULT_BEZEICHNUNG);
 
         // Validate the Betriebsstaette in Elasticsearch
         verify(mockBetriebsstaetteSearchRepository, times(1)).save(testBetriebsstaette);
@@ -211,9 +217,10 @@ public class BetriebsstaetteResourceIT {
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
             .andExpect(jsonPath("$.[*].hausnummer").value(hasItem(DEFAULT_HAUSNUMMER)))
             .andExpect(jsonPath("$.[*].plz").value(hasItem(DEFAULT_PLZ)))
-            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)));
+            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
-    
+
     @Test
     @Transactional
     public void getBetriebsstaette() throws Exception {
@@ -229,7 +236,8 @@ public class BetriebsstaetteResourceIT {
             .andExpect(jsonPath("$.strasse").value(DEFAULT_STRASSE))
             .andExpect(jsonPath("$.hausnummer").value(DEFAULT_HAUSNUMMER))
             .andExpect(jsonPath("$.plz").value(DEFAULT_PLZ))
-            .andExpect(jsonPath("$.ort").value(DEFAULT_ORT));
+            .andExpect(jsonPath("$.ort").value(DEFAULT_ORT))
+            .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG));
     }
 
 
@@ -644,6 +652,84 @@ public class BetriebsstaetteResourceIT {
 
     @Test
     @Transactional
+    public void getAllBetriebsstaettesByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        betriebsstaetteRepository.saveAndFlush(betriebsstaette);
+
+        // Get all the betriebsstaetteList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultBetriebsstaetteShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betriebsstaetteList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultBetriebsstaetteShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetriebsstaettesByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        betriebsstaetteRepository.saveAndFlush(betriebsstaette);
+
+        // Get all the betriebsstaetteList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultBetriebsstaetteShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betriebsstaetteList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultBetriebsstaetteShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetriebsstaettesByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        betriebsstaetteRepository.saveAndFlush(betriebsstaette);
+
+        // Get all the betriebsstaetteList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultBetriebsstaetteShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the betriebsstaetteList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultBetriebsstaetteShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetriebsstaettesByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        betriebsstaetteRepository.saveAndFlush(betriebsstaette);
+
+        // Get all the betriebsstaetteList where bezeichnung is not null
+        defaultBetriebsstaetteShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the betriebsstaetteList where bezeichnung is null
+        defaultBetriebsstaetteShouldNotBeFound("bezeichnung.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllBetriebsstaettesByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        betriebsstaetteRepository.saveAndFlush(betriebsstaette);
+
+        // Get all the betriebsstaetteList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultBetriebsstaetteShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betriebsstaetteList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultBetriebsstaetteShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+    @Test
+    @Transactional
+    public void getAllBetriebsstaettesByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        betriebsstaetteRepository.saveAndFlush(betriebsstaette);
+
+        // Get all the betriebsstaetteList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultBetriebsstaetteShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the betriebsstaetteList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultBetriebsstaetteShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllBetriebsstaettesBySysteminstanzIsEqualToSomething() throws Exception {
         // Initialize the database
         betriebsstaetteRepository.saveAndFlush(betriebsstaette);
@@ -673,7 +759,8 @@ public class BetriebsstaetteResourceIT {
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
             .andExpect(jsonPath("$.[*].hausnummer").value(hasItem(DEFAULT_HAUSNUMMER)))
             .andExpect(jsonPath("$.[*].plz").value(hasItem(DEFAULT_PLZ)))
-            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)));
+            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
 
         // Check, that the count call also returns 1
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes/count?sort=id,desc&" + filter))
@@ -725,7 +812,8 @@ public class BetriebsstaetteResourceIT {
             .strasse(UPDATED_STRASSE)
             .hausnummer(UPDATED_HAUSNUMMER)
             .plz(UPDATED_PLZ)
-            .ort(UPDATED_ORT);
+            .ort(UPDATED_ORT)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         BetriebsstaetteDTO betriebsstaetteDTO = betriebsstaetteMapper.toDto(updatedBetriebsstaette);
 
         restBetriebsstaetteMockMvc.perform(put("/api/betriebsstaettes")
@@ -742,6 +830,7 @@ public class BetriebsstaetteResourceIT {
         assertThat(testBetriebsstaette.getHausnummer()).isEqualTo(UPDATED_HAUSNUMMER);
         assertThat(testBetriebsstaette.getPlz()).isEqualTo(UPDATED_PLZ);
         assertThat(testBetriebsstaette.getOrt()).isEqualTo(UPDATED_ORT);
+        assertThat(testBetriebsstaette.getBezeichnung()).isEqualTo(UPDATED_BEZEICHNUNG);
 
         // Validate the Betriebsstaette in Elasticsearch
         verify(mockBetriebsstaetteSearchRepository, times(1)).save(testBetriebsstaette);
@@ -806,6 +895,7 @@ public class BetriebsstaetteResourceIT {
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
             .andExpect(jsonPath("$.[*].hausnummer").value(hasItem(DEFAULT_HAUSNUMMER)))
             .andExpect(jsonPath("$.[*].plz").value(hasItem(DEFAULT_PLZ)))
-            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)));
+            .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
 }

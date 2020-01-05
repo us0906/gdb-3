@@ -107,6 +107,9 @@ public class ArztQueryService extends QueryService<Arzt> {
             if (criteria.getNachname() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNachname(), Arzt_.nachname));
             }
+            if (criteria.getBezeichnung() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBezeichnung(), Arzt_.bezeichnung));
+            }
             if (criteria.getSystemnutzungId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSystemnutzungId(),
                     root -> root.join(Arzt_.systemnutzungs, JoinType.LEFT).get(Systemnutzung_.id)));

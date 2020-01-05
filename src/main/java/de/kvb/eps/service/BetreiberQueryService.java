@@ -113,6 +113,9 @@ public class BetreiberQueryService extends QueryService<Betreiber> {
             if (criteria.getOrt() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOrt(), Betreiber_.ort));
             }
+            if (criteria.getBezeichnung() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBezeichnung(), Betreiber_.bezeichnung));
+            }
             if (criteria.getSysteminstanzId() != null) {
                 specification = specification.and(buildSpecification(criteria.getSysteminstanzId(),
                     root -> root.join(Betreiber_.systeminstanzs, JoinType.LEFT).get(Systeminstanz_.id)));

@@ -50,6 +50,7 @@
                             </small>
                         </div>
                     </div>
+
                 </div>
                 <div>
                     <button type="button" id="cancel-save" class="btn btn-secondary" v-on:click="previousState()">

@@ -28,6 +28,7 @@
                     <dd>
                         <span>{{arzt.nachname}}</span>
                     </dd>
+
                 </dl>
                 <button type="submit"
                         v-on:click.prevent="previousState()"

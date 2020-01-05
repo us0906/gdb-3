@@ -12,7 +12,9 @@ import org.mapstruct.*;
 public interface SystemnutzungMapper extends EntityMapper<SystemnutzungDTO, Systemnutzung> {
 
     @Mapping(source = "systeminstanz.id", target = "systeminstanzId")
+    @Mapping(source = "systeminstanz.bezeichnung", target = "systeminstanzBezeichnung")
     @Mapping(source = "arzt.id", target = "arztId")
+    @Mapping(source = "arzt.bezeichnung", target = "arztBezeichnung")
     SystemnutzungDTO toDto(Systemnutzung systemnutzung);
 
     @Mapping(source = "systeminstanzId", target = "systeminstanz")

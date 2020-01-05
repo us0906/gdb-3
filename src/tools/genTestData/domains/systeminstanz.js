@@ -1,11 +1,11 @@
 'use strict';
 const utils = require('../utils');
 
-function getRandomSerialNumber() {
+function getRandomSerialNumber(faker) {
   return '#' + faker.random.number(9999);
 }
 
-function getRandomBezeichnung() {
+function getRandomBezeichnung(faker) {
   return faker.lorem.word();
 }
 
@@ -14,13 +14,14 @@ function create(faker, systeme, betreiber, betriebsstaetten) {
   const randomBetreiber = utils.getRandomItemOf(betreiber);
   const randomBetriebsstaette = utils.getRandomItemOf(betriebsstaetten);
   const randomBaujahr = 2008 + faker.random.number(10);
-  const randomGeraetNummer = getRandomSerialNumber();
+  const randomGeraetNummer = getRandomSerialNumber(faker);
+  const randomBezeichnung = getRandomBezeichnung(faker);
 
   const result = {
-    bemerkung: 'string',
+    bemerkung: faker.lorem.text(),
     betreiberId: randomBetreiber.id,
     betriebsstaetteId: randomBetriebsstaette.id,
-    bezeichnung: getRandomBezeichnung(),
+    bezeichnung: randomBezeichnung,
     geraetBaujahr: randomBaujahr,
     geraetNummer: randomGeraetNummer,
     systemtypId: randomSystem.id

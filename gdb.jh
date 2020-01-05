@@ -68,6 +68,7 @@ entity Arzt {
   titel String
   vorname String required
   nachname String required
+  bezeichnung String
 }
 
 entity Betreiber {
@@ -77,6 +78,7 @@ entity Betreiber {
     hausnummer String
     plz String
     ort String
+    bezeichnung String
 }
 
 entity Betriebsstaette (b_staette){
@@ -85,11 +87,12 @@ entity Betriebsstaette (b_staette){
     hausnummer String
     plz String
     ort String
+    bezeichnung String
 }
 
 relationship OneToMany {
-	Betriebsstaette to Systeminstanz
-	Betreiber to Systeminstanz
+	Betriebsstaette to Systeminstanz { betriebsstaette(bezeichnung) required }
+	Betreiber to Systeminstanz { betreiber (bezeichnung) required }
 }
 
 entity Systemnutzung (sys_nutz) {
@@ -97,8 +100,8 @@ entity Systemnutzung (sys_nutz) {
 }
 
 relationship OneToMany {
-	Systeminstanz to Systemnutzung
-    Arzt to Systemnutzung
+	Systeminstanz to Systemnutzung {  systeminstanz (bezeichnung) required }
+    Arzt to Systemnutzung { arzt (bezeichnung) required }
 }
 
 

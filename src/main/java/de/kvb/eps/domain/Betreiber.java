@@ -46,6 +46,9 @@ public class Betreiber implements Serializable {
     @Column(name = "ort")
     private String ort;
 
+    @Column(name = "bezeichnung")
+    private String bezeichnung;
+
     @OneToMany(mappedBy = "betreiber")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Systeminstanz> systeminstanzs = new HashSet<>();
@@ -137,6 +140,20 @@ public class Betreiber implements Serializable {
         this.ort = ort;
     }
 
+    public String getBezeichnung() {
+
+        return vorname + " " + nachname + " " + strasse + " " + hausnummer + " " + plz + " " + ort;
+    }
+
+    public Betreiber bezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+        return this;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     public Set<Systeminstanz> getSysteminstanzs() {
         return systeminstanzs;
     }
@@ -189,6 +206,7 @@ public class Betreiber implements Serializable {
             ", hausnummer='" + getHausnummer() + "'" +
             ", plz='" + getPlz() + "'" +
             ", ort='" + getOrt() + "'" +
+            ", bezeichnung='" + getBezeichnung() + "'" +
             "}";
     }
 }

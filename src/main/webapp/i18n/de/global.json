@@ -8,16 +8,20 @@
       "entities": {
         "main": "Entitäten",
         "hersteller": "Hersteller",
-        "geraetTyp": "Gerättypen",
+        "geraetTyp": "Gerätetypen",
         "zubehoerTyp": "Zubehörtypen",
-        "geraet": "Gerät",
-        "zubehoer": "Zubehör",
-        "systemtyp": "Systemtyp",
+        "geraet": "Geräte",
+        "zubehoer": "Zubehöre",
+        "systemtyp": "Systeme",
         "systeminstanz": "Systeminstanzen",
         "arzt": "Ärzte",
         "betreiber": "Betreiber",
         "betriebsstaette": "Betriebsstätten",
         "systemnutzung": "Systemnutzungen",
+        "systeminstanz": "Systeminstanz",
+        "arzt": "Arzt",
+        "betriebsstaette": "Betriebsstätte",
+        "systemnutzung": "Systemnutzung",
         "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
       },
       "account": {
@@ -142,5 +146,5 @@
     "idexists": "Ein neuer {{entityName}} kann noch keine ID haben",
     "idnull": "Ungültige ID"
   },
-  "footer": "Dies ist Ihre Fußzeile"
+  "footer": "Copyright (c) KVB 2013-2020"
 }

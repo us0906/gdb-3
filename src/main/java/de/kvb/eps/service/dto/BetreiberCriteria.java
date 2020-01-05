@@ -38,6 +38,8 @@ public class BetreiberCriteria implements Serializable, Criteria {
 
     private StringFilter ort;
 
+    private StringFilter bezeichnung;
+
     private LongFilter systeminstanzId;
 
     public BetreiberCriteria(){
@@ -51,6 +53,7 @@ public class BetreiberCriteria implements Serializable, Criteria {
         this.hausnummer = other.hausnummer == null ? null : other.hausnummer.copy();
         this.plz = other.plz == null ? null : other.plz.copy();
         this.ort = other.ort == null ? null : other.ort.copy();
+        this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.systeminstanzId = other.systeminstanzId == null ? null : other.systeminstanzId.copy();
     }
 
@@ -115,6 +118,14 @@ public class BetreiberCriteria implements Serializable, Criteria {
         this.ort = ort;
     }
 
+    public StringFilter getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public void setBezeichnung(StringFilter bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     public LongFilter getSysteminstanzId() {
         return systeminstanzId;
     }
@@ -141,6 +152,7 @@ public class BetreiberCriteria implements Serializable, Criteria {
             Objects.equals(hausnummer, that.hausnummer) &&
             Objects.equals(plz, that.plz) &&
             Objects.equals(ort, that.ort) &&
+            Objects.equals(bezeichnung, that.bezeichnung) &&
             Objects.equals(systeminstanzId, that.systeminstanzId);
     }
 
@@ -154,6 +166,7 @@ public class BetreiberCriteria implements Serializable, Criteria {
         hausnummer,
         plz,
         ort,
+        bezeichnung,
         systeminstanzId
         );
     }
@@ -168,6 +181,7 @@ public class BetreiberCriteria implements Serializable, Criteria {
                 (hausnummer != null ? "hausnummer=" + hausnummer + ", " : "") +
                 (plz != null ? "plz=" + plz + ", " : "") +
                 (ort != null ? "ort=" + ort + ", " : "") +
+                (bezeichnung != null ? "bezeichnung=" + bezeichnung + ", " : "") +
                 (systeminstanzId != null ? "systeminstanzId=" + systeminstanzId + ", " : "") +
             "}";
     }

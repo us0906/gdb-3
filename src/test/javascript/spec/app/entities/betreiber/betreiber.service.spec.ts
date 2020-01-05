@@ -21,7 +21,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new BetreiberService();
 
-      elemDefault = new Betreiber(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Betreiber(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -56,7 +56,8 @@ describe('Service Tests', () => {
             strasse: 'BBBBBB',
             hausnummer: 'BBBBBB',
             plz: 'BBBBBB',
-            ort: 'BBBBBB'
+            ort: 'BBBBBB',
+            bezeichnung: 'BBBBBB'
           },
           elemDefault
         );
@@ -76,7 +77,8 @@ describe('Service Tests', () => {
             strasse: 'BBBBBB',
             hausnummer: 'BBBBBB',
             plz: 'BBBBBB',
-            ort: 'BBBBBB'
+            ort: 'BBBBBB',
+            bezeichnung: 'BBBBBB'
           },
           elemDefault
         );
