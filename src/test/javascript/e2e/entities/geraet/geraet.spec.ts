@@ -39,7 +39,7 @@ describe('Geraet e2e test', () => {
     await navBarPage.autoSignOut();
   });
 
-  it('should load Geraets', async () => {
+  it('should load Geraete', async () => {
     await navBarPage.getEntityPage('geraet');
     listPage = new GeraetComponentsPage();
 
@@ -61,17 +61,15 @@ describe('Geraet e2e test', () => {
       expect(await updatePage.title.getAttribute('id')).to.match(/gdb3App.geraet.home.createOrEditLabel/);
     });
 
-    /* it('should create and save Geraets', async () => {
-
+    it('should create and save Geraets', async () => {
       await updatePage.bezeichnungInput.sendKeys('bezeichnung');
       expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
-
 
       await updatePage.gueltigBisInput.sendKeys('01-01-2001');
       expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2001-01-01');
 
-      // await  selectLastOption(updatePage.geraetTypSelect);
-      // await  selectLastOption(updatePage.herstellerSelect);
+      await selectLastOption(updatePage.geraetTypSelect);
+      await selectLastOption(updatePage.herstellerSelect);
 
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
@@ -84,7 +82,7 @@ describe('Geraet e2e test', () => {
 
       await waitUntilCount(listPage.records, beforeRecordsCount + 1);
       expect(await listPage.records.count()).to.eq(beforeRecordsCount + 1);
-    });*/
+    });
 
     /*
     describe('Details, Update, Delete flow', () => {
