@@ -8,6 +8,7 @@ export interface IBetreiber {
   hausnummer?: string;
   plz?: string;
   ort?: string;
+  bezeichnung?: string;
   systeminstanzs?: ISysteminstanz[];
 }
 
@@ -20,6 +21,7 @@ export class Betreiber implements IBetreiber {
     public hausnummer?: string,
     public plz?: string,
     public ort?: string,
+    public bezeichnung?: string,
     public systeminstanzs?: ISysteminstanz[]
   ) {}
 }

@@ -13,7 +13,14 @@ import { ISystemnutzung, Systemnutzung } from '@/shared/model/systemnutzung.mode
 import SystemnutzungService from './systemnutzung.service';
 
 const validations: any = {
-  systemnutzung: {}
+  systemnutzung: {
+    systeminstanzId: {
+      required
+    },
+    arztId: {
+      required
+    }
+  }
 };
 
 @Component({
@@ -81,12 +88,12 @@ export default class SystemnutzungUpdate extends Vue {
     this.systeminstanzService()
       .retrieve()
       .then(res => {
-        this.systeminstanzs = res.data;
+        this.systeminstanzs = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
     this.arztService()
       .retrieve()
       .then(res => {
-        this.arzts = res.data;
+        this.arzts = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
       });
   }
 }

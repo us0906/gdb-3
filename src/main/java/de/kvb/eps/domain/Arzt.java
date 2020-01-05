@@ -42,6 +42,9 @@ public class Arzt implements Serializable {
     @Column(name = "nachname", nullable = false)
     private String nachname;
 
+    @Column(name = "bezeichnung")
+    private String bezeichnung;
+
     @OneToMany(mappedBy = "arzt")
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Systemnutzung> systemnutzungs = new HashSet<>();
@@ -107,6 +110,20 @@ public class Arzt implements Serializable {
         this.nachname = nachname;
     }
 
+    public String getBezeichnung() {
+
+        return lanr + " " + titel + " " + vorname + " " + nachname;
+    }
+
+    public Arzt bezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+        return this;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     public Set<Systemnutzung> getSystemnutzungs() {
         return systemnutzungs;
     }
@@ -157,6 +174,7 @@ public class Arzt implements Serializable {
             ", titel='" + getTitel() + "'" +
             ", vorname='" + getVorname() + "'" +
             ", nachname='" + getNachname() + "'" +
+            ", bezeichnung='" + getBezeichnung() + "'" +
             "}";
     }
 }

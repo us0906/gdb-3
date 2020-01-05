@@ -85,22 +85,6 @@ program
 
 program
   .version('0.0.1')
-  .command('zubehoer <anzahl>')
-  .action(async function(anzahl) {
-    console.log('Erzeuge ' + anzahl + ' neue zubehoer Instanzen');
-
-    var authorizationkey = await utils.getOAuthAuthorization('admin', 'admin');
-
-    console.log('Token is: ' + authorizationkey);
-
-    for (var i = 0; i < anzahl; i++) {
-      const jsonData = zubehoer.create(faker);
-      utils.send('zubehoers', jsonData, authorizationkey);
-    }
-  });
-
-program
-  .version('0.0.1')
   .command('geraet <anzahl>')
   .action(async function(anzahl) {
     console.log('Erzeuge ' + anzahl + ' neue geraet Instanzen');

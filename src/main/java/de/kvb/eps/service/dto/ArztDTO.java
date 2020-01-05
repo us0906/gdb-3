@@ -22,6 +22,8 @@ public class ArztDTO implements Serializable {
     @NotNull
     private String nachname;
 
+    private String bezeichnung;
+
 
     public Long getId() {
         return id;
@@ -63,6 +65,14 @@ public class ArztDTO implements Serializable {
         this.nachname = nachname;
     }
 
+    public String getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public void setBezeichnung(String bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -92,6 +102,7 @@ public class ArztDTO implements Serializable {
             ", titel='" + getTitel() + "'" +
             ", vorname='" + getVorname() + "'" +
             ", nachname='" + getNachname() + "'" +
+            ", bezeichnung='" + getBezeichnung() + "'" +
             "}";
     }
 }

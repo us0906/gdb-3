@@ -49,6 +49,7 @@
                     <th><span v-text="$t('gdb3App.betreiber.hausnummer')">Hausnummer</span></th>
                     <th><span v-text="$t('gdb3App.betreiber.plz')">Plz</span></th>
                     <th><span v-text="$t('gdb3App.betreiber.ort')">Ort</span></th>
+
                     <th></th>
                 </tr>
                 </thead>
@@ -64,6 +65,7 @@
                     <td>{{betreiber.hausnummer}}</td>
                     <td>{{betreiber.plz}}</td>
                     <td>{{betreiber.ort}}</td>
+
                     <td class="text-right">
                         <div class="btn-group">
                             <router-link :to="{name: 'BetreiberView', params: {betreiberId: betreiber.id}}" tag="button" class="btn btn-info btn-sm details">

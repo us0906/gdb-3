@@ -105,6 +105,7 @@ class ArztGatlingTest extends Simulation {
                 , "titel":"SAMPLE_TEXT"
                 , "vorname":"SAMPLE_TEXT"
                 , "nachname":"SAMPLE_TEXT"
+                , "bezeichnung":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_arzt_url"))).exitHereIfFailed

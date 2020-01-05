@@ -34,6 +34,8 @@ public class ArztCriteria implements Serializable, Criteria {
 
     private StringFilter nachname;
 
+    private StringFilter bezeichnung;
+
     private LongFilter systemnutzungId;
 
     public ArztCriteria(){
@@ -45,6 +47,7 @@ public class ArztCriteria implements Serializable, Criteria {
         this.titel = other.titel == null ? null : other.titel.copy();
         this.vorname = other.vorname == null ? null : other.vorname.copy();
         this.nachname = other.nachname == null ? null : other.nachname.copy();
+        this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.systemnutzungId = other.systemnutzungId == null ? null : other.systemnutzungId.copy();
     }
 
@@ -93,6 +96,14 @@ public class ArztCriteria implements Serializable, Criteria {
         this.nachname = nachname;
     }
 
+    public StringFilter getBezeichnung() {
+        return bezeichnung;
+    }
+
+    public void setBezeichnung(StringFilter bezeichnung) {
+        this.bezeichnung = bezeichnung;
+    }
+
     public LongFilter getSystemnutzungId() {
         return systemnutzungId;
     }
@@ -117,6 +128,7 @@ public class ArztCriteria implements Serializable, Criteria {
             Objects.equals(titel, that.titel) &&
             Objects.equals(vorname, that.vorname) &&
             Objects.equals(nachname, that.nachname) &&
+            Objects.equals(bezeichnung, that.bezeichnung) &&
             Objects.equals(systemnutzungId, that.systemnutzungId);
     }
 
@@ -128,6 +140,7 @@ public class ArztCriteria implements Serializable, Criteria {
         titel,
         vorname,
         nachname,
+        bezeichnung,
         systemnutzungId
         );
     }
@@ -140,6 +153,7 @@ public class ArztCriteria implements Serializable, Criteria {
                 (titel != null ? "titel=" + titel + ", " : "") +
                 (vorname != null ? "vorname=" + vorname + ", " : "") +
                 (nachname != null ? "nachname=" + nachname + ", " : "") +
+                (bezeichnung != null ? "bezeichnung=" + bezeichnung + ", " : "") +
                 (systemnutzungId != null ? "systemnutzungId=" + systemnutzungId + ", " : "") +
             "}";
     }

@@ -6,15 +6,17 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "systeminstanz",
             "otherEntityRelationshipName": "systemnutzung",
+            "relationshipValidateRules": "required",
             "relationshipName": "systeminstanz",
-            "otherEntityField": "id"
+            "otherEntityField": "bezeichnung"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "arzt",
             "otherEntityRelationshipName": "systemnutzung",
+            "relationshipValidateRules": "required",
             "relationshipName": "arzt",
-            "otherEntityField": "id"
+            "otherEntityField": "bezeichnung"
         }
     ],
     "changelogDate": "20191222194157",

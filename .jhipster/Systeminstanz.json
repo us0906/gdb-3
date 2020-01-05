@@ -68,15 +68,17 @@
             "relationshipType": "many-to-one",
             "otherEntityName": "betriebsstaette",
             "otherEntityRelationshipName": "systeminstanz",
+            "relationshipValidateRules": "required",
             "relationshipName": "betriebsstaette",
-            "otherEntityField": "id"
+            "otherEntityField": "bezeichnung"
         },
         {
             "relationshipType": "many-to-one",
             "otherEntityName": "betreiber",
             "otherEntityRelationshipName": "systeminstanz",
+            "relationshipValidateRules": "required",
             "relationshipName": "betreiber",
-            "otherEntityField": "id"
+            "otherEntityField": "bezeichnung"
         }
     ],
     "changelogDate": "20191222194153",

@@ -21,6 +21,7 @@
       "titel": "Titel",
       "vorname": "Vorname",
       "nachname": "Nachname",
+      "bezeichnung": "Bezeichnung",
       "systemnutzung": "Systemnutzung"
     }
   }

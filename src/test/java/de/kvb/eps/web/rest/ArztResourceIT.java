@@ -13,6 +13,7 @@ import de.kvb.eps.web.rest.errors.ExceptionTranslator;
 import de.kvb.eps.service.dto.ArztCriteria;
 import de.kvb.eps.service.ArztQueryService;
 
+import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -44,17 +45,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {Gdb3App.class, TestSecurityConfiguration.class})
 public class ArztResourceIT {
 
-    private static final String DEFAULT_LANR = "AAAAAAA";
-    private static final String UPDATED_LANR = "BBBBBBB";
+    private static final String DEFAULT_LANR = "1234567";
+    private static final String UPDATED_LANR = "7654321";
 
-    private static final String DEFAULT_TITEL = "AAAAAAAAAA";
-    private static final String UPDATED_TITEL = "BBBBBBBBBB";
+    private static final String DEFAULT_TITEL = "Dr. med.";
+    private static final String UPDATED_TITEL = "Prof.";
 
-    private static final String DEFAULT_VORNAME = "AAAAAAAAAA";
-    private static final String UPDATED_VORNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_VORNAME = "Martin";
+    private static final String UPDATED_VORNAME = "Michael";
 
-    private static final String DEFAULT_NACHNAME = "AAAAAAAAAA";
-    private static final String UPDATED_NACHNAME = "BBBBBBBBBB";
+    private static final String DEFAULT_NACHNAME = "Schmitz";
+    private static final String UPDATED_NACHNAME = "Meier";
+
+    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_LANR + " " + DEFAULT_TITEL + " " + DEFAULT_VORNAME + " " + DEFAULT_NACHNAME;
+    private static final String UPDATED_BEZEICHNUNG = UPDATED_LANR + " " + UPDATED_TITEL + " " + UPDATED_VORNAME + " " + UPDATED_NACHNAME;
 
     @Autowired
     private ArztRepository arztRepository;
@@ -161,6 +165,7 @@ public class ArztResourceIT {
         assertThat(testArzt.getTitel()).isEqualTo(DEFAULT_TITEL);
         assertThat(testArzt.getVorname()).isEqualTo(DEFAULT_VORNAME);
         assertThat(testArzt.getNachname()).isEqualTo(DEFAULT_NACHNAME);
+        assertThat(testArzt.getBezeichnung()).isEqualTo(DEFAULT_BEZEICHNUNG);
 
         // Validate the Arzt in Elasticsearch
         verify(mockArztSearchRepository, times(1)).save(testArzt);
@@ -261,9 +266,10 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
-            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
-    
+
     @Test
     @Transactional
     public void getArzt() throws Exception {
@@ -278,7 +284,8 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.lanr").value(DEFAULT_LANR))
             .andExpect(jsonPath("$.titel").value(DEFAULT_TITEL))
             .andExpect(jsonPath("$.vorname").value(DEFAULT_VORNAME))
-            .andExpect(jsonPath("$.nachname").value(DEFAULT_NACHNAME));
+            .andExpect(jsonPath("$.nachname").value(DEFAULT_NACHNAME))
+            .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG));
     }
 
 
@@ -612,6 +619,83 @@ public class ArztResourceIT {
         defaultArztShouldBeFound("nachname.doesNotContain=" + UPDATED_NACHNAME);
     }
 
+    @Transactional
+    public void getAllArztsByBezeichnungIsEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung equals to DEFAULT_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.equals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Transactional
+    public void getAllArztsByBezeichnungIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung not equals to DEFAULT_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.notEquals=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung not equals to UPDATED_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Transactional
+    public void getAllArztsByBezeichnungIsInShouldWork() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung in DEFAULT_BEZEICHNUNG or UPDATED_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.in=" + DEFAULT_BEZEICHNUNG + "," + UPDATED_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung equals to UPDATED_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Transactional
+    public void getAllArztsByBezeichnungIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung is not null
+        defaultArztShouldBeFound("bezeichnung.specified=true");
+
+        // Get all the arztList where bezeichnung is null
+        defaultArztShouldNotBeFound("bezeichnung.specified=false");
+    }
+
+
+    @Transactional
+    public void getAllArztsByBezeichnungContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung contains DEFAULT_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.contains=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung contains UPDATED_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
+    }
+
+
+    @Transactional
+    public void getAllArztsByBezeichnungNotContainsSomething() throws Exception {
+        // Initialize the database
+        arztRepository.saveAndFlush(arzt);
+
+        // Get all the arztList where bezeichnung does not contain DEFAULT_BEZEICHNUNG
+        defaultArztShouldNotBeFound("bezeichnung.doesNotContain=" + DEFAULT_BEZEICHNUNG);
+
+        // Get all the arztList where bezeichnung does not contain UPDATED_BEZEICHNUNG
+        defaultArztShouldBeFound("bezeichnung.doesNotContain=" + UPDATED_BEZEICHNUNG);
+    }
+
 
     @Test
     @Transactional
@@ -639,11 +723,13 @@ public class ArztResourceIT {
         restArztMockMvc.perform(get("/api/arzts?sort=id,desc&" + filter))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(jsonPath("$.[*].id").exists())
             .andExpect(jsonPath("$.[*].id").value(hasItem(arzt.getId().intValue())))
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
-            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
 
         // Check, that the count call also returns 1
         restArztMockMvc.perform(get("/api/arzts/count?sort=id,desc&" + filter))
@@ -694,7 +780,8 @@ public class ArztResourceIT {
             .lanr(UPDATED_LANR)
             .titel(UPDATED_TITEL)
             .vorname(UPDATED_VORNAME)
-            .nachname(UPDATED_NACHNAME);
+            .nachname(UPDATED_NACHNAME)
+            .bezeichnung(UPDATED_BEZEICHNUNG);
         ArztDTO arztDTO = arztMapper.toDto(updatedArzt);
 
         restArztMockMvc.perform(put("/api/arzts")
@@ -710,6 +797,7 @@ public class ArztResourceIT {
         assertThat(testArzt.getTitel()).isEqualTo(UPDATED_TITEL);
         assertThat(testArzt.getVorname()).isEqualTo(UPDATED_VORNAME);
         assertThat(testArzt.getNachname()).isEqualTo(UPDATED_NACHNAME);
+        assertThat(testArzt.getBezeichnung()).isEqualTo(UPDATED_BEZEICHNUNG);
 
         // Validate the Arzt in Elasticsearch
         verify(mockArztSearchRepository, times(1)).save(testArzt);
@@ -773,6 +861,7 @@ public class ArztResourceIT {
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
-            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)));
+            .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
+            .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
 }

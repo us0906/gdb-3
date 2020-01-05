@@ -22,7 +22,8 @@ const validations: any = {
     },
     nachname: {
       required
-    }
+    },
+    bezeichnung: {}
   }
 };
 

@@ -104,6 +104,26 @@ public class SystemnutzungResourceIT {
      */
     public static Systemnutzung createEntity(EntityManager em) {
         Systemnutzung systemnutzung = new Systemnutzung();
+        // Add required entity
+        Systeminstanz systeminstanz;
+        if (TestUtil.findAll(em, Systeminstanz.class).isEmpty()) {
+            systeminstanz = SysteminstanzResourceIT.createEntity(em);
+            em.persist(systeminstanz);
+            em.flush();
+        } else {
+            systeminstanz = TestUtil.findAll(em, Systeminstanz.class).get(0);
+        }
+        systemnutzung.setSysteminstanz(systeminstanz);
+        // Add required entity
+        Arzt arzt;
+        if (TestUtil.findAll(em, Arzt.class).isEmpty()) {
+            arzt = ArztResourceIT.createEntity(em);
+            em.persist(arzt);
+            em.flush();
+        } else {
+            arzt = TestUtil.findAll(em, Arzt.class).get(0);
+        }
+        systemnutzung.setArzt(arzt);
         return systemnutzung;
     }
     /**
@@ -114,6 +134,26 @@ public class SystemnutzungResourceIT {
      */
     public static Systemnutzung createUpdatedEntity(EntityManager em) {
         Systemnutzung systemnutzung = new Systemnutzung();
+        // Add required entity
+        Systeminstanz systeminstanz;
+        if (TestUtil.findAll(em, Systeminstanz.class).isEmpty()) {
+            systeminstanz = SysteminstanzResourceIT.createUpdatedEntity(em);
+            em.persist(systeminstanz);
+            em.flush();
+        } else {
+            systeminstanz = TestUtil.findAll(em, Systeminstanz.class).get(0);
+        }
+        systemnutzung.setSysteminstanz(systeminstanz);
+        // Add required entity
+        Arzt arzt;
+        if (TestUtil.findAll(em, Arzt.class).isEmpty()) {
+            arzt = ArztResourceIT.createUpdatedEntity(em);
+            em.persist(arzt);
+            em.flush();
+        } else {
+            arzt = TestUtil.findAll(em, Arzt.class).get(0);
+        }
+        systemnutzung.setArzt(arzt);
         return systemnutzung;
     }
 
@@ -216,12 +256,8 @@ public class SystemnutzungResourceIT {
     @Test
     @Transactional
     public void getAllSystemnutzungsBySysteminstanzIsEqualToSomething() throws Exception {
-        // Initialize the database
-        systemnutzungRepository.saveAndFlush(systemnutzung);
-        Systeminstanz systeminstanz = SysteminstanzResourceIT.createEntity(em);
-        em.persist(systeminstanz);
-        em.flush();
-        systemnutzung.setSysteminstanz(systeminstanz);
+        // Get already existing entity
+        Systeminstanz systeminstanz = systemnutzung.getSysteminstanz();
         systemnutzungRepository.saveAndFlush(systemnutzung);
         Long systeminstanzId = systeminstanz.getId();
 
@@ -236,12 +272,8 @@ public class SystemnutzungResourceIT {
     @Test
     @Transactional
     public void getAllSystemnutzungsByArztIsEqualToSomething() throws Exception {
-        // Initialize the database
-        systemnutzungRepository.saveAndFlush(systemnutzung);
-        Arzt arzt = ArztResourceIT.createEntity(em);
-        em.persist(arzt);
-        em.flush();
-        systemnutzung.setArzt(arzt);
+        // Get already existing entity
+        Arzt arzt = systemnutzung.getArzt();
         systemnutzungRepository.saveAndFlush(systemnutzung);
         Long arztId = arzt.getId();
 

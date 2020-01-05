@@ -21,7 +21,7 @@ describe('Service Tests', () => {
     beforeEach(() => {
       service = new ArztService();
 
-      elemDefault = new Arzt(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Arzt(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -54,7 +54,8 @@ describe('Service Tests', () => {
             lanr: 'BBBBBB',
             titel: 'BBBBBB',
             vorname: 'BBBBBB',
-            nachname: 'BBBBBB'
+            nachname: 'BBBBBB',
+            bezeichnung: 'BBBBBB'
           },
           elemDefault
         );
@@ -72,7 +73,8 @@ describe('Service Tests', () => {
             lanr: 'BBBBBB',
             titel: 'BBBBBB',
             vorname: 'BBBBBB',
-            nachname: 'BBBBBB'
+            nachname: 'BBBBBB',
+            bezeichnung: 'BBBBBB'
           },
           elemDefault
         );

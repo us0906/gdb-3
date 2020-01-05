@@ -22,6 +22,7 @@
       "hausnummer": "Hausnummer",
       "plz": "PLZ",
       "ort": "Ort",
+      "bezeichnung": "Bezeichnung",
       "systeminstanz": "Systeminstanz"
     }
   }

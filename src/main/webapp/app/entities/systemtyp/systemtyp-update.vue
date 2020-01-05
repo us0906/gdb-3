@@ -35,12 +35,18 @@
 
                     <div class="form-group">
 
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systemtyp.geraet')" for="systemtyp-geraet">Geraet</label>
-                        <select class="form-control" id="systemtyp-geraet" name="geraet" v-model="$v.systemtyp.geraetId.$model" required>
-                            <option v-if="!systemtyp.geraetId" v-bind:value="null" selected></option>
-                            <option v-bind:value="geraetOption.id" v-for="geraetOption in geraets" :key="geraetOption.id">{{geraetOption.herstellerBezeichnung}} - {{geraetOption.bezeichnung}}</option>
-                        </select>
+                        <label class="form-control-label" v-text="$t('gdb3App.systemtyp.geraet')" for="systemtyp-geraet">Geraet</label>
 
+                        <v-select label="bezeichnung"
+                                  id="systemtyp-geraet"
+                                  :options="geraets"
+                                  v-model="$v.systemtyp.geraetId.$model" required
+                                  :reduce="g => g.id"
+                                  :value="selected"
+                                  :searchable="true"
+                                  :filterable="true"
+                                  :clearable="true">
+                        </v-select>
                     </div>
 
                     <div v-if="$v.systemtyp.geraetId.$anyDirty && $v.systemtyp.geraetId.$invalid">
@@ -49,11 +55,18 @@
                         </small>
                     </div>
                     <div class="form-group">
-                        <label class="form-control-label" v-bind:value="$t('gdb3App.systemtyp.zubehoer')" for="systemtyp-zubehoer">Zubehoer</label>
-                        <select class="form-control" id="systemtyp-zubehoer" name="zubehoer" v-model="systemtyp.zubehoerId">
-                            <option v-bind:value="null"></option>
-                            <option v-bind:value="zubehoerOption.id" v-for="zubehoerOption in zubehoers" :key="zubehoerOption.id">{{zubehoerOption.herstellerBezeichnung}} - {{zubehoerOption.bezeichnung}}</option>
-                        </select>
+                        <label class="form-control-label" v-text="$t('gdb3App.systemtyp.zubehoer')" for="systemtyp-zubehoer">Zubehoer</label>
+                       <v-select label="bezeichnung"
+                                  id="systemtyp-zubehoer"
+                                  :options="zubehoers"
+                                  v-model="systemtyp.zubehoerId" required
+                                  :reduce="z => z.id"
+                                  :value="selected"
+                                  :searchable="true"
+                                  :filterable="true"
+                                  :clearable="true">
+                        </v-select>
+
                     </div>
                 </div>
                 <div>

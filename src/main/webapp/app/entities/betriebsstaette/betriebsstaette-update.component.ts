@@ -15,7 +15,8 @@ const validations: any = {
     strasse: {},
     hausnummer: {},
     plz: {},
-    ort: {}
+    ort: {},
+    bezeichnung: {}
   }
 };
 
