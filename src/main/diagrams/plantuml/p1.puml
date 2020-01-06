@@ -1,0 +1,44 @@
+@startuml
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Component.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Component.puml
+
+LAYOUT_TOP_DOWN
+'LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+title Anbindung von eva-GEN an die Digitale Antragsverabeitung
+Person(sachbearbeiter, "bearbeitet Antrag", "Sachbearbeiter")
+Person_Ext(arzt, "Legt mp-Antrag an", "Arzt / Mitglied")
+
+System_Ext(ds, "DokumentenService der KVB", "Storage für Dokumente")
+System_Ext(mp, "Mitgliederportal", "Self-Service für die Mitglieder")
+System_Ext(smarakt, "SmarAkt", "Dokumentenspeicher")
+
+
+Container_Boundary(eva, "eva-GEN") {
+    Container(bridge, "mpbridge", "spring-boot", "Initiiert Antragserzeugung include eva-GEN")
+    Container(spa, "Single Page Application", "javascript and extjs", "interne Antragsbearbeitung mittels Browser")
+    ContainerDb(gendb, "Antragsdaten", "Oracle 12", "speichert Antragsdaten")
+    ContainerDb(gdbdb, "Gerätedaten", "Oracle 12", "Speichert gemeldete Gerätedaten")
+
+    Container_Boundary(api, "Inubit") {
+        Component(GEN_erzeugeAntrag, "Erzeuge GEN-Antrag", "Inubit-TWF", "Legt neuen eva-GEN-Antrag an")
+        Component(GEN_Backend, "Antragsverarbeitung", "Inubit TWF", "bearbeitet und bewertet Antragsdaten")
+    }
+}
+Rel(bridge, GEN_erzeugeAntrag, "Sync. Call", "JSON/REST")
+Rel(arzt, mp, "verwendet", "Browser")
+Rel(mp, ds, "speichert Dokument", "JSON/REST")
+Rel(mp, bridge, "sendet Nachricht", "AMQP")
+Rel(GEN_Backend, ds, "legt Dokumente ab", "JSON/REST")
+Rel(sachbearbeiter, spa,"bearbeitet Antrag", "Browser")
+Rel(spa,GEN_Backend,"verwendet","HTTP/REST")
+Rel(GEN_erzeugeAntrag,GEN_Backend,"verwendet","TWF-Aufruf")
+Rel(GEN_Backend, gdbdb, "schreibt Gerätedaten", "JSON/REST")
+Rel(bridge, ds, "liest Dokumente")
+Rel(GEN_Backend, gendb, "schreibt und liest Daten")
+Rel(GEN_Backend, smarakt, "erzeugt Dokumente", "NFS")
+
+
+@enduml
