@@ -1,5 +1,5 @@
 /* tslint:disable no-unused-expression */
-import { browser } from 'protractor';
+import { browser, by, ElementFinder, Key } from 'protractor';
 
 import NavBarPage from './../../page-objects/navbar-page';
 import GeraetComponentsPage, { GeraetDeleteDialog } from './geraet.page-object';
@@ -12,6 +12,7 @@ import {
   getRecordsCount,
   isVisible,
   selectLastOption,
+  selectFirstOption,
   waitUntilAllDisplayed,
   waitUntilAnyDisplayed,
   waitUntilCount,
@@ -26,7 +27,7 @@ describe('Geraet e2e test', () => {
   let updatePage: GeraetUpdatePage;
   let detailsPage: GeraetDetailsPage;
   let listPage: GeraetComponentsPage;
-  /*let deleteDialog: GeraetDeleteDialog;*/
+  let deleteDialog: GeraetDeleteDialog;
   let beforeRecordsCount = 0;
 
   before(async () => {
@@ -68,8 +69,11 @@ describe('Geraet e2e test', () => {
       await updatePage.gueltigBisInput.sendKeys('01-01-2001');
       expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2001-01-01');
 
-      await selectLastOption(updatePage.geraetTypSelect);
-      await selectLastOption(updatePage.herstellerSelect);
+      await selectFirstOption(updatePage.geraetTypSelect);
+      //expect(await updatePage.geraetTypSelect.getAttribute('value')).to.match(/Ultraschallgerät/);
+
+      await selectFirstOption(updatePage.herstellerSelect);
+      //expect(await updatePage.herstellerSelect.getAttribute('value')).to.match(/F/);
 
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
@@ -84,11 +88,8 @@ describe('Geraet e2e test', () => {
       expect(await listPage.records.count()).to.eq(beforeRecordsCount + 1);
     });
 
-    /*
     describe('Details, Update, Delete flow', () => {
-
       after(async () => {
-
         const deleteButton = listPage.getDeleteButton(listPage.records.last());
         await click(deleteButton);
 
@@ -108,7 +109,6 @@ describe('Geraet e2e test', () => {
       });
 
       it('should load details Geraet page and fetch data', async () => {
-
         const detailsButton = listPage.getDetailsButton(listPage.records.last());
         await click(detailsButton);
 
@@ -124,7 +124,6 @@ describe('Geraet e2e test', () => {
       });
 
       it('should load edit Geraet page, fetch data and update', async () => {
-
         const editButton = listPage.getEditButton(listPage.records.last());
         await click(editButton);
 
@@ -132,14 +131,13 @@ describe('Geraet e2e test', () => {
 
         expect(await updatePage.title.getText()).not.to.be.empty;
 
-          await updatePage.bezeichnungInput.clear();
-          await updatePage.bezeichnungInput.sendKeys('modified');
-          expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.bezeichnungInput.clear();
+        await updatePage.bezeichnungInput.sendKeys('modified');
+        expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
 
-          await updatePage.gueltigBisInput.clear();
-          await updatePage.gueltigBisInput.sendKeys('01-01-2019');
-          expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2019-01-01');
-
+        await updatePage.gueltigBisInput.clear();
+        await updatePage.gueltigBisInput.sendKeys('01-01-2019');
+        expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2019-01-01');
 
         await updatePage.saveButton.click();
 
@@ -150,6 +148,5 @@ describe('Geraet e2e test', () => {
         await waitUntilCount(listPage.records, beforeRecordsCount + 1);
       });
     });
-    */
   });
 });

@@ -20,9 +20,9 @@ export default class SysteminstanzUpdatePage extends AlertPage {
 
   bemerkungInput: ElementFinder = element(by.css('textarea#systeminstanz-bemerkung'));
 
-  systemtypSelect = element(by.css('select#systeminstanz-systemtyp'));
+  systemtypSelect = element(by.id('systeminstanz-systemtyp')).element(by.css("input[type='search']"));
 
-  betriebsstaetteSelect = element(by.css('select#systeminstanz-betriebsstaette'));
+  betriebsstaetteSelect = element(by.id('systeminstanz-betriebsstaette')).element(by.css("input[type='search']"));
 
-  betreiberSelect = element(by.css('select#systeminstanz-betreiber'));
+  betreiberSelect = element(by.id('systeminstanz-betreiber')).element(by.css("input[type='search']"));
 }

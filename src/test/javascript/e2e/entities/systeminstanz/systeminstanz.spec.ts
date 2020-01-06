@@ -11,7 +11,7 @@ import {
   click,
   getRecordsCount,
   isVisible,
-  selectLastOption,
+  selectFirstOption,
   waitUntilAllDisplayed,
   waitUntilAnyDisplayed,
   waitUntilCount,
@@ -28,7 +28,7 @@ describe('Systeminstanz e2e test', () => {
   let updatePage: SysteminstanzUpdatePage;
   let detailsPage: SysteminstanzDetailsPage;
   let listPage: SysteminstanzComponentsPage;
-  /*let deleteDialog: SysteminstanzDeleteDialog;*/
+  let deleteDialog: SysteminstanzDeleteDialog;
   const fileToUpload = '../../../../../main/webapp/content/images/logo-jhipster.png';
   const absolutePath = path.resolve(__dirname, fileToUpload);
   let beforeRecordsCount = 0;
@@ -65,36 +65,30 @@ describe('Systeminstanz e2e test', () => {
       expect(await updatePage.title.getAttribute('id')).to.match(/gdb3App.systeminstanz.home.createOrEditLabel/);
     });
 
-    /* it('should create and save Systeminstanzs', async () => {
-
+    it('should create and save Systeminstanzs', async () => {
       await updatePage.bezeichnungInput.sendKeys('bezeichnung');
       expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/bezeichnung/);
-
 
       await updatePage.geraetNummerInput.sendKeys('geraetNummer');
       expect(await updatePage.geraetNummerInput.getAttribute('value')).to.match(/geraetNummer/);
 
-
-      await updatePage.geraetBaujahrInput.sendKeys('geraetBaujahr');
-      expect(await updatePage.geraetBaujahrInput.getAttribute('value')).to.match(/geraetBaujahr/);
-
+      await updatePage.geraetBaujahrInput.sendKeys('2018');
+      expect(await updatePage.geraetBaujahrInput.getAttribute('value')).to.match(/2018/);
 
       await updatePage.gueltigBisInput.sendKeys('01-01-2001');
       expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2001-01-01');
 
-
-      await waitUntilDisplayed(updatePage.gweInput);
-      await updatePage.gweInput.sendKeys(absolutePath);
-
+      //await waitUntilDisplayed(updatePage.gweInput);
+      //await updatePage.gweInput.sendKeys(absolutePath);
 
       await waitUntilDisplayed(updatePage.bemerkungInput);
       await updatePage.bemerkungInput.sendKeys('bemerkung');
 
       expect(await updatePage.bemerkungInput.getAttribute('value')).to.match(/bemerkung/);
 
-      // await  selectLastOption(updatePage.systemtypSelect);
-      // await  selectLastOption(updatePage.betriebsstaetteSelect);
-      // await  selectLastOption(updatePage.betreiberSelect);
+      await selectFirstOption(updatePage.systemtypSelect);
+      await selectFirstOption(updatePage.betriebsstaetteSelect);
+      await selectFirstOption(updatePage.betreiberSelect);
 
       expect(await updatePage.saveButton.isEnabled()).to.be.true;
       await updatePage.saveButton.click();
@@ -107,13 +101,10 @@ describe('Systeminstanz e2e test', () => {
 
       await waitUntilCount(listPage.records, beforeRecordsCount + 1);
       expect(await listPage.records.count()).to.eq(beforeRecordsCount + 1);
-    });*/
+    });
 
-    /*
     describe('Details, Update, Delete flow', () => {
-
       after(async () => {
-
         const deleteButton = listPage.getDeleteButton(listPage.records.last());
         await click(deleteButton);
 
@@ -133,7 +124,6 @@ describe('Systeminstanz e2e test', () => {
       });
 
       it('should load details Systeminstanz page and fetch data', async () => {
-
         const detailsButton = listPage.getDetailsButton(listPage.records.last());
         await click(detailsButton);
 
@@ -149,7 +139,6 @@ describe('Systeminstanz e2e test', () => {
       });
 
       it('should load edit Systeminstanz page, fetch data and update', async () => {
-
         const editButton = listPage.getEditButton(listPage.records.last());
         await click(editButton);
 
@@ -157,26 +146,25 @@ describe('Systeminstanz e2e test', () => {
 
         expect(await updatePage.title.getText()).not.to.be.empty;
 
-          await updatePage.bezeichnungInput.clear();
-          await updatePage.bezeichnungInput.sendKeys('modified');
-          expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.bezeichnungInput.clear();
+        await updatePage.bezeichnungInput.sendKeys('modified');
+        expect(await updatePage.bezeichnungInput.getAttribute('value')).to.match(/modified/);
 
-          await updatePage.geraetNummerInput.clear();
-          await updatePage.geraetNummerInput.sendKeys('modified');
-          expect(await updatePage.geraetNummerInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.geraetNummerInput.clear();
+        await updatePage.geraetNummerInput.sendKeys('modified');
+        expect(await updatePage.geraetNummerInput.getAttribute('value')).to.match(/modified/);
 
-          await updatePage.geraetBaujahrInput.clear();
-          await updatePage.geraetBaujahrInput.sendKeys('modified');
-          expect(await updatePage.geraetBaujahrInput.getAttribute('value')).to.match(/modified/);
+        await updatePage.geraetBaujahrInput.clear();
+        await updatePage.geraetBaujahrInput.sendKeys('2011');
+        expect(await updatePage.geraetBaujahrInput.getAttribute('value')).to.match(/2011/);
 
-          await updatePage.gueltigBisInput.clear();
-          await updatePage.gueltigBisInput.sendKeys('01-01-2019');
-          expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2019-01-01');
+        await updatePage.gueltigBisInput.clear();
+        await updatePage.gueltigBisInput.sendKeys('01-01-2019');
+        expect(await updatePage.gueltigBisInput.getAttribute('value')).to.eq('2019-01-01');
 
-          await updatePage.bemerkungInput.clear();
-          await updatePage.bemerkungInput.sendKeys('updatedbemerkung');
-          expect(await updatePage.bemerkungInput.getAttribute('value')).to.match(/updatedbemerkung/);
-
+        await updatePage.bemerkungInput.clear();
+        await updatePage.bemerkungInput.sendKeys('updatedbemerkung');
+        expect(await updatePage.bemerkungInput.getAttribute('value')).to.match(/updatedbemerkung/);
 
         await updatePage.saveButton.click();
 
@@ -187,6 +175,5 @@ describe('Systeminstanz e2e test', () => {
         await waitUntilCount(listPage.records, beforeRecordsCount + 1);
       });
     });
-    */
   });
 });
