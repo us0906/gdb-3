@@ -18,7 +18,7 @@ async function send(entity, jsonData, authKey) {
     .catch(error => {
       //console.log (error);
 
-      console.log(error.response.status + ' ' + error.response.statusText);
+      console.log(error);
     });
 }
 

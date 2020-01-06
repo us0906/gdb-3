@@ -38,7 +38,7 @@ program
     const ANZAHL_ZUBEHOER = 50;
     const ANZAHL_SYSTEME = 50;
     const ANZAHL_HERSTELLER = 50;
-    const ANZAHL_SYSTEMINSTANZEN = 2000;
+    const ANZAHL_SYSTEMINSTANZEN = 20;
 
     if (authorizationkey) {
       let jsonData = geraetTyp.create(faker);
