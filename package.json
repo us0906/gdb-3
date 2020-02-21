@@ -22,7 +22,7 @@
     "eslint-plugin-react": "^7.17.0",
     "jquery": "^1.9.1",
     "keycloak-connect": "8.0.1",
-    "swagger-ui": "2.2.10",
+    "swagger-ui": "3.23.11",
     "vue": "2.6.11",
     "vue-class-component": "7.0.2",
     "vue-cookie": "1.1.4",
