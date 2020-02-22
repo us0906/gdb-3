@@ -164,7 +164,7 @@ public class SystemtypResourceIT {
         // Create the Systemtyp
         SystemtypDTO systemtypDTO = systemtypMapper.toDto(systemtyp);
         restSystemtypMockMvc.perform(post("/api/systemtyps")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemtypDTO)))
             .andExpect(status().isCreated());
 
@@ -190,7 +190,7 @@ public class SystemtypResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSystemtypMockMvc.perform(post("/api/systemtyps")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemtypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -214,7 +214,7 @@ public class SystemtypResourceIT {
         SystemtypDTO systemtypDTO = systemtypMapper.toDto(systemtyp);
 
         restSystemtypMockMvc.perform(post("/api/systemtyps")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemtypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -231,7 +231,7 @@ public class SystemtypResourceIT {
         // Get all the systemtypList
         restSystemtypMockMvc.perform(get("/api/systemtyps?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systemtyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -246,7 +246,7 @@ public class SystemtypResourceIT {
         // Get the systemtyp
         restSystemtypMockMvc.perform(get("/api/systemtyps/{id}", systemtyp.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(systemtyp.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
@@ -516,7 +516,7 @@ public class SystemtypResourceIT {
     private void defaultSystemtypShouldBeFound(String filter) throws Exception {
         restSystemtypMockMvc.perform(get("/api/systemtyps?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systemtyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -524,7 +524,7 @@ public class SystemtypResourceIT {
         // Check, that the count call also returns 1
         restSystemtypMockMvc.perform(get("/api/systemtyps/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -534,14 +534,14 @@ public class SystemtypResourceIT {
     private void defaultSystemtypShouldNotBeFound(String filter) throws Exception {
         restSystemtypMockMvc.perform(get("/api/systemtyps?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restSystemtypMockMvc.perform(get("/api/systemtyps/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -572,7 +572,7 @@ public class SystemtypResourceIT {
         SystemtypDTO systemtypDTO = systemtypMapper.toDto(updatedSystemtyp);
 
         restSystemtypMockMvc.perform(put("/api/systemtyps")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemtypDTO)))
             .andExpect(status().isOk());
 
@@ -597,7 +597,7 @@ public class SystemtypResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSystemtypMockMvc.perform(put("/api/systemtyps")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemtypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -619,7 +619,7 @@ public class SystemtypResourceIT {
 
         // Delete the systemtyp
         restSystemtypMockMvc.perform(delete("/api/systemtyps/{id}", systemtyp.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -640,7 +640,7 @@ public class SystemtypResourceIT {
         // Search the systemtyp
         restSystemtypMockMvc.perform(get("/api/_search/systemtyps?query=id:" + systemtyp.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systemtyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));

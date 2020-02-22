@@ -68,7 +68,6 @@ public class ZubehoerService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one zubehoer by id.
      *

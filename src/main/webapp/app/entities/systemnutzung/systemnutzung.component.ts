@@ -12,6 +12,7 @@ export default class Systemnutzung extends mixins(Vue2Filters.mixin, AlertMixin)
   @Inject('systemnutzungService') private systemnutzungService: () => SystemnutzungService;
   public currentSearch = '';
   private removeId: number = null;
+
   public systemnutzungs: ISystemnutzung[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Systemnutzung extends mixins(Vue2Filters.mixin, AlertMixin)
 
   public prepareRemove(instance: ISystemnutzung): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeSystemnutzung(): void {
@@ -74,7 +78,6 @@ export default class Systemnutzung extends mixins(Vue2Filters.mixin, AlertMixin)
         const message = this.$t('gdb3App.systemnutzung.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllSystemnutzungs();
         this.closeDialog();

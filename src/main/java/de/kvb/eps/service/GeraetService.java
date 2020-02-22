@@ -68,7 +68,6 @@ public class GeraetService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one geraet by id.
      *

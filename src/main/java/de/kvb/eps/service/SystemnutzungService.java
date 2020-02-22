@@ -68,7 +68,6 @@ public class SystemnutzungService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one systemnutzung by id.
      *

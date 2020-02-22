@@ -6,6 +6,7 @@ Component.registerHooks([
   'beforeRouteUpdate' // for vue-router 2.2+
 ]);
 import Router from 'vue-router';
+import { Authority } from '@/shared/security/authority';
 const Home = () => import('../core/home/home.vue');
 const Error = () => import('../core/error/error.vue');
 const JhiConfigurationComponent = () => import('../admin/configuration/configuration.vue');
@@ -110,312 +111,312 @@ export default new Router({
       path: '/admin/docs',
       name: 'JhiDocsComponent',
       component: JhiDocsComponent,
-      meta: { authorities: ['ROLE_ADMIN'] }
+      meta: { authorities: [Authority.ADMIN] }
     },
     {
       path: '/admin/audits',
       name: 'JhiAuditsComponent',
       component: JhiAuditsComponent,
-      meta: { authorities: ['ROLE_ADMIN'] }
+      meta: { authorities: [Authority.ADMIN] }
     },
     {
       path: '/admin/jhi-health',
       name: 'JhiHealthComponent',
       component: JhiHealthComponent,
-      meta: { authorities: ['ROLE_ADMIN'] }
+      meta: { authorities: [Authority.ADMIN] }
     },
     {
       path: '/admin/logs',
       name: 'JhiLogsComponent',
       component: JhiLogsComponent,
-      meta: { authorities: ['ROLE_ADMIN'] }
+      meta: { authorities: [Authority.ADMIN] }
     },
     {
       path: '/admin/jhi-metrics',
       name: 'JhiMetricsComponent',
       component: JhiMetricsComponent,
-      meta: { authorities: ['ROLE_ADMIN'] }
+      meta: { authorities: [Authority.ADMIN] }
     },
     {
       path: '/admin/jhi-configuration',
       name: 'JhiConfigurationComponent',
       component: JhiConfigurationComponent,
-      meta: { authorities: ['ROLE_ADMIN'] }
+      meta: { authorities: [Authority.ADMIN] }
     }
     ,
     {
       path: '/geraet-typ',
       name: 'GeraetTyp',
       component: GeraetTyp,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/geraet-typ/new',
       name: 'GeraetTypCreate',
       component: GeraetTypUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/geraet-typ/:geraetTypId/edit',
       name: 'GeraetTypEdit',
       component: GeraetTypUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/geraet-typ/:geraetTypId/view',
       name: 'GeraetTypView',
       component: GeraetTypDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/hersteller',
       name: 'Hersteller',
       component: Hersteller,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/hersteller/new',
       name: 'HerstellerCreate',
       component: HerstellerUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/hersteller/:herstellerId/edit',
       name: 'HerstellerEdit',
       component: HerstellerUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/hersteller/:herstellerId/view',
       name: 'HerstellerView',
       component: HerstellerDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/zubehoer-typ',
       name: 'ZubehoerTyp',
       component: ZubehoerTyp,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/zubehoer-typ/new',
       name: 'ZubehoerTypCreate',
       component: ZubehoerTypUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/zubehoer-typ/:zubehoerTypId/edit',
       name: 'ZubehoerTypEdit',
       component: ZubehoerTypUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/zubehoer-typ/:zubehoerTypId/view',
       name: 'ZubehoerTypView',
       component: ZubehoerTypDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/geraet',
       name: 'Geraet',
       component: Geraet,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/geraet/new',
       name: 'GeraetCreate',
       component: GeraetUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/geraet/:geraetId/edit',
       name: 'GeraetEdit',
       component: GeraetUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/geraet/:geraetId/view',
       name: 'GeraetView',
       component: GeraetDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/zubehoer',
       name: 'Zubehoer',
       component: Zubehoer,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/zubehoer/new',
       name: 'ZubehoerCreate',
       component: ZubehoerUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/zubehoer/:zubehoerId/edit',
       name: 'ZubehoerEdit',
       component: ZubehoerUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/zubehoer/:zubehoerId/view',
       name: 'ZubehoerView',
       component: ZubehoerDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/systemtyp',
       name: 'Systemtyp',
       component: Systemtyp,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systemtyp/new',
       name: 'SystemtypCreate',
       component: SystemtypUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systemtyp/:systemtypId/edit',
       name: 'SystemtypEdit',
       component: SystemtypUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systemtyp/:systemtypId/view',
       name: 'SystemtypView',
       component: SystemtypDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/systeminstanz',
       name: 'Systeminstanz',
       component: Systeminstanz,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systeminstanz/new',
       name: 'SysteminstanzCreate',
       component: SysteminstanzUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systeminstanz/:systeminstanzId/edit',
       name: 'SysteminstanzEdit',
       component: SysteminstanzUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systeminstanz/:systeminstanzId/view',
       name: 'SysteminstanzView',
       component: SysteminstanzDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/arzt',
       name: 'Arzt',
       component: Arzt,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/arzt/new',
       name: 'ArztCreate',
       component: ArztUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/arzt/:arztId/edit',
       name: 'ArztEdit',
       component: ArztUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/arzt/:arztId/view',
       name: 'ArztView',
       component: ArztDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/betreiber',
       name: 'Betreiber',
       component: Betreiber,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/betreiber/new',
       name: 'BetreiberCreate',
       component: BetreiberUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/betreiber/:betreiberId/edit',
       name: 'BetreiberEdit',
       component: BetreiberUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/betreiber/:betreiberId/view',
       name: 'BetreiberView',
       component: BetreiberDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/betriebsstaette',
       name: 'Betriebsstaette',
       component: Betriebsstaette,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/betriebsstaette/new',
       name: 'BetriebsstaetteCreate',
       component: BetriebsstaetteUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/betriebsstaette/:betriebsstaetteId/edit',
       name: 'BetriebsstaetteEdit',
       component: BetriebsstaetteUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/betriebsstaette/:betriebsstaetteId/view',
       name: 'BetriebsstaetteView',
       component: BetriebsstaetteDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     ,
     {
       path: '/systemnutzung',
       name: 'Systemnutzung',
       component: Systemnutzung,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systemnutzung/new',
       name: 'SystemnutzungCreate',
       component: SystemnutzungUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systemnutzung/:systemnutzungId/edit',
       name: 'SystemnutzungEdit',
       component: SystemnutzungUpdate,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     },
     {
       path: '/systemnutzung/:systemnutzungId/view',
       name: 'SystemnutzungView',
       component: SystemnutzungDetails,
-      meta: { authorities: ['ROLE_USER'] }
+      meta: { authorities: [Authority.USER] }
     }
     // jhipster-needle-add-entity-to-router - JHipster will add entities to the router here
   ]

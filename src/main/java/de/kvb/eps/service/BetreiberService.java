@@ -68,7 +68,6 @@ public class BetreiberService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one betreiber by id.
      *

@@ -170,7 +170,7 @@ public class SystemnutzungResourceIT {
         // Create the Systemnutzung
         SystemnutzungDTO systemnutzungDTO = systemnutzungMapper.toDto(systemnutzung);
         restSystemnutzungMockMvc.perform(post("/api/systemnutzungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemnutzungDTO)))
             .andExpect(status().isCreated());
 
@@ -194,7 +194,7 @@ public class SystemnutzungResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSystemnutzungMockMvc.perform(post("/api/systemnutzungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemnutzungDTO)))
             .andExpect(status().isBadRequest());
 
@@ -216,7 +216,7 @@ public class SystemnutzungResourceIT {
         // Get all the systemnutzungList
         restSystemnutzungMockMvc.perform(get("/api/systemnutzungs?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systemnutzung.getId().intValue())));
     }
     
@@ -229,7 +229,7 @@ public class SystemnutzungResourceIT {
         // Get the systemnutzung
         restSystemnutzungMockMvc.perform(get("/api/systemnutzungs/{id}", systemnutzung.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(systemnutzung.getId().intValue()));
     }
 
@@ -290,13 +290,13 @@ public class SystemnutzungResourceIT {
     private void defaultSystemnutzungShouldBeFound(String filter) throws Exception {
         restSystemnutzungMockMvc.perform(get("/api/systemnutzungs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systemnutzung.getId().intValue())));
 
         // Check, that the count call also returns 1
         restSystemnutzungMockMvc.perform(get("/api/systemnutzungs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -306,14 +306,14 @@ public class SystemnutzungResourceIT {
     private void defaultSystemnutzungShouldNotBeFound(String filter) throws Exception {
         restSystemnutzungMockMvc.perform(get("/api/systemnutzungs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restSystemnutzungMockMvc.perform(get("/api/systemnutzungs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -341,7 +341,7 @@ public class SystemnutzungResourceIT {
         SystemnutzungDTO systemnutzungDTO = systemnutzungMapper.toDto(updatedSystemnutzung);
 
         restSystemnutzungMockMvc.perform(put("/api/systemnutzungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemnutzungDTO)))
             .andExpect(status().isOk());
 
@@ -364,7 +364,7 @@ public class SystemnutzungResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSystemnutzungMockMvc.perform(put("/api/systemnutzungs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systemnutzungDTO)))
             .andExpect(status().isBadRequest());
 
@@ -386,7 +386,7 @@ public class SystemnutzungResourceIT {
 
         // Delete the systemnutzung
         restSystemnutzungMockMvc.perform(delete("/api/systemnutzungs/{id}", systemnutzung.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -407,7 +407,7 @@ public class SystemnutzungResourceIT {
         // Search the systemnutzung
         restSystemnutzungMockMvc.perform(get("/api/_search/systemnutzungs?query=id:" + systemnutzung.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systemnutzung.getId().intValue())));
     }
 }

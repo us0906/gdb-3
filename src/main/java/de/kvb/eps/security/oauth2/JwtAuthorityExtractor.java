@@ -1,21 +1,22 @@
 package de.kvb.eps.security.oauth2;
 
 import de.kvb.eps.security.SecurityUtils;
+import org.springframework.core.convert.converter.Converter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationConverter;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 
 @Component
-public class JwtAuthorityExtractor extends JwtAuthenticationConverter {
+public class JwtAuthorityExtractor implements Converter<Jwt, Collection<GrantedAuthority>> {
 
     public JwtAuthorityExtractor() {
+        // Bean extracting authority.
     }
 
     @Override
-    protected Collection<GrantedAuthority> extractAuthorities(Jwt jwt) {
+    public Collection<GrantedAuthority> convert(Jwt jwt) {
         return SecurityUtils.extractAuthorityFromClaims(jwt.getClaims());
     }
 }

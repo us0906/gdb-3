@@ -4,7 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
-
 public class SysteminstanzMapperTest {
 
     private SysteminstanzMapper systeminstanzMapper;
@@ -16,7 +15,7 @@ public class SysteminstanzMapperTest {
 
     @Test
     public void testEntityFromId() {
-        Long id = 2L;
+        Long id = 1L;
         assertThat(systeminstanzMapper.fromId(id).getId()).isEqualTo(id);
         assertThat(systeminstanzMapper.fromId(null)).isNull();
     }

@@ -184,7 +184,7 @@ public class GeraetResourceIT {
         // Create the Geraet
         GeraetDTO geraetDTO = geraetMapper.toDto(geraet);
         restGeraetMockMvc.perform(post("/api/geraets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetDTO)))
             .andExpect(status().isCreated());
 
@@ -210,7 +210,7 @@ public class GeraetResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restGeraetMockMvc.perform(post("/api/geraets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetDTO)))
             .andExpect(status().isBadRequest());
 
@@ -234,7 +234,7 @@ public class GeraetResourceIT {
         GeraetDTO geraetDTO = geraetMapper.toDto(geraet);
 
         restGeraetMockMvc.perform(post("/api/geraets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetDTO)))
             .andExpect(status().isBadRequest());
 
@@ -251,7 +251,7 @@ public class GeraetResourceIT {
         // Get all the geraetList
         restGeraetMockMvc.perform(get("/api/geraets?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(geraet.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -266,7 +266,7 @@ public class GeraetResourceIT {
         // Get the geraet
         restGeraetMockMvc.perform(get("/api/geraets/{id}", geraet.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(geraet.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
@@ -532,7 +532,7 @@ public class GeraetResourceIT {
     private void defaultGeraetShouldBeFound(String filter) throws Exception {
         restGeraetMockMvc.perform(get("/api/geraets?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(geraet.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -540,7 +540,7 @@ public class GeraetResourceIT {
         // Check, that the count call also returns 1
         restGeraetMockMvc.perform(get("/api/geraets/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -550,14 +550,14 @@ public class GeraetResourceIT {
     private void defaultGeraetShouldNotBeFound(String filter) throws Exception {
         restGeraetMockMvc.perform(get("/api/geraets?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restGeraetMockMvc.perform(get("/api/geraets/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -588,7 +588,7 @@ public class GeraetResourceIT {
         GeraetDTO geraetDTO = geraetMapper.toDto(updatedGeraet);
 
         restGeraetMockMvc.perform(put("/api/geraets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetDTO)))
             .andExpect(status().isOk());
 
@@ -613,7 +613,7 @@ public class GeraetResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restGeraetMockMvc.perform(put("/api/geraets")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetDTO)))
             .andExpect(status().isBadRequest());
 
@@ -635,7 +635,7 @@ public class GeraetResourceIT {
 
         // Delete the geraet
         restGeraetMockMvc.perform(delete("/api/geraets/{id}", geraet.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -656,7 +656,7 @@ public class GeraetResourceIT {
         // Search the geraet
         restGeraetMockMvc.perform(get("/api/_search/geraets?query=id:" + geraet.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(geraet.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));

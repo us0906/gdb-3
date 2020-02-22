@@ -12,7 +12,7 @@ export default class SystemtypUpdatePage extends AlertPage {
 
   gueltigBisInput: ElementFinder = element(by.css('input#systemtyp-gueltigBis'));
 
-  geraetSelect = element(by.id('systemtyp-geraet')).element(by.css("input[type='search']"));
+  geraetSelect = element(by.css('select#systemtyp-geraet'));
 
-  zubehoerSelect = element(by.id('systemtyp-zubehoer')).element(by.css("input[type='search']"));
+  zubehoerSelect = element(by.css('select#systemtyp-zubehoer'));
 }

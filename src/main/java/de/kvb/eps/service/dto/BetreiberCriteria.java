@@ -42,10 +42,10 @@ public class BetreiberCriteria implements Serializable, Criteria {
 
     private LongFilter systeminstanzId;
 
-    public BetreiberCriteria(){
+    public BetreiberCriteria() {
     }
 
-    public BetreiberCriteria(BetreiberCriteria other){
+    public BetreiberCriteria(BetreiberCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.vorname = other.vorname == null ? null : other.vorname.copy();
         this.nachname = other.nachname == null ? null : other.nachname.copy();

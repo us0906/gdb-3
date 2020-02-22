@@ -68,7 +68,6 @@ public class SysteminstanzService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one systeminstanz by id.
      *

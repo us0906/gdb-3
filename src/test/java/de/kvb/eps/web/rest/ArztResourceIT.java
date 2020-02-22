@@ -13,7 +13,6 @@ import de.kvb.eps.web.rest.errors.ExceptionTranslator;
 import de.kvb.eps.service.dto.ArztCriteria;
 import de.kvb.eps.service.ArztQueryService;
 
-import org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.MockitoAnnotations;
@@ -45,20 +44,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {Gdb3App.class, TestSecurityConfiguration.class})
 public class ArztResourceIT {
 
-    private static final String DEFAULT_LANR = "1234567";
-    private static final String UPDATED_LANR = "7654321";
+    private static final String DEFAULT_LANR = "AAAAAAA";
+    private static final String UPDATED_LANR = "BBBBBBB";
 
-    private static final String DEFAULT_TITEL = "Dr. med.";
-    private static final String UPDATED_TITEL = "Prof.";
+    private static final String DEFAULT_TITEL = "AAAAAAAAAA";
+    private static final String UPDATED_TITEL = "BBBBBBBBBB";
 
-    private static final String DEFAULT_VORNAME = "Martin";
-    private static final String UPDATED_VORNAME = "Michael";
+    private static final String DEFAULT_VORNAME = "AAAAAAAAAA";
+    private static final String UPDATED_VORNAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_NACHNAME = "Schmitz";
-    private static final String UPDATED_NACHNAME = "Meier";
+    private static final String DEFAULT_NACHNAME = "AAAAAAAAAA";
+    private static final String UPDATED_NACHNAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_LANR + " " + DEFAULT_TITEL + " " + DEFAULT_VORNAME + " " + DEFAULT_NACHNAME;
-    private static final String UPDATED_BEZEICHNUNG = UPDATED_LANR + " " + UPDATED_TITEL + " " + UPDATED_VORNAME + " " + UPDATED_NACHNAME;
+    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
+    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
 
     @Autowired
     private ArztRepository arztRepository;
@@ -153,7 +152,7 @@ public class ArztResourceIT {
         // Create the Arzt
         ArztDTO arztDTO = arztMapper.toDto(arzt);
         restArztMockMvc.perform(post("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isCreated());
 
@@ -182,7 +181,7 @@ public class ArztResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restArztMockMvc.perform(post("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isBadRequest());
 
@@ -206,7 +205,7 @@ public class ArztResourceIT {
         ArztDTO arztDTO = arztMapper.toDto(arzt);
 
         restArztMockMvc.perform(post("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isBadRequest());
 
@@ -225,7 +224,7 @@ public class ArztResourceIT {
         ArztDTO arztDTO = arztMapper.toDto(arzt);
 
         restArztMockMvc.perform(post("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isBadRequest());
 
@@ -244,7 +243,7 @@ public class ArztResourceIT {
         ArztDTO arztDTO = arztMapper.toDto(arzt);
 
         restArztMockMvc.perform(post("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isBadRequest());
 
@@ -261,7 +260,7 @@ public class ArztResourceIT {
         // Get all the arztList
         restArztMockMvc.perform(get("/api/arzts?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(arzt.getId().intValue())))
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
@@ -279,7 +278,7 @@ public class ArztResourceIT {
         // Get the arzt
         restArztMockMvc.perform(get("/api/arzts/{id}", arzt.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(arzt.getId().intValue()))
             .andExpect(jsonPath("$.lanr").value(DEFAULT_LANR))
             .andExpect(jsonPath("$.titel").value(DEFAULT_TITEL))
@@ -619,6 +618,8 @@ public class ArztResourceIT {
         defaultArztShouldBeFound("nachname.doesNotContain=" + UPDATED_NACHNAME);
     }
 
+
+    @Test
     @Transactional
     public void getAllArztsByBezeichnungIsEqualToSomething() throws Exception {
         // Initialize the database
@@ -631,7 +632,7 @@ public class ArztResourceIT {
         defaultArztShouldNotBeFound("bezeichnung.equals=" + UPDATED_BEZEICHNUNG);
     }
 
-
+    @Test
     @Transactional
     public void getAllArztsByBezeichnungIsNotEqualToSomething() throws Exception {
         // Initialize the database
@@ -644,7 +645,7 @@ public class ArztResourceIT {
         defaultArztShouldBeFound("bezeichnung.notEquals=" + UPDATED_BEZEICHNUNG);
     }
 
-
+    @Test
     @Transactional
     public void getAllArztsByBezeichnungIsInShouldWork() throws Exception {
         // Initialize the database
@@ -657,7 +658,7 @@ public class ArztResourceIT {
         defaultArztShouldNotBeFound("bezeichnung.in=" + UPDATED_BEZEICHNUNG);
     }
 
-
+    @Test
     @Transactional
     public void getAllArztsByBezeichnungIsNullOrNotNull() throws Exception {
         // Initialize the database
@@ -669,8 +670,7 @@ public class ArztResourceIT {
         // Get all the arztList where bezeichnung is null
         defaultArztShouldNotBeFound("bezeichnung.specified=false");
     }
-
-
+                @Test
     @Transactional
     public void getAllArztsByBezeichnungContainsSomething() throws Exception {
         // Initialize the database
@@ -683,7 +683,7 @@ public class ArztResourceIT {
         defaultArztShouldNotBeFound("bezeichnung.contains=" + UPDATED_BEZEICHNUNG);
     }
 
-
+    @Test
     @Transactional
     public void getAllArztsByBezeichnungNotContainsSomething() throws Exception {
         // Initialize the database
@@ -722,8 +722,7 @@ public class ArztResourceIT {
     private void defaultArztShouldBeFound(String filter) throws Exception {
         restArztMockMvc.perform(get("/api/arzts?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
-            .andExpect(jsonPath("$.[*].id").exists())
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(arzt.getId().intValue())))
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))
@@ -734,7 +733,7 @@ public class ArztResourceIT {
         // Check, that the count call also returns 1
         restArztMockMvc.perform(get("/api/arzts/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -744,14 +743,14 @@ public class ArztResourceIT {
     private void defaultArztShouldNotBeFound(String filter) throws Exception {
         restArztMockMvc.perform(get("/api/arzts?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restArztMockMvc.perform(get("/api/arzts/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -785,7 +784,7 @@ public class ArztResourceIT {
         ArztDTO arztDTO = arztMapper.toDto(updatedArzt);
 
         restArztMockMvc.perform(put("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isOk());
 
@@ -813,7 +812,7 @@ public class ArztResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restArztMockMvc.perform(put("/api/arzts")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(arztDTO)))
             .andExpect(status().isBadRequest());
 
@@ -835,7 +834,7 @@ public class ArztResourceIT {
 
         // Delete the arzt
         restArztMockMvc.perform(delete("/api/arzts/{id}", arzt.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -856,7 +855,7 @@ public class ArztResourceIT {
         // Search the arzt
         restArztMockMvc.perform(get("/api/_search/arzts?query=id:" + arzt.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(arzt.getId().intValue())))
             .andExpect(jsonPath("$.[*].lanr").value(hasItem(DEFAULT_LANR)))
             .andExpect(jsonPath("$.[*].titel").value(hasItem(DEFAULT_TITEL)))

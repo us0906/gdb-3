@@ -43,10 +43,10 @@ public class SysteminstanzCriteria implements Serializable, Criteria {
 
     private LongFilter betreiberId;
 
-    public SysteminstanzCriteria(){
+    public SysteminstanzCriteria() {
     }
 
-    public SysteminstanzCriteria(SysteminstanzCriteria other){
+    public SysteminstanzCriteria(SysteminstanzCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.geraetNummer = other.geraetNummer == null ? null : other.geraetNummer.copy();

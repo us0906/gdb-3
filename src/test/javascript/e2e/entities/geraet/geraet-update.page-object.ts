@@ -12,7 +12,7 @@ export default class GeraetUpdatePage extends AlertPage {
 
   gueltigBisInput: ElementFinder = element(by.css('input#geraet-gueltigBis'));
 
-  geraetTypSelect: ElementFinder = element(by.id('geraet-geraetTyp')).element(by.css("input[type='search']"));
+  geraetTypSelect = element(by.css('select#geraet-geraetTyp'));
 
-  herstellerSelect: ElementFinder = element(by.id('geraet-hersteller')).element(by.css("input[type='search']"));
+  herstellerSelect = element(by.css('select#geraet-hersteller'));
 }

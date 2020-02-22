@@ -37,10 +37,10 @@ public class GeraetCriteria implements Serializable, Criteria {
 
     private LongFilter herstellerId;
 
-    public GeraetCriteria(){
+    public GeraetCriteria() {
     }
 
-    public GeraetCriteria(GeraetCriteria other){
+    public GeraetCriteria(GeraetCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.gueltigBis = other.gueltigBis == null ? null : other.gueltigBis.copy();

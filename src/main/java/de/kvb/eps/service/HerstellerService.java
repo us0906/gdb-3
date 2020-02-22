@@ -68,7 +68,6 @@ public class HerstellerService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one hersteller by id.
      *

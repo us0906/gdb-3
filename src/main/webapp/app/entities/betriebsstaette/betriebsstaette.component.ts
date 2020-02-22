@@ -12,6 +12,7 @@ export default class Betriebsstaette extends mixins(Vue2Filters.mixin, AlertMixi
   @Inject('betriebsstaetteService') private betriebsstaetteService: () => BetriebsstaetteService;
   public currentSearch = '';
   private removeId: number = null;
+
   public betriebsstaettes: IBetriebsstaette[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Betriebsstaette extends mixins(Vue2Filters.mixin, AlertMixi
 
   public prepareRemove(instance: IBetriebsstaette): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeBetriebsstaette(): void {
@@ -74,7 +78,6 @@ export default class Betriebsstaette extends mixins(Vue2Filters.mixin, AlertMixi
         const message = this.$t('gdb3App.betriebsstaette.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllBetriebsstaettes();
         this.closeDialog();

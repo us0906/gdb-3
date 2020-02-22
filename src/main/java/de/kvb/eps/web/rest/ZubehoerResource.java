@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -90,7 +89,6 @@ public class ZubehoerResource {
     /**
      * {@code GET  /zubehoers} : get all the zubehoers.
      *
-
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of zubehoers in body.
      */
@@ -102,11 +100,11 @@ public class ZubehoerResource {
     }
 
     /**
-    * {@code GET  /zubehoers/count} : count all the zubehoers.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /zubehoers/count} : count all the zubehoers.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/zubehoers/count")
     public ResponseEntity<Long> countZubehoers(ZubehoerCriteria criteria) {
         log.debug("REST request to count Zubehoers by criteria: {}", criteria);

@@ -1,4 +1,5 @@
 package de.kvb.eps.service.dto;
+
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -189,12 +190,12 @@ public class SysteminstanzDTO implements Serializable {
             ", gueltigBis='" + getGueltigBis() + "'" +
             ", gwe='" + getGwe() + "'" +
             ", bemerkung='" + getBemerkung() + "'" +
-            ", systemtyp=" + getSystemtypId() +
-            ", systemtyp='" + getSystemtypBezeichnung() + "'" +
-            ", betriebsstaette=" + getBetriebsstaetteId() +
-            ", betriebsstaette='" + getBetriebsstaetteBezeichnung() + "'" +
-            ", betreiber=" + getBetreiberId() +
-            ", betreiber='" + getBetreiberBezeichnung() + "'" +
+            ", systemtypId=" + getSystemtypId() +
+            ", systemtypBezeichnung='" + getSystemtypBezeichnung() + "'" +
+            ", betriebsstaetteId=" + getBetriebsstaetteId() +
+            ", betriebsstaetteBezeichnung='" + getBetriebsstaetteBezeichnung() + "'" +
+            ", betreiberId=" + getBetreiberId() +
+            ", betreiberBezeichnung='" + getBetreiberBezeichnung() + "'" +
             "}";
     }
 }

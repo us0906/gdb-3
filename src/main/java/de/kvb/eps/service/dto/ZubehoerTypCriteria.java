@@ -54,10 +54,10 @@ public class ZubehoerTypCriteria implements Serializable, Criteria {
 
     private LongFilter zubehoerId;
 
-    public ZubehoerTypCriteria(){
+    public ZubehoerTypCriteria() {
     }
 
-    public ZubehoerTypCriteria(ZubehoerTypCriteria other){
+    public ZubehoerTypCriteria(ZubehoerTypCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.gueltigBis = other.gueltigBis == null ? null : other.gueltigBis.copy();

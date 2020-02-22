@@ -12,6 +12,7 @@ export default class Zubehoer extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('zubehoerService') private zubehoerService: () => ZubehoerService;
   public currentSearch = '';
   private removeId: number = null;
+
   public zubehoers: IZubehoer[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Zubehoer extends mixins(Vue2Filters.mixin, AlertMixin) {
 
   public prepareRemove(instance: IZubehoer): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeZubehoer(): void {
@@ -74,7 +78,6 @@ export default class Zubehoer extends mixins(Vue2Filters.mixin, AlertMixin) {
         const message = this.$t('gdb3App.zubehoer.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllZubehoers();
         this.closeDialog();

@@ -35,10 +35,10 @@ public class HerstellerCriteria implements Serializable, Criteria {
 
     private LongFilter zubehoerId;
 
-    public HerstellerCriteria(){
+    public HerstellerCriteria() {
     }
 
-    public HerstellerCriteria(HerstellerCriteria other){
+    public HerstellerCriteria(HerstellerCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.gueltigBis = other.gueltigBis == null ? null : other.gueltigBis.copy();

@@ -8,6 +8,15 @@ import GeraetTypService from '@/entities/geraet-typ/geraet-typ.service';
 import { GeraetTyp, Technologie } from '@/shared/model/geraet-typ.model';
 
 const mockedAxios: any = axios;
+const error = {
+  response: {
+    status: null,
+    data: {
+      type: null
+    }
+  }
+};
+
 jest.mock('axios', () => ({
   get: jest.fn(),
   post: jest.fn(),
@@ -41,6 +50,17 @@ describe('Service Tests', () => {
           expect(res).toMatchObject(elemDefault);
         });
       });
+
+      it('should not find an element', async () => {
+        mockedAxios.get.mockReturnValue(Promise.reject(error));
+        return service
+          .find(123)
+          .then()
+          .catch(err => {
+            expect(err).toMatchObject(error);
+          });
+      });
+
       it('should create a GeraetTyp', async () => {
         const returnedFromService = Object.assign(
           {
@@ -60,6 +80,17 @@ describe('Service Tests', () => {
         return service.create({}).then(res => {
           expect(res).toMatchObject(expected);
         });
+      });
+
+      it('should not create a GeraetTyp', async () => {
+        mockedAxios.post.mockReturnValue(Promise.reject(error));
+
+        return service
+          .create({})
+          .then()
+          .catch(err => {
+            expect(err).toMatchObject(error);
+          });
       });
 
       it('should update a GeraetTyp', async () => {
@@ -84,6 +115,18 @@ describe('Service Tests', () => {
           expect(res).toMatchObject(expected);
         });
       });
+
+      it('should not update a GeraetTyp', async () => {
+        mockedAxios.put.mockReturnValue(Promise.reject(error));
+
+        return service
+          .update({})
+          .then()
+          .catch(err => {
+            expect(err).toMatchObject(error);
+          });
+      });
+
       it('should return a list of GeraetTyp', async () => {
         const returnedFromService = Object.assign(
           {
@@ -104,11 +147,34 @@ describe('Service Tests', () => {
           expect(res).toContainEqual(expected);
         });
       });
+
+      it('should not return a list of GeraetTyp', async () => {
+        mockedAxios.get.mockReturnValue(Promise.reject(error));
+
+        return service
+          .retrieve()
+          .then()
+          .catch(err => {
+            expect(err).toMatchObject(error);
+          });
+      });
+
       it('should delete a GeraetTyp', async () => {
         mockedAxios.delete.mockReturnValue(Promise.resolve({ ok: true }));
         return service.delete(123).then(res => {
           expect(res.ok).toBeTruthy();
         });
+      });
+
+      it('should not delete a GeraetTyp', async () => {
+        mockedAxios.delete.mockReturnValue(Promise.reject(error));
+
+        return service
+          .delete(123)
+          .then()
+          .catch(err => {
+            expect(err).toMatchObject(error);
+          });
       });
     });
   });

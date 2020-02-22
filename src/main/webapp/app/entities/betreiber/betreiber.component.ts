@@ -12,6 +12,7 @@ export default class Betreiber extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('betreiberService') private betreiberService: () => BetreiberService;
   public currentSearch = '';
   private removeId: number = null;
+
   public betreibers: IBetreiber[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Betreiber extends mixins(Vue2Filters.mixin, AlertMixin) {
 
   public prepareRemove(instance: IBetreiber): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeBetreiber(): void {
@@ -74,7 +78,6 @@ export default class Betreiber extends mixins(Vue2Filters.mixin, AlertMixin) {
         const message = this.$t('gdb3App.betreiber.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllBetreibers();
         this.closeDialog();

@@ -8,7 +8,7 @@ export default class SystemnutzungUpdatePage extends AlertPage {
   saveButton: ElementFinder = element(by.id('save-entity'));
   cancelButton: ElementFinder = element(by.id('cancel-save'));
 
-  systeminstanzSelect: ElementFinder = element(by.id('systemnutzung-systeminstanz')).element(by.css("input[type='search']"));
+  systeminstanzSelect = element(by.css('select#systemnutzung-systeminstanz'));
 
-  arztSelect: ElementFinder = element(by.id('systemnutzung-arzt')).element(by.css("input[type='search']"));
+  arztSelect = element(by.css('select#systemnutzung-arzt'));
 }

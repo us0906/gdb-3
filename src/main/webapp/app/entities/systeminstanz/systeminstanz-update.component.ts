@@ -3,7 +3,7 @@ import { Component, Inject } from 'vue-property-decorator';
 import { mixins } from 'vue-class-component';
 import JhiDataUtils from '@/shared/data/data-utils.service';
 
-import { numeric, required, minLength, maxLength } from 'vuelidate/lib/validators';
+import { numeric, required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators';
 
 import SystemnutzungService from '../systemnutzung/systemnutzung.service';
 import { ISystemnutzung } from '@/shared/model/systemnutzung.model';
@@ -145,17 +145,17 @@ export default class SysteminstanzUpdate extends mixins(JhiDataUtils) {
     this.systemtypService()
       .retrieve()
       .then(res => {
-        this.systemtyps = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
+        this.systemtyps = res.data;
       });
     this.betriebsstaetteService()
       .retrieve()
       .then(res => {
-        this.betriebsstaettes = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
+        this.betriebsstaettes = res.data;
       });
     this.betreiberService()
       .retrieve()
       .then(res => {
-        this.betreibers = res.data.sort((n1, n2) => n1.bezeichnung > n2.bezeichnung);
+        this.betreibers = res.data;
       });
   }
 }

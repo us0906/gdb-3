@@ -21,9 +21,6 @@ const webpackConfig = merge(baseWebpackConfig, {
       usePostCSS: true
     })
   },
-  performance: {
-    hints: false
-  },
   devtool: config.build.productionSourceMap ? config.build.devtool : false,
   entry: {
     global: './src/main/webapp/content/scss/global.scss',
@@ -52,9 +49,7 @@ const webpackConfig = merge(baseWebpackConfig, {
     }),
     new UglifyJsPlugin({
       uglifyOptions: {
-        compress: {
-          warnings: false
-        }
+        warnings: false
       },
       sourceMap: config.build.productionSourceMap,
       parallel: true

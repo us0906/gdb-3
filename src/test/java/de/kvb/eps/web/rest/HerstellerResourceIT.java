@@ -143,7 +143,7 @@ public class HerstellerResourceIT {
         // Create the Hersteller
         HerstellerDTO herstellerDTO = herstellerMapper.toDto(hersteller);
         restHerstellerMockMvc.perform(post("/api/herstellers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(herstellerDTO)))
             .andExpect(status().isCreated());
 
@@ -169,7 +169,7 @@ public class HerstellerResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restHerstellerMockMvc.perform(post("/api/herstellers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(herstellerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -193,7 +193,7 @@ public class HerstellerResourceIT {
         HerstellerDTO herstellerDTO = herstellerMapper.toDto(hersteller);
 
         restHerstellerMockMvc.perform(post("/api/herstellers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(herstellerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -210,7 +210,7 @@ public class HerstellerResourceIT {
         // Get all the herstellerList
         restHerstellerMockMvc.perform(get("/api/herstellers?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(hersteller.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -225,7 +225,7 @@ public class HerstellerResourceIT {
         // Get the hersteller
         restHerstellerMockMvc.perform(get("/api/herstellers/{id}", hersteller.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(hersteller.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
@@ -479,7 +479,7 @@ public class HerstellerResourceIT {
     private void defaultHerstellerShouldBeFound(String filter) throws Exception {
         restHerstellerMockMvc.perform(get("/api/herstellers?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(hersteller.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -487,7 +487,7 @@ public class HerstellerResourceIT {
         // Check, that the count call also returns 1
         restHerstellerMockMvc.perform(get("/api/herstellers/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -497,14 +497,14 @@ public class HerstellerResourceIT {
     private void defaultHerstellerShouldNotBeFound(String filter) throws Exception {
         restHerstellerMockMvc.perform(get("/api/herstellers?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restHerstellerMockMvc.perform(get("/api/herstellers/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -535,7 +535,7 @@ public class HerstellerResourceIT {
         HerstellerDTO herstellerDTO = herstellerMapper.toDto(updatedHersteller);
 
         restHerstellerMockMvc.perform(put("/api/herstellers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(herstellerDTO)))
             .andExpect(status().isOk());
 
@@ -560,7 +560,7 @@ public class HerstellerResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restHerstellerMockMvc.perform(put("/api/herstellers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(herstellerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -582,7 +582,7 @@ public class HerstellerResourceIT {
 
         // Delete the hersteller
         restHerstellerMockMvc.perform(delete("/api/herstellers/{id}", hersteller.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -603,7 +603,7 @@ public class HerstellerResourceIT {
         // Search the hersteller
         restHerstellerMockMvc.perform(get("/api/_search/herstellers?query=id:" + hersteller.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(hersteller.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));

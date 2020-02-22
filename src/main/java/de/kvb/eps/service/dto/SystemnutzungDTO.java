@@ -1,4 +1,5 @@
 package de.kvb.eps.service.dto;
+
 import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.util.Objects;
@@ -84,10 +85,10 @@ public class SystemnutzungDTO implements Serializable {
     public String toString() {
         return "SystemnutzungDTO{" +
             "id=" + getId() +
-            ", systeminstanz=" + getSysteminstanzId() +
-            ", systeminstanz='" + getSysteminstanzBezeichnung() + "'" +
-            ", arzt=" + getArztId() +
-            ", arzt='" + getArztBezeichnung() + "'" +
+            ", systeminstanzId=" + getSysteminstanzId() +
+            ", systeminstanzBezeichnung='" + getSysteminstanzBezeichnung() + "'" +
+            ", arztId=" + getArztId() +
+            ", arztBezeichnung='" + getArztBezeichnung() + "'" +
             "}";
     }
 }

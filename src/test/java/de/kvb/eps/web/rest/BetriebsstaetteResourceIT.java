@@ -59,8 +59,8 @@ public class BetriebsstaetteResourceIT {
     private static final String DEFAULT_ORT = "AAAAAAAAAA";
     private static final String UPDATED_ORT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_BSNR + " " + DEFAULT_STRASSE + " " + DEFAULT_HAUSNUMMER + " " + DEFAULT_PLZ + " " + DEFAULT_ORT;
-    private static final String UPDATED_BEZEICHNUNG = UPDATED_BSNR + " " + UPDATED_STRASSE + " " + UPDATED_HAUSNUMMER + " " + UPDATED_PLZ + " " + UPDATED_ORT;
+    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
+    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
 
     @Autowired
     private BetriebsstaetteRepository betriebsstaetteRepository;
@@ -159,7 +159,7 @@ public class BetriebsstaetteResourceIT {
         // Create the Betriebsstaette
         BetriebsstaetteDTO betriebsstaetteDTO = betriebsstaetteMapper.toDto(betriebsstaette);
         restBetriebsstaetteMockMvc.perform(post("/api/betriebsstaettes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betriebsstaetteDTO)))
             .andExpect(status().isCreated());
 
@@ -189,7 +189,7 @@ public class BetriebsstaetteResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBetriebsstaetteMockMvc.perform(post("/api/betriebsstaettes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betriebsstaetteDTO)))
             .andExpect(status().isBadRequest());
 
@@ -211,7 +211,7 @@ public class BetriebsstaetteResourceIT {
         // Get all the betriebsstaetteList
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(betriebsstaette.getId().intValue())))
             .andExpect(jsonPath("$.[*].bsnr").value(hasItem(DEFAULT_BSNR)))
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
@@ -220,7 +220,7 @@ public class BetriebsstaetteResourceIT {
             .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
-
+    
     @Test
     @Transactional
     public void getBetriebsstaette() throws Exception {
@@ -230,7 +230,7 @@ public class BetriebsstaetteResourceIT {
         // Get the betriebsstaette
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes/{id}", betriebsstaette.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(betriebsstaette.getId().intValue()))
             .andExpect(jsonPath("$.bsnr").value(DEFAULT_BSNR))
             .andExpect(jsonPath("$.strasse").value(DEFAULT_STRASSE))
@@ -753,7 +753,7 @@ public class BetriebsstaetteResourceIT {
     private void defaultBetriebsstaetteShouldBeFound(String filter) throws Exception {
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(betriebsstaette.getId().intValue())))
             .andExpect(jsonPath("$.[*].bsnr").value(hasItem(DEFAULT_BSNR)))
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))
@@ -765,7 +765,7 @@ public class BetriebsstaetteResourceIT {
         // Check, that the count call also returns 1
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -775,14 +775,14 @@ public class BetriebsstaetteResourceIT {
     private void defaultBetriebsstaetteShouldNotBeFound(String filter) throws Exception {
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restBetriebsstaetteMockMvc.perform(get("/api/betriebsstaettes/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -817,7 +817,7 @@ public class BetriebsstaetteResourceIT {
         BetriebsstaetteDTO betriebsstaetteDTO = betriebsstaetteMapper.toDto(updatedBetriebsstaette);
 
         restBetriebsstaetteMockMvc.perform(put("/api/betriebsstaettes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betriebsstaetteDTO)))
             .andExpect(status().isOk());
 
@@ -846,7 +846,7 @@ public class BetriebsstaetteResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBetriebsstaetteMockMvc.perform(put("/api/betriebsstaettes")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betriebsstaetteDTO)))
             .andExpect(status().isBadRequest());
 
@@ -868,7 +868,7 @@ public class BetriebsstaetteResourceIT {
 
         // Delete the betriebsstaette
         restBetriebsstaetteMockMvc.perform(delete("/api/betriebsstaettes/{id}", betriebsstaette.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -889,7 +889,7 @@ public class BetriebsstaetteResourceIT {
         // Search the betriebsstaette
         restBetriebsstaetteMockMvc.perform(get("/api/_search/betriebsstaettes?query=id:" + betriebsstaette.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(betriebsstaette.getId().intValue())))
             .andExpect(jsonPath("$.[*].bsnr").value(hasItem(DEFAULT_BSNR)))
             .andExpect(jsonPath("$.[*].strasse").value(hasItem(DEFAULT_STRASSE)))

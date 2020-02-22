@@ -230,7 +230,7 @@ public class SysteminstanzResourceIT {
         // Create the Systeminstanz
         SysteminstanzDTO systeminstanzDTO = systeminstanzMapper.toDto(systeminstanz);
         restSysteminstanzMockMvc.perform(post("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isCreated());
 
@@ -261,7 +261,7 @@ public class SysteminstanzResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restSysteminstanzMockMvc.perform(post("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isBadRequest());
 
@@ -285,7 +285,7 @@ public class SysteminstanzResourceIT {
         SysteminstanzDTO systeminstanzDTO = systeminstanzMapper.toDto(systeminstanz);
 
         restSysteminstanzMockMvc.perform(post("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isBadRequest());
 
@@ -304,7 +304,7 @@ public class SysteminstanzResourceIT {
         SysteminstanzDTO systeminstanzDTO = systeminstanzMapper.toDto(systeminstanz);
 
         restSysteminstanzMockMvc.perform(post("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isBadRequest());
 
@@ -323,7 +323,7 @@ public class SysteminstanzResourceIT {
         SysteminstanzDTO systeminstanzDTO = systeminstanzMapper.toDto(systeminstanz);
 
         restSysteminstanzMockMvc.perform(post("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isBadRequest());
 
@@ -340,7 +340,7 @@ public class SysteminstanzResourceIT {
         // Get all the systeminstanzList
         restSysteminstanzMockMvc.perform(get("/api/systeminstanzs?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systeminstanz.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].geraetNummer").value(hasItem(DEFAULT_GERAET_NUMMER)))
@@ -360,7 +360,7 @@ public class SysteminstanzResourceIT {
         // Get the systeminstanz
         restSysteminstanzMockMvc.perform(get("/api/systeminstanzs/{id}", systeminstanz.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(systeminstanz.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.geraetNummer").value(DEFAULT_GERAET_NUMMER))
@@ -803,7 +803,7 @@ public class SysteminstanzResourceIT {
     private void defaultSysteminstanzShouldBeFound(String filter) throws Exception {
         restSysteminstanzMockMvc.perform(get("/api/systeminstanzs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systeminstanz.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].geraetNummer").value(hasItem(DEFAULT_GERAET_NUMMER)))
@@ -816,7 +816,7 @@ public class SysteminstanzResourceIT {
         // Check, that the count call also returns 1
         restSysteminstanzMockMvc.perform(get("/api/systeminstanzs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -826,14 +826,14 @@ public class SysteminstanzResourceIT {
     private void defaultSysteminstanzShouldNotBeFound(String filter) throws Exception {
         restSysteminstanzMockMvc.perform(get("/api/systeminstanzs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restSysteminstanzMockMvc.perform(get("/api/systeminstanzs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -869,7 +869,7 @@ public class SysteminstanzResourceIT {
         SysteminstanzDTO systeminstanzDTO = systeminstanzMapper.toDto(updatedSysteminstanz);
 
         restSysteminstanzMockMvc.perform(put("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isOk());
 
@@ -899,7 +899,7 @@ public class SysteminstanzResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restSysteminstanzMockMvc.perform(put("/api/systeminstanzs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(systeminstanzDTO)))
             .andExpect(status().isBadRequest());
 
@@ -921,7 +921,7 @@ public class SysteminstanzResourceIT {
 
         // Delete the systeminstanz
         restSysteminstanzMockMvc.perform(delete("/api/systeminstanzs/{id}", systeminstanz.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -942,7 +942,7 @@ public class SysteminstanzResourceIT {
         // Search the systeminstanz
         restSysteminstanzMockMvc.perform(get("/api/_search/systeminstanzs?query=id:" + systeminstanz.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(systeminstanz.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].geraetNummer").value(hasItem(DEFAULT_GERAET_NUMMER)))

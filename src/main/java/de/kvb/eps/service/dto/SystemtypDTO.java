@@ -1,4 +1,5 @@
 package de.kvb.eps.service.dto;
+
 import java.time.LocalDate;
 import javax.validation.constraints.*;
 import java.io.Serializable;
@@ -109,10 +110,10 @@ public class SystemtypDTO implements Serializable {
             "id=" + getId() +
             ", bezeichnung='" + getBezeichnung() + "'" +
             ", gueltigBis='" + getGueltigBis() + "'" +
-            ", geraet=" + getGeraetId() +
-            ", geraet='" + getGeraetBezeichnung() + "'" +
-            ", zubehoer=" + getZubehoerId() +
-            ", zubehoer='" + getZubehoerBezeichnung() + "'" +
+            ", geraetId=" + getGeraetId() +
+            ", geraetBezeichnung='" + getGeraetBezeichnung() + "'" +
+            ", zubehoerId=" + getZubehoerId() +
+            ", zubehoerBezeichnung='" + getZubehoerBezeichnung() + "'" +
             "}";
     }
 }

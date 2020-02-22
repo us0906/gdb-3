@@ -68,7 +68,6 @@ public class ZubehoerTypService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one zubehoerTyp by id.
      *

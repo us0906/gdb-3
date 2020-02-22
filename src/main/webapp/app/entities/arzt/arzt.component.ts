@@ -12,6 +12,7 @@ export default class Arzt extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('arztService') private arztService: () => ArztService;
   public currentSearch = '';
   private removeId: number = null;
+
   public arzts: IArzt[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Arzt extends mixins(Vue2Filters.mixin, AlertMixin) {
 
   public prepareRemove(instance: IArzt): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeArzt(): void {
@@ -74,7 +78,6 @@ export default class Arzt extends mixins(Vue2Filters.mixin, AlertMixin) {
         const message = this.$t('gdb3App.arzt.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllArzts();
         this.closeDialog();

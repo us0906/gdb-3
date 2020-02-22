@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -90,7 +89,6 @@ public class SystemnutzungResource {
     /**
      * {@code GET  /systemnutzungs} : get all the systemnutzungs.
      *
-
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of systemnutzungs in body.
      */
@@ -102,11 +100,11 @@ public class SystemnutzungResource {
     }
 
     /**
-    * {@code GET  /systemnutzungs/count} : count all the systemnutzungs.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /systemnutzungs/count} : count all the systemnutzungs.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/systemnutzungs/count")
     public ResponseEntity<Long> countSystemnutzungs(SystemnutzungCriteria criteria) {
         log.debug("REST request to count Systemnutzungs by criteria: {}", criteria);

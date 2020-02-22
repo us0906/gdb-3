@@ -68,7 +68,6 @@ public class SystemtypService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one systemtyp by id.
      *

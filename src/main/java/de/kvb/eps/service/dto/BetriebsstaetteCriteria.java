@@ -40,10 +40,10 @@ public class BetriebsstaetteCriteria implements Serializable, Criteria {
 
     private LongFilter systeminstanzId;
 
-    public BetriebsstaetteCriteria(){
+    public BetriebsstaetteCriteria() {
     }
 
-    public BetriebsstaetteCriteria(BetriebsstaetteCriteria other){
+    public BetriebsstaetteCriteria(BetriebsstaetteCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bsnr = other.bsnr == null ? null : other.bsnr.copy();
         this.strasse = other.strasse == null ? null : other.strasse.copy();

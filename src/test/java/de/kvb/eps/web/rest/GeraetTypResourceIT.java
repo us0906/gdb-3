@@ -148,7 +148,7 @@ public class GeraetTypResourceIT {
         // Create the GeraetTyp
         GeraetTypDTO geraetTypDTO = geraetTypMapper.toDto(geraetTyp);
         restGeraetTypMockMvc.perform(post("/api/geraet-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetTypDTO)))
             .andExpect(status().isCreated());
 
@@ -175,7 +175,7 @@ public class GeraetTypResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restGeraetTypMockMvc.perform(post("/api/geraet-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -199,7 +199,7 @@ public class GeraetTypResourceIT {
         GeraetTypDTO geraetTypDTO = geraetTypMapper.toDto(geraetTyp);
 
         restGeraetTypMockMvc.perform(post("/api/geraet-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -218,7 +218,7 @@ public class GeraetTypResourceIT {
         GeraetTypDTO geraetTypDTO = geraetTypMapper.toDto(geraetTyp);
 
         restGeraetTypMockMvc.perform(post("/api/geraet-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -235,7 +235,7 @@ public class GeraetTypResourceIT {
         // Get all the geraetTypList
         restGeraetTypMockMvc.perform(get("/api/geraet-typs?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(geraetTyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))
@@ -251,7 +251,7 @@ public class GeraetTypResourceIT {
         // Get the geraetTyp
         restGeraetTypMockMvc.perform(get("/api/geraet-typs/{id}", geraetTyp.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(geraetTyp.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()))
@@ -538,7 +538,7 @@ public class GeraetTypResourceIT {
     private void defaultGeraetTypShouldBeFound(String filter) throws Exception {
         restGeraetTypMockMvc.perform(get("/api/geraet-typs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(geraetTyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))
@@ -547,7 +547,7 @@ public class GeraetTypResourceIT {
         // Check, that the count call also returns 1
         restGeraetTypMockMvc.perform(get("/api/geraet-typs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -557,14 +557,14 @@ public class GeraetTypResourceIT {
     private void defaultGeraetTypShouldNotBeFound(String filter) throws Exception {
         restGeraetTypMockMvc.perform(get("/api/geraet-typs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restGeraetTypMockMvc.perform(get("/api/geraet-typs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -596,7 +596,7 @@ public class GeraetTypResourceIT {
         GeraetTypDTO geraetTypDTO = geraetTypMapper.toDto(updatedGeraetTyp);
 
         restGeraetTypMockMvc.perform(put("/api/geraet-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetTypDTO)))
             .andExpect(status().isOk());
 
@@ -622,7 +622,7 @@ public class GeraetTypResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restGeraetTypMockMvc.perform(put("/api/geraet-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(geraetTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -644,7 +644,7 @@ public class GeraetTypResourceIT {
 
         // Delete the geraetTyp
         restGeraetTypMockMvc.perform(delete("/api/geraet-typs/{id}", geraetTyp.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -665,7 +665,7 @@ public class GeraetTypResourceIT {
         // Search the geraetTyp
         restGeraetTypMockMvc.perform(get("/api/_search/geraet-typs?query=id:" + geraetTyp.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(geraetTyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))

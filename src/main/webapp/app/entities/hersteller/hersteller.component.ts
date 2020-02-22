@@ -12,6 +12,7 @@ export default class Hersteller extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('herstellerService') private herstellerService: () => HerstellerService;
   public currentSearch = '';
   private removeId: number = null;
+
   public herstellers: IHersteller[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Hersteller extends mixins(Vue2Filters.mixin, AlertMixin) {
 
   public prepareRemove(instance: IHersteller): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeHersteller(): void {
@@ -74,7 +78,6 @@ export default class Hersteller extends mixins(Vue2Filters.mixin, AlertMixin) {
         const message = this.$t('gdb3App.hersteller.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllHerstellers();
         this.closeDialog();

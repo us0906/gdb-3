@@ -37,10 +37,10 @@ public class SystemtypCriteria implements Serializable, Criteria {
 
     private LongFilter zubehoerId;
 
-    public SystemtypCriteria(){
+    public SystemtypCriteria() {
     }
 
-    public SystemtypCriteria(SystemtypCriteria other){
+    public SystemtypCriteria(SystemtypCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.bezeichnung = other.bezeichnung == null ? null : other.bezeichnung.copy();
         this.gueltigBis = other.gueltigBis == null ? null : other.gueltigBis.copy();

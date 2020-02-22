@@ -68,7 +68,6 @@ public class GeraetTypService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one geraetTyp by id.
      *

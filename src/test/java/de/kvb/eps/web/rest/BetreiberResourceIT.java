@@ -44,26 +44,26 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = {Gdb3App.class, TestSecurityConfiguration.class})
 public class BetreiberResourceIT {
 
-    private static final String DEFAULT_VORNAME = "Michael";
-    private static final String UPDATED_VORNAME = "Martin";
+    private static final String DEFAULT_VORNAME = "AAAAAAAAAA";
+    private static final String UPDATED_VORNAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_NACHNAME = "Schmitz";
-    private static final String UPDATED_NACHNAME = "Meier";
+    private static final String DEFAULT_NACHNAME = "AAAAAAAAAA";
+    private static final String UPDATED_NACHNAME = "BBBBBBBBBB";
 
-    private static final String DEFAULT_STRASSE = "Weg";
-    private static final String UPDATED_STRASSE = "Strasse";
+    private static final String DEFAULT_STRASSE = "AAAAAAAAAA";
+    private static final String UPDATED_STRASSE = "BBBBBBBBBB";
 
-    private static final String DEFAULT_HAUSNUMMER = "1";
-    private static final String UPDATED_HAUSNUMMER = "2";
+    private static final String DEFAULT_HAUSNUMMER = "AAAAAAAAAA";
+    private static final String UPDATED_HAUSNUMMER = "BBBBBBBBBB";
 
-    private static final String DEFAULT_PLZ = "12345";
-    private static final String UPDATED_PLZ = "11111";
+    private static final String DEFAULT_PLZ = "AAAAAAAAAA";
+    private static final String UPDATED_PLZ = "BBBBBBBBBB";
 
-    private static final String DEFAULT_ORT = "München";
-    private static final String UPDATED_ORT = "Trier";
+    private static final String DEFAULT_ORT = "AAAAAAAAAA";
+    private static final String UPDATED_ORT = "BBBBBBBBBB";
 
-    private static final String DEFAULT_BEZEICHNUNG = DEFAULT_VORNAME + " " + DEFAULT_NACHNAME + " " + DEFAULT_STRASSE + " " + DEFAULT_HAUSNUMMER + " " + DEFAULT_PLZ + " " + DEFAULT_ORT;
-    private static final String UPDATED_BEZEICHNUNG = UPDATED_VORNAME + " " + UPDATED_NACHNAME + " " + UPDATED_STRASSE + " " + UPDATED_HAUSNUMMER + " " + UPDATED_PLZ + " " + UPDATED_ORT;
+    private static final String DEFAULT_BEZEICHNUNG = "AAAAAAAAAA";
+    private static final String UPDATED_BEZEICHNUNG = "BBBBBBBBBB";
 
     @Autowired
     private BetreiberRepository betreiberRepository;
@@ -164,7 +164,7 @@ public class BetreiberResourceIT {
         // Create the Betreiber
         BetreiberDTO betreiberDTO = betreiberMapper.toDto(betreiber);
         restBetreiberMockMvc.perform(post("/api/betreibers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betreiberDTO)))
             .andExpect(status().isCreated());
 
@@ -195,7 +195,7 @@ public class BetreiberResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restBetreiberMockMvc.perform(post("/api/betreibers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betreiberDTO)))
             .andExpect(status().isBadRequest());
 
@@ -219,7 +219,7 @@ public class BetreiberResourceIT {
         BetreiberDTO betreiberDTO = betreiberMapper.toDto(betreiber);
 
         restBetreiberMockMvc.perform(post("/api/betreibers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betreiberDTO)))
             .andExpect(status().isBadRequest());
 
@@ -238,7 +238,7 @@ public class BetreiberResourceIT {
         BetreiberDTO betreiberDTO = betreiberMapper.toDto(betreiber);
 
         restBetreiberMockMvc.perform(post("/api/betreibers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betreiberDTO)))
             .andExpect(status().isBadRequest());
 
@@ -255,7 +255,7 @@ public class BetreiberResourceIT {
         // Get all the betreiberList
         restBetreiberMockMvc.perform(get("/api/betreibers?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(betreiber.getId().intValue())))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
             .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
@@ -265,7 +265,7 @@ public class BetreiberResourceIT {
             .andExpect(jsonPath("$.[*].ort").value(hasItem(DEFAULT_ORT)))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)));
     }
-
+    
     @Test
     @Transactional
     public void getBetreiber() throws Exception {
@@ -275,7 +275,7 @@ public class BetreiberResourceIT {
         // Get the betreiber
         restBetreiberMockMvc.perform(get("/api/betreibers/{id}", betreiber.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(betreiber.getId().intValue()))
             .andExpect(jsonPath("$.vorname").value(DEFAULT_VORNAME))
             .andExpect(jsonPath("$.nachname").value(DEFAULT_NACHNAME))
@@ -877,7 +877,7 @@ public class BetreiberResourceIT {
     private void defaultBetreiberShouldBeFound(String filter) throws Exception {
         restBetreiberMockMvc.perform(get("/api/betreibers?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(betreiber.getId().intValue())))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
             .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))
@@ -890,7 +890,7 @@ public class BetreiberResourceIT {
         // Check, that the count call also returns 1
         restBetreiberMockMvc.perform(get("/api/betreibers/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -900,14 +900,14 @@ public class BetreiberResourceIT {
     private void defaultBetreiberShouldNotBeFound(String filter) throws Exception {
         restBetreiberMockMvc.perform(get("/api/betreibers?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restBetreiberMockMvc.perform(get("/api/betreibers/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -943,7 +943,7 @@ public class BetreiberResourceIT {
         BetreiberDTO betreiberDTO = betreiberMapper.toDto(updatedBetreiber);
 
         restBetreiberMockMvc.perform(put("/api/betreibers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betreiberDTO)))
             .andExpect(status().isOk());
 
@@ -973,7 +973,7 @@ public class BetreiberResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restBetreiberMockMvc.perform(put("/api/betreibers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(betreiberDTO)))
             .andExpect(status().isBadRequest());
 
@@ -995,7 +995,7 @@ public class BetreiberResourceIT {
 
         // Delete the betreiber
         restBetreiberMockMvc.perform(delete("/api/betreibers/{id}", betreiber.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -1016,7 +1016,7 @@ public class BetreiberResourceIT {
         // Search the betreiber
         restBetreiberMockMvc.perform(get("/api/_search/betreibers?query=id:" + betreiber.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(betreiber.getId().intValue())))
             .andExpect(jsonPath("$.[*].vorname").value(hasItem(DEFAULT_VORNAME)))
             .andExpect(jsonPath("$.[*].nachname").value(hasItem(DEFAULT_NACHNAME)))

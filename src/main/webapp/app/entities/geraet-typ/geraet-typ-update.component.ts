@@ -1,6 +1,6 @@
 import { Component, Vue, Inject } from 'vue-property-decorator';
 
-import { numeric, required, minLength, maxLength } from 'vuelidate/lib/validators';
+import { numeric, required, minLength, maxLength, minValue, maxValue } from 'vuelidate/lib/validators';
 
 import GeraetService from '../geraet/geraet.service';
 import { IGeraet } from '@/shared/model/geraet.model';

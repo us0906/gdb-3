@@ -38,10 +38,10 @@ public class ArztCriteria implements Serializable, Criteria {
 
     private LongFilter systemnutzungId;
 
-    public ArztCriteria(){
+    public ArztCriteria() {
     }
 
-    public ArztCriteria(ArztCriteria other){
+    public ArztCriteria(ArztCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.lanr = other.lanr == null ? null : other.lanr.copy();
         this.titel = other.titel == null ? null : other.titel.copy();

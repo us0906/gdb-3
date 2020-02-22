@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -89,7 +88,6 @@ public class BetriebsstaetteResource {
     /**
      * {@code GET  /betriebsstaettes} : get all the betriebsstaettes.
      *
-
      * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of betriebsstaettes in body.
      */
@@ -101,11 +99,11 @@ public class BetriebsstaetteResource {
     }
 
     /**
-    * {@code GET  /betriebsstaettes/count} : count all the betriebsstaettes.
-    *
-    * @param criteria the criteria which the requested entities should match.
-    * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
-    */
+     * {@code GET  /betriebsstaettes/count} : count all the betriebsstaettes.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
     @GetMapping("/betriebsstaettes/count")
     public ResponseEntity<Long> countBetriebsstaettes(BetriebsstaetteCriteria criteria) {
         log.debug("REST request to count Betriebsstaettes by criteria: {}", criteria);

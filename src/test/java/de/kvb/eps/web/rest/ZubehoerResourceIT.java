@@ -184,7 +184,7 @@ public class ZubehoerResourceIT {
         // Create the Zubehoer
         ZubehoerDTO zubehoerDTO = zubehoerMapper.toDto(zubehoer);
         restZubehoerMockMvc.perform(post("/api/zubehoers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerDTO)))
             .andExpect(status().isCreated());
 
@@ -210,7 +210,7 @@ public class ZubehoerResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restZubehoerMockMvc.perform(post("/api/zubehoers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -234,7 +234,7 @@ public class ZubehoerResourceIT {
         ZubehoerDTO zubehoerDTO = zubehoerMapper.toDto(zubehoer);
 
         restZubehoerMockMvc.perform(post("/api/zubehoers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -251,7 +251,7 @@ public class ZubehoerResourceIT {
         // Get all the zubehoerList
         restZubehoerMockMvc.perform(get("/api/zubehoers?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoer.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -266,7 +266,7 @@ public class ZubehoerResourceIT {
         // Get the zubehoer
         restZubehoerMockMvc.perform(get("/api/zubehoers/{id}", zubehoer.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(zubehoer.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()));
@@ -532,7 +532,7 @@ public class ZubehoerResourceIT {
     private void defaultZubehoerShouldBeFound(String filter) throws Exception {
         restZubehoerMockMvc.perform(get("/api/zubehoers?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoer.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));
@@ -540,7 +540,7 @@ public class ZubehoerResourceIT {
         // Check, that the count call also returns 1
         restZubehoerMockMvc.perform(get("/api/zubehoers/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -550,14 +550,14 @@ public class ZubehoerResourceIT {
     private void defaultZubehoerShouldNotBeFound(String filter) throws Exception {
         restZubehoerMockMvc.perform(get("/api/zubehoers?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restZubehoerMockMvc.perform(get("/api/zubehoers/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -588,7 +588,7 @@ public class ZubehoerResourceIT {
         ZubehoerDTO zubehoerDTO = zubehoerMapper.toDto(updatedZubehoer);
 
         restZubehoerMockMvc.perform(put("/api/zubehoers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerDTO)))
             .andExpect(status().isOk());
 
@@ -613,7 +613,7 @@ public class ZubehoerResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restZubehoerMockMvc.perform(put("/api/zubehoers")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerDTO)))
             .andExpect(status().isBadRequest());
 
@@ -635,7 +635,7 @@ public class ZubehoerResourceIT {
 
         // Delete the zubehoer
         restZubehoerMockMvc.perform(delete("/api/zubehoers/{id}", zubehoer.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -656,7 +656,7 @@ public class ZubehoerResourceIT {
         // Search the zubehoer
         restZubehoerMockMvc.perform(get("/api/_search/zubehoers?query=id:" + zubehoer.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoer.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())));

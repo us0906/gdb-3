@@ -68,7 +68,6 @@ public class BetriebsstaetteService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one betriebsstaette by id.
      *

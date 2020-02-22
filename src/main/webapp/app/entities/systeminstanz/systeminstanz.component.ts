@@ -14,6 +14,7 @@ export default class Systeminstanz extends mixins(JhiDataUtils, Vue2Filters.mixi
   @Inject('systeminstanzService') private systeminstanzService: () => SysteminstanzService;
   public currentSearch = '';
   private removeId: number = null;
+
   public systeminstanzs: ISysteminstanz[] = [];
 
   public isFetching = false;
@@ -67,6 +68,9 @@ export default class Systeminstanz extends mixins(JhiDataUtils, Vue2Filters.mixi
 
   public prepareRemove(instance: ISysteminstanz): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeSysteminstanz(): void {
@@ -76,7 +80,6 @@ export default class Systeminstanz extends mixins(JhiDataUtils, Vue2Filters.mixi
         const message = this.$t('gdb3App.systeminstanz.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllSysteminstanzs();
         this.closeDialog();

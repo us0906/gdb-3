@@ -148,7 +148,7 @@ public class ZubehoerTypResourceIT {
         // Create the ZubehoerTyp
         ZubehoerTypDTO zubehoerTypDTO = zubehoerTypMapper.toDto(zubehoerTyp);
         restZubehoerTypMockMvc.perform(post("/api/zubehoer-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerTypDTO)))
             .andExpect(status().isCreated());
 
@@ -175,7 +175,7 @@ public class ZubehoerTypResourceIT {
 
         // An entity with an existing ID cannot be created, so this API call must fail
         restZubehoerTypMockMvc.perform(post("/api/zubehoer-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -199,7 +199,7 @@ public class ZubehoerTypResourceIT {
         ZubehoerTypDTO zubehoerTypDTO = zubehoerTypMapper.toDto(zubehoerTyp);
 
         restZubehoerTypMockMvc.perform(post("/api/zubehoer-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -218,7 +218,7 @@ public class ZubehoerTypResourceIT {
         ZubehoerTypDTO zubehoerTypDTO = zubehoerTypMapper.toDto(zubehoerTyp);
 
         restZubehoerTypMockMvc.perform(post("/api/zubehoer-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -235,7 +235,7 @@ public class ZubehoerTypResourceIT {
         // Get all the zubehoerTypList
         restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs?sort=id,desc"))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoerTyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))
@@ -251,7 +251,7 @@ public class ZubehoerTypResourceIT {
         // Get the zubehoerTyp
         restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs/{id}", zubehoerTyp.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(zubehoerTyp.getId().intValue()))
             .andExpect(jsonPath("$.bezeichnung").value(DEFAULT_BEZEICHNUNG))
             .andExpect(jsonPath("$.gueltigBis").value(DEFAULT_GUELTIG_BIS.toString()))
@@ -538,7 +538,7 @@ public class ZubehoerTypResourceIT {
     private void defaultZubehoerTypShouldBeFound(String filter) throws Exception {
         restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoerTyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))
@@ -547,7 +547,7 @@ public class ZubehoerTypResourceIT {
         // Check, that the count call also returns 1
         restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("1"));
     }
 
@@ -557,14 +557,14 @@ public class ZubehoerTypResourceIT {
     private void defaultZubehoerTypShouldNotBeFound(String filter) throws Exception {
         restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$").isArray())
             .andExpect(jsonPath("$").isEmpty());
 
         // Check, that the count call also returns 0
         restZubehoerTypMockMvc.perform(get("/api/zubehoer-typs/count?sort=id,desc&" + filter))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(content().string("0"));
     }
 
@@ -596,7 +596,7 @@ public class ZubehoerTypResourceIT {
         ZubehoerTypDTO zubehoerTypDTO = zubehoerTypMapper.toDto(updatedZubehoerTyp);
 
         restZubehoerTypMockMvc.perform(put("/api/zubehoer-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerTypDTO)))
             .andExpect(status().isOk());
 
@@ -622,7 +622,7 @@ public class ZubehoerTypResourceIT {
 
         // If the entity doesn't have an ID, it will throw BadRequestAlertException
         restZubehoerTypMockMvc.perform(put("/api/zubehoer-typs")
-            .contentType(TestUtil.APPLICATION_JSON_UTF8)
+            .contentType(TestUtil.APPLICATION_JSON)
             .content(TestUtil.convertObjectToJsonBytes(zubehoerTypDTO)))
             .andExpect(status().isBadRequest());
 
@@ -644,7 +644,7 @@ public class ZubehoerTypResourceIT {
 
         // Delete the zubehoerTyp
         restZubehoerTypMockMvc.perform(delete("/api/zubehoer-typs/{id}", zubehoerTyp.getId())
-            .accept(TestUtil.APPLICATION_JSON_UTF8))
+            .accept(TestUtil.APPLICATION_JSON))
             .andExpect(status().isNoContent());
 
         // Validate the database contains one less item
@@ -665,7 +665,7 @@ public class ZubehoerTypResourceIT {
         // Search the zubehoerTyp
         restZubehoerTypMockMvc.perform(get("/api/_search/zubehoer-typs?query=id:" + zubehoerTyp.getId()))
             .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(zubehoerTyp.getId().intValue())))
             .andExpect(jsonPath("$.[*].bezeichnung").value(hasItem(DEFAULT_BEZEICHNUNG)))
             .andExpect(jsonPath("$.[*].gueltigBis").value(hasItem(DEFAULT_GUELTIG_BIS.toString())))

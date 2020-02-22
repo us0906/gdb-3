@@ -30,10 +30,10 @@ public class SystemnutzungCriteria implements Serializable, Criteria {
 
     private LongFilter arztId;
 
-    public SystemnutzungCriteria(){
+    public SystemnutzungCriteria() {
     }
 
-    public SystemnutzungCriteria(SystemnutzungCriteria other){
+    public SystemnutzungCriteria(SystemnutzungCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.systeminstanzId = other.systeminstanzId == null ? null : other.systeminstanzId.copy();
         this.arztId = other.arztId == null ? null : other.arztId.copy();

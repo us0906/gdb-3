@@ -17,10 +17,10 @@
                             <small class="form-text text-danger" v-if="!$v.systeminstanz.bezeichnung.required" v-text="$t('entity.validation.required')">
                                 This field is required.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.systeminstanz.bezeichnung.minLength" v-bind:value="$t('entity.validation.minlength')">
+                            <small class="form-text text-danger" v-if="!$v.systeminstanz.bezeichnung.minLength" v-text="$t('entity.validation.minlength', {min: 1})">
                                 This field is required to be at least 1 characters.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.systeminstanz.bezeichnung.maxLength" v-bind:value="$t('entity.validation.maxlength')">
+                            <small class="form-text text-danger" v-if="!$v.systeminstanz.bezeichnung.maxLength" v-text="$t('entity.validation.maxlength', {max: 200})">
                                 This field cannot be longer than 200 characters.
                             </small>
                         </div>
@@ -33,10 +33,10 @@
                             <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetNummer.required" v-text="$t('entity.validation.required')">
                                 This field is required.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetNummer.minLength" v-bind:value="$t('entity.validation.minlength')">
+                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetNummer.minLength" v-text="$t('entity.validation.minlength', {min: 1})">
                                 This field is required to be at least 1 characters.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetNummer.maxLength" v-bind:value="$t('entity.validation.maxlength')">
+                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetNummer.maxLength" v-text="$t('entity.validation.maxlength', {max: 200})">
                                 This field cannot be longer than 200 characters.
                             </small>
                         </div>
@@ -49,10 +49,10 @@
                             <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetBaujahr.required" v-text="$t('entity.validation.required')">
                                 This field is required.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetBaujahr.minLength" v-bind:value="$t('entity.validation.minlength')">
+                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetBaujahr.minLength" v-text="$t('entity.validation.minlength', {min: 4})">
                                 This field is required to be at least 4 characters.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetBaujahr.maxLength" v-bind:value="$t('entity.validation.maxlength')">
+                            <small class="form-text text-danger" v-if="!$v.systeminstanz.geraetBaujahr.maxLength" v-text="$t('entity.validation.maxlength', {max: 4})">
                                 This field cannot be longer than 4 characters.
                             </small>
                         </div>

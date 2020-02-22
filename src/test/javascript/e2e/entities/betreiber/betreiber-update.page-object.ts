@@ -19,4 +19,6 @@ export default class BetreiberUpdatePage extends AlertPage {
   plzInput: ElementFinder = element(by.css('input#betreiber-plz'));
 
   ortInput: ElementFinder = element(by.css('input#betreiber-ort'));
+
+  bezeichnungInput: ElementFinder = element(by.css('input#betreiber-bezeichnung'));
 }

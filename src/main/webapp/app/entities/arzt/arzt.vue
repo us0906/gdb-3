@@ -86,7 +86,7 @@
         <b-modal ref="removeEntity" id="removeEntity" >
             <span slot="modal-title"><span id="gdb3App.arzt.delete.question" v-text="$t('entity.delete.title')">Confirm delete operation</span></span>
             <div class="modal-body">
-                <p id="jhi-delete-arzt-heading" v-bind:title="$t('gdb3App.arzt.delete.question')">Are you sure you want to delete this Arzt?</p>
+                <p id="jhi-delete-arzt-heading" v-text="$t('gdb3App.arzt.delete.question', {'id': removeId})">Are you sure you want to delete this Arzt?</p>
             </div>
             <div slot="modal-footer">
                 <button type="button" class="btn btn-secondary" v-text="$t('entity.action.cancel')" v-on:click="closeDialog()">Cancel</button>

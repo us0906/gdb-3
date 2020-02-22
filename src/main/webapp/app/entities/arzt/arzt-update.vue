@@ -17,10 +17,10 @@
                             <small class="form-text text-danger" v-if="!$v.arzt.lanr.required" v-text="$t('entity.validation.required')">
                                 This field is required.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.arzt.lanr.minLength" v-bind:value="$t('entity.validation.minlength')">
+                            <small class="form-text text-danger" v-if="!$v.arzt.lanr.minLength" v-text="$t('entity.validation.minlength', {min: 7})">
                                 This field is required to be at least 7 characters.
                             </small>
-                            <small class="form-text text-danger" v-if="!$v.arzt.lanr.maxLength" v-bind:value="$t('entity.validation.maxlength')">
+                            <small class="form-text text-danger" v-if="!$v.arzt.lanr.maxLength" v-text="$t('entity.validation.maxlength', {max: 7})">
                                 This field cannot be longer than 7 characters.
                             </small>
                         </div>

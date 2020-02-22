@@ -1,4 +1,5 @@
 package de.kvb.eps.service.dto;
+
 import java.io.Serializable;
 import java.util.Objects;
 

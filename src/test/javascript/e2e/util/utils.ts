@@ -1,4 +1,4 @@
-import { browser, by, ElementArrayFinder, ElementFinder, ExpectedConditions as EC, Key, protractor } from 'protractor';
+import { browser, by, ElementArrayFinder, ElementFinder, ExpectedConditions as EC, protractor } from 'protractor';
 
 const waitTimeoutInMillis = browser.params.waitTimeoutInMillis || 30000;
 const logWaitErrors = browser.params.logWaitErrors || false;
@@ -120,12 +120,4 @@ export const selectLastOption = async (dropdown: ElementFinder) => {
 export const clear = async (input: ElementFinder) => {
   await input.sendKeys(protractor.Key.chord(protractor.Key.CONTROL, 'a'));
   await input.sendKeys(protractor.Key.DELETE);
-};
-
-/**
- *
- */
-export const selectFirstOption = async (dropdown: ElementFinder) => {
-  await dropdown.sendKeys(Key.ARROW_DOWN);
-  await dropdown.sendKeys(Key.ENTER);
 };

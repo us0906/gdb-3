@@ -65,7 +65,7 @@ public class UserService {
                 user.setFirstName(firstName);
                 user.setLastName(lastName);
                 if (email != null) {
-	                user.setEmail(email.toLowerCase());
+                    user.setEmail(email.toLowerCase());
                 }
                 user.setLangKey(langKey);
                 user.setImageUrl(imageUrl);
@@ -168,7 +168,7 @@ public class UserService {
             // if IdP sends last updated information, use it to determine if an update should happen
             if (details.get("updated_at") != null) {
                 Instant dbModifiedDate = existingUser.get().getLastModifiedDate();
-                Instant idpModifiedDate = new Date(Long.valueOf((Integer) details.get("updated_at"))).toInstant();
+                Instant idpModifiedDate = (Instant) details.get("updated_at");
                 if (idpModifiedDate.isAfter(dbModifiedDate)) {
                     log.debug("Updating user '{}' in local database", user.getLogin());
                     updateUser(user.getFirstName(), user.getLastName(), user.getEmail(),
@@ -250,9 +250,9 @@ public class UserService {
             // trim off country code if it exists
             String locale = (String) details.get("locale");
             if (locale.contains("_")) {
-                locale = locale.substring(0, locale.indexOf("_"));
+                locale = locale.substring(0, locale.indexOf('_'));
             } else if (locale.contains("-")) {
-                locale = locale.substring(0, locale.indexOf("-"));
+                locale = locale.substring(0, locale.indexOf('-'));
             }
             user.setLangKey(locale.toLowerCase());
         } else {

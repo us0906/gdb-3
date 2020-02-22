@@ -1,7 +1,7 @@
 version: '2'
 services:
   gdb3-mariadb:
-    image: mariadb:10.4.10
+    image: mariadb:10.4.12
     # volumes:
     #     - ~/volumes/jhipster/gdb3/mysql/:/var/lib/mysql/
     environment:

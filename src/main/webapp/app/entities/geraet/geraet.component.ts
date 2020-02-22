@@ -12,6 +12,7 @@ export default class Geraet extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('geraetService') private geraetService: () => GeraetService;
   public currentSearch = '';
   private removeId: number = null;
+
   public geraets: IGeraet[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Geraet extends mixins(Vue2Filters.mixin, AlertMixin) {
 
   public prepareRemove(instance: IGeraet): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeGeraet(): void {
@@ -74,7 +78,6 @@ export default class Geraet extends mixins(Vue2Filters.mixin, AlertMixin) {
         const message = this.$t('gdb3App.geraet.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllGeraets();
         this.closeDialog();

@@ -12,6 +12,7 @@ export default class Systemtyp extends mixins(Vue2Filters.mixin, AlertMixin) {
   @Inject('systemtypService') private systemtypService: () => SystemtypService;
   public currentSearch = '';
   private removeId: number = null;
+
   public systemtyps: ISystemtyp[] = [];
 
   public isFetching = false;
@@ -65,6 +66,9 @@ export default class Systemtyp extends mixins(Vue2Filters.mixin, AlertMixin) {
 
   public prepareRemove(instance: ISystemtyp): void {
     this.removeId = instance.id;
+    if (<any>this.$refs.removeEntity) {
+      (<any>this.$refs.removeEntity).show();
+    }
   }
 
   public removeSystemtyp(): void {
@@ -74,7 +78,6 @@ export default class Systemtyp extends mixins(Vue2Filters.mixin, AlertMixin) {
         const message = this.$t('gdb3App.systemtyp.deleted', { param: this.removeId });
         this.alertService().showAlert(message, 'danger');
         this.getAlertFromStore();
-
         this.removeId = null;
         this.retrieveAllSystemtyps();
         this.closeDialog();

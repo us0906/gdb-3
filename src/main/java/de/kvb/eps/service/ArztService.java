@@ -68,7 +68,6 @@ public class ArztService {
             .collect(Collectors.toCollection(LinkedList::new));
     }
 
-
     /**
      * Get one arzt by id.
      *

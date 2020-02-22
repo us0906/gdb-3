@@ -12,7 +12,7 @@ export default class ZubehoerUpdatePage extends AlertPage {
 
   gueltigBisInput: ElementFinder = element(by.css('input#zubehoer-gueltigBis'));
 
-  herstellerSelect: ElementFinder = element(by.id('zubehoer-hersteller')).element(by.css("input[type='search']"));
+  herstellerSelect = element(by.css('select#zubehoer-hersteller'));
 
-  zubehoerTypSelect: ElementFinder = element(by.id('zubehoer-zubehoerTyp')).element(by.css("input[type='search']"));
+  zubehoerTypSelect = element(by.css('select#zubehoer-zubehoerTyp'));
 }
